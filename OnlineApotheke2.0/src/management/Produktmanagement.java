@@ -6,14 +6,14 @@ import java.util.Random;
 import model.Produkt;
 import model.Category;
 import dao.ProduktDAO;
-import dao.DBProduktDAO1;
+import dao.DBProduktDAO;
 
 public class Produktmanagement {
 	private static Produktmanagement produktmanagementInstance=null;
 	private ProduktDAO dao;
 	
 	private Produktmanagement() {
-		dao = new DBProduktDAO1();
+		dao = new DBProduktDAO();
 	}
     
     public static Produktmanagement getInstance(){

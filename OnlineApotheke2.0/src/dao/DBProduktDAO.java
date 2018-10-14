@@ -14,16 +14,16 @@ import java.util.List;
 import model.*;
 
 /**
- * @author Peter
+ * @author Gerhard
  *
  * 
  */
 
-public class DBProduktDAO1 implements ProduktDAO {
+public class DBProduktDAO implements ProduktDAO {
 //Daten für DB Verbindung
-	private final String dbUrl = "jdbc:oracle:thin:@oracle-lab.cs.univie.ac.at:1521:lab";
-	private final String user = "a1363772";
-	private final String pwd = "PRise16";
+	private final String dbUrl = "jdbc:postgresql:gerhardscloud.ddns.net:5432:online_apotheke_db";
+	private final String user = "postgres";
+	private final String pwd = "bullet2111";
 	
 //Statements um Daten aus db zu holen(über SQL)
 	private PreparedStatement saveProdStmt;
@@ -42,7 +42,7 @@ public class DBProduktDAO1 implements ProduktDAO {
 	 * Es werden auch die Statements definiert, mit welchen man die Daten aus der Datenbank bekommt
 	 * Achtung, die User werden aus der Datenbank mit dem Usernamen herausgeholt, wohingegen es beim Kunden und Mitarbeiter die UserID ist
 	 */
-	public DBProduktDAO1() {
+	public DBProduktDAO() {
 		try {
 			Class.forName("oracle.jdbc.driver.OracleDriver");
 			Connection con = DriverManager.getConnection(dbUrl, user, pwd);

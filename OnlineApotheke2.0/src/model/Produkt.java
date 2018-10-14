@@ -7,8 +7,14 @@ public class Produkt {
     private String prodDescription;
     private int categoryID;
     
-    
-    public Produkt(int prodID, String prodName, double price, String prodDescription, int categoryID) {
+
+    @Override
+	public String toString() {
+		return "Produkt [prodID=" + prodID + ", prodName=" + prodName + ", price=" + price + ", prodDescription="
+				+ prodDescription + ", categoryID=" + categoryID + "]";
+	}
+
+	public Produkt(int prodID, String prodName, double price, String prodDescription, int categoryID) {
         this.prodID = prodID;
         this.prodName = prodName;
         this.price = price;

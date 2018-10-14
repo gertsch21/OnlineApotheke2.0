@@ -20,9 +20,9 @@ import model.*;
  */
 public class DBBenutzerDAO implements BenutzerDAO {
 //Daten für DB Verbindung
-	private final String dbUrl = "jdbc:oracle:thin:@oracle-lab.cs.univie.ac.at:1521:lab";
-	private final String user = "a1363772";
-	private final String pwd = "PRise16";
+	private final String dbUrl = "jdbc:postgresql:gerhardscloud.ddns.net:5432:online_apotheke_db";
+	private final String user = "postgres";
+	private final String pwd = "bullet2111";
 	
 //Statements um Daten aus db zu holen(über java.sql.*)
 	private PreparedStatement saveKundeStmt;
