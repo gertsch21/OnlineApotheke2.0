@@ -8,7 +8,7 @@ import java.util.List;
 import model.*;
 
 /**
- * @author Gerhard
+ * @author Gerhard Schmidt
  * Mithilfe von diesem Interface soll man auf die jeweilige Datenbank zugreifen können. 
  * Die wichtigsten Funktionen werden hier definiert. Mithilfe des Managements wird dann mit diesen
  * "Low-Level" Funktionen umgegangen.
@@ -38,14 +38,14 @@ public interface BenutzerDAO {
 	 * Diese Methode soll alle Kunden, welche im System registriert sind zurückgeben(als Liste)
 	 * @return Eine Liste der Kunden(List<Benutzer>)
 	 */
-	public List<Benutzer> getKundenList();
+	public List<Kunde> getKundenList();
 	
 	
 	/**
 	 * Diese Methode soll alle Mitarbeiter, welche im System registriert sind zurückgeben(als Liste)
 	 * @return Eine Liste der Mitarbeiter(List<Benutzer>)
 	 */
-	public List<Benutzer> getMitarbeiterList();
+	public List<Mitarbeiter> getMitarbeiterList();
 	
 	
 	/**

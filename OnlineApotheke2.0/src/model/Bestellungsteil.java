@@ -1,5 +1,10 @@
 package model;
 
+/**
+ * 
+ * @author Gerhard Schmidt
+ *
+ */
 public class Bestellungsteil {
 	private int bestellungsteil_id;
 	private int bestellung_id;

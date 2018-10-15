@@ -2,6 +2,11 @@ package model;
 
 import java.util.Set;
 
+/**
+ * 
+ * @author Gerhard Schmidt
+ *
+ */
 public class Aktion {
 	private int aktion_id;
 	private double prozentrabattwert;

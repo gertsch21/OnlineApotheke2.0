@@ -7,9 +7,9 @@ import java.util.List;
 import model.*;
 
 /**
- * @author Katrin Interface zum Zugriff auf die jeweilige Datenbank. Definition
- *         der wichtigsten Funktionen. Funktionen werden im Management
- *         umgesetzt.
+ * 
+ * @author Gerhard Schmidt
+ *
  */
 public interface BestellungDAO {
 	public boolean speicherePosition(Position p);

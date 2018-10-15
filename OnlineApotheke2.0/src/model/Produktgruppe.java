@@ -7,6 +7,11 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 
+/**
+ * 
+ * @author Gerhard Schmidt
+ *
+ */
 @Entity
 public class Produktgruppe {
 	@Id

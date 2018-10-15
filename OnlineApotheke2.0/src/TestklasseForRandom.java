@@ -5,7 +5,7 @@ import management.Produktmanagement;
 
 
 
-public class Testklasse {
+public class TestklasseForRandom {
 	public static void main(String[] args){
 
 		Random randomGenerator = new Random();

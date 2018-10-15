@@ -3,19 +3,24 @@ package dao;
 import java.util.List;
 
 import model.Produkt;
-import model.Category;
+import model.Produktgruppe;
 
+/**
+ * 
+ * @author Gerhard Schmidt
+ *
+ */
 public interface ProduktDAO {
 	public boolean speichereProdukt(Produkt p);
-	public boolean speichereCategory(Category c);
+	public boolean speichereProduktgruppe(Produktgruppe pg);
 	
-	public List<Produkt> getProduktList();
-	public List<Category> getCategoryList();
-	public Produkt getProduktByProduktID(String prodID);
-	public Category getCategoryByCategoryID(String categoryID);
+	public List<Produkt> getProduktListe();
+	public List<Produktgruppe> geProduktgruppenListe();
 	
+	public Produkt getProduktByProduktID(String produktgruppe_id);
+	public Produktgruppe getProduktgruppeByProduktgruppeID(String produktgruppe_id);
     
-	public boolean loescheProduktByProdID(String prodID);
-	public boolean loescheCategoryByCategoryID(String categoryID);
+	public boolean loescheProduktByProduktID(String produkt_id);
+	public boolean loescheProduktgruppeByProduktgruppeID(String produktgruppe_id);
 	
 }

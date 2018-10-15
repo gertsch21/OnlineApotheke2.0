@@ -6,7 +6,8 @@ package model;
 import java.sql.Date;
 
 /**
- * @author Gerhard
+ * 
+ * @author Gerhard Schmidt
  *
  */
 public class Kunde extends Benutzer {

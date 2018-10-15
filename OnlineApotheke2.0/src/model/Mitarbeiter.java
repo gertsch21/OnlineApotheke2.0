@@ -7,8 +7,8 @@ import java.sql.Date;
 
 /**
  * 
- * @author Gerhard
- * 
+ * @author Gerhard Schmidt
+ *
  */
 public class Mitarbeiter extends Benutzer {
 	
