@@ -1,0 +1,28 @@
+<?xml version = "1.0" encoding = "utf-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+"-//Hibernate/Hibernate Mapping DTD//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+
+	<class name="model.Produktgruppe" table="Produktgruppe">
+
+		<meta attribute="class-description">
+			Die Klasse beinhaltet Produktgruppendetails.
+		</meta>
+
+		<id name="produktgruppe_id" column="produktgruppe_id" type="int" />
+
+		<set name="produkte" cascade="all">
+			<key column="produktgruppe_id" />
+			<one-to-many class="model.Produkt" />
+		</set>
+
+		<property name="name" column="NAME" type="string" />
+		<property name="beschreibung" column="beschreibung"
+			type="string" />
+		<property name="aktion_id" column="aktion_id" type="int" />
+
+	</class>
+</hibernate-mapping>
+	

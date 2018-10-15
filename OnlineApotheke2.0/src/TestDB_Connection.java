@@ -84,11 +84,19 @@ public class TestDB_Connection{
 			    String pDescr = result.getString("wirkstoff");
 
 				try {
-					int pID = Integer.parseInt(result.getString("produkt_id"));
-					double pPrice = Double.parseDouble(result.getString("preis"));
-					int pCatID = Integer.parseInt(result.getString("produktgruppe_id"));
+					int produkt_id = Integer.parseInt(result.getString("produkt_id"));
+					String name = result.getString("name");
+					double preis = Double.parseDouble(result.getString("preis"));
+					int menge_enthalten = Integer.parseInt(result.getString("menge_enthalten"));
+					String hersteller = result.getString("hersteller");
+					String wirkstoff = result.getString("wirkstoff");
+					String wirkungsweise = result.getString("wirkungsweise");
+					String anwendungsweise = result.getString("anwendungsweise");
+					String anmerkung = result.getString("anmerkung");
+					int ersteller_id = Integer.parseInt(result.getString("ersteller_id"));
+					int produktgruppe_id = Integer.parseInt(result.getString("produktgruppe_id"));
 					
-					liste.add(new Produkt(pID, pName, pPrice, pDescr, pCatID));
+					liste.add(new Produkt(produkt_id, name, preis, menge_enthalten, hersteller, wirkstoff, wirkungsweise, anwendungsweise, anmerkung, ersteller_id, produktgruppe_id));
 					anzProdukte++;
 				} catch (NumberFormatException e) {
 					System.out.println("DBProduktDao: getProduktList: Error beim Parsen des Strings in der DB in int wert");

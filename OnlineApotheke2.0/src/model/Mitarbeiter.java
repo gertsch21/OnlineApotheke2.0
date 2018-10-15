@@ -3,84 +3,75 @@
  */
 package model;
 
+import java.sql.Date;
 
 /**
  * 
  * @author Gerhard
- * Diese Klasse symbolisiert die Mitarbeiter, welche aber auch Benutzer vom System sind.
+ * 
  */
 public class Mitarbeiter extends Benutzer {
+	
+	private int mitarbeiter_id;
+	private int svnr;
+	private double gehalt; 
+	private Date eintrittsdatum;
+	private int vertreter_id_von;
+	
+	public Mitarbeiter() {
+		super();
+	}
+	
+	public Mitarbeiter(int benutzer_id, String benutzername, String passwort, String vorname, String nachname,
+			Date geburtsdatum, String email, String tel_nr, String land, int plz, String ort, String strasse,
+			int hausNr, String hnr_zusatz, int mitarbeiter_id, int svnr, double gehalt, Date eintrittsdatum, int vertreter_id_von) {
+		super(benutzer_id, benutzername, passwort, vorname, nachname, geburtsdatum, email, tel_nr, land, plz, ort, strasse,
+				hausNr, hnr_zusatz);
+		this.mitarbeiter_id = mitarbeiter_id;
+		this.svnr = svnr;
+		this.gehalt = gehalt;
+		this.eintrittsdatum = eintrittsdatum;
+		this.vertreter_id_von = vertreter_id_von;
+	}
 
-	private int staffNo;
-	private int sallary; //in cent
+
+	@Override
+	public String toString() {
+		return "Mitarbeiter [mitarbeiter_id=" + mitarbeiter_id + ", svnr=" + svnr + ", gehalt=" + gehalt
+				+ ", eintrittsdatum=" + eintrittsdatum + ", vertreter_id_von=" + vertreter_id_von + "]";
+	}
 	
 	
-	/**
-	 * 
-	 * @param uName Der eindeutige Username des jeweiligen Mitarbeiters.
-	 * @param usrID Die eindeutige Userid des jeweiligen Mitarbeiters.
-	 * @param password Das Passwort des jeweiligen Mitarbeiters.
-	 * @param vorname Der Vorname des jeweiligen Mitarbeiters.
-	 * @param nachname Der Nachname des jeweiligen Mitarbeiters.
-	 * @param email Die Email des jeweiligen Mitarbeiters.
-	 * @param land Das Land in dem der Mitarbeiter gemeldet ist.
-	 * @param plz Die Postleitzahl in der der Mitarbeiter gemeldet ist.
-	 * @param ort Der Ort/Stadt in der der Mitarbeiter gemeldet ist.
-	 * @param strasse Die Strass des Mitarbeiters.
-	 * @param hausNr Die Hausnummer des Mitarbeiters.
-	 * @param staffNo Die Mitarbeiternummer des Mitarbeiters.
-	 * @param sallary Das Gehalt, welches der Kunde bekommt.(in Cent gespeichert)
-	 */
-	public Mitarbeiter(String uName, int usrID, String password,
-			String vorname, String nachname, String email, String land,
-			int plz, String ort, String strasse, int hausNr, int staffNo, int sallary) {
-		super(uName, usrID, password, vorname, nachname, email, land, plz, ort,
-				strasse, hausNr);
-		
-		this.staffNo = staffNo;
-		this.sallary = sallary;
-		
+	public int getMitarbeiter_id() {
+		return mitarbeiter_id;
+	}
+	public void setMitarbeiter_id(int mitarbeiter_id) {
+		this.mitarbeiter_id = mitarbeiter_id;
+	}
+	public int getSvnr() {
+		return svnr;
+	}
+	public void setSvnr(int svnr) {
+		this.svnr = svnr;
+	}
+	public double getGehalt() {
+		return gehalt;
+	}
+	public void setGehalt(double gehalt) {
+		this.gehalt = gehalt;
+	}
+	public Date getEintrittsdatum() {
+		return eintrittsdatum;
+	}
+	public void setEintrittsdatum(Date eintrittsdatum) {
+		this.eintrittsdatum = eintrittsdatum;
+	}
+	public int getVertreter_id_von() {
+		return vertreter_id_von;
+	}
+	public void setVertreter_id_von(int vertreter_id_von) {
+		this.vertreter_id_von = vertreter_id_von;
 	}
 
-	
-//getters
-	/**
-	 * @return Die Kundennummer
-	 */
-	public int getStaffNo() {
-		return staffNo;
-	}
-
-	/**
-	 * @return Das Gehalt
-	 */
-	public int getSallary() {
-		return sallary;
-	}
-
-	
-//setters
-	/**
-	 * @param staffNo Die zu speichernde Kundennummer
-	 */
-	public void setStaffNo(int staffNo) {
-		this.staffNo = staffNo;
-	}
-
-	/**
-	 * @param sallary Das zu speichernde Gehalt
-	 */
-	public void setSallary(int sallary) {
-		this.sallary = sallary;
-	}
-
-	/**
-	 * Diese Methode überschreibt die Methode der Klasse Object und soll die wichtigsten Daten eines Mitarbeiters zurückgeben
-	 * @return Der String, welcher die wichtigsten Daten des Mitarbeiters enthält.
-	 */
-	public String toString(){
-		String s = super.toString();
-		return s+", sallary: "+sallary+", StaffNo: "+staffNo;
-	}
 	
 }

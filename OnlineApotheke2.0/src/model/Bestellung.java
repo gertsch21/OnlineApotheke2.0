@@ -6,85 +6,55 @@
  */
 package model;
 
+import java.sql.Date;
+
 /**
- * @author Katrin, stellt den Warenkorb der Kunden dar
+ * 
+ * @author Gerhard Schmidt
  *
  */
 public class Bestellung {
-	String orderID;
-	String orderDate;
-	double gesamtpreis;
-	int benuterID;
+	private int bestellung_id;
+	private Date bestelldatum;
+	private int kunde_id;
 	
-	/**
-	 * @param orderID
-	 * @param orderDate
-	 * @param gesamtpreis
-	 * @param benuterID
-	 */
-	public Bestellung(String orderID, String orderDate, double gesamtpreis, int benuterID) {
+	
+	
+	
+	public Bestellung() {
 		super();
-		this.orderID = orderID;
-		this.orderDate = orderDate;
-		this.gesamtpreis = gesamtpreis;
-		this.benuterID = benuterID;
 	}
 
-	/**
-	 * @return the orderID
-	 */
-	public String getOrderID() {
-		return orderID;
+	public Bestellung(int bestellung_id, Date bestelldatum, int kunde_id) {
+		super();
+		this.bestellung_id = bestellung_id;
+		this.bestelldatum = bestelldatum;
+		this.kunde_id = kunde_id;
 	}
 
-	/**
-	 * @param orderID the orderID to set
-	 */
-	public void setOrderID(String orderID) {
-		this.orderID = orderID;
-	}
-
-	/**
-	 * @return the orderDate
-	 */
-	public String getOrderDate() {
-		return orderDate;
-	}
-
-	/**
-	 * @param orderDate the orderDate to set
-	 */
-	public void setOrderDate(String orderDate) {
-		this.orderDate = orderDate;
-	}
-
-	/**
-	 * @return the gesamtpreis
-	 */
-	public double getGesamtpreis() {
-		return gesamtpreis;
-	}
-
-	/**
-	 * @param gesamtpreis the gesamtpreis to set
-	 */
-	public void setGesamtpreis(double gesamtpreis) {
-		this.gesamtpreis = gesamtpreis;
-	}
-
-	/**
-	 * @return the benuterID
-	 */
-	public int getBenuterID() {
-		return benuterID;
-	}
-
-	/**
-	 * @param benuterID the benuterID to set
-	 */
-	public void setBenuterID(int benuterID) {
-		this.benuterID = benuterID;
+	@Override
+	public String toString() {
+		return "Bestellung [bestellung_id=" + bestellung_id + ", bestelldatum=" + bestelldatum + ", kunde_id="
+				+ kunde_id + "]";
 	}
 	
+	public int getBestellung_id() {
+		return bestellung_id;
+	}
+	public void setBestellung_id(int bestellung_id) {
+		this.bestellung_id = bestellung_id;
+	}
+	public Date getBestelldatum() {
+		return bestelldatum;
+	}
+	public void setBestelldatum(Date bestelldatum) {
+		this.bestelldatum = bestelldatum;
+	}
+	public int getKunde_id() {
+		return kunde_id;
+	}
+	public void setKunde_id(int kunde_id) {
+		this.kunde_id = kunde_id;
+	}
 	
 }

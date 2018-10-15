@@ -41,7 +41,7 @@ public class DBBestellungDAO implements BestellungDAO {
 
 	public DBBestellungDAO() {
 		try {
-			Class.forName("oracle.jdbc.driver.OracleDriver");
+			Class.forName("org.postgresql.Driver");
 			Connection con = DriverManager.getConnection(dbUrl, user, pwd);
 			
 			savePositionStmt = con
