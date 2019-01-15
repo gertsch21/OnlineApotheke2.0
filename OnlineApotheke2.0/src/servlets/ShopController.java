@@ -19,7 +19,7 @@ import org.apache.jasper.tagplugins.jstl.core.Out;
 
 import management.Benutzerverwaltung;
 import management.Produktmanagement;
-import model.Produkt;
+import model.Produkt_mit_annotation;
 
 /**
  * Servlet implementation class ShopController
@@ -49,9 +49,9 @@ public class ShopController extends HttpServlet {
 		StringBuffer prodOut = new StringBuffer();
 		
 		Produktmanagement prodman = Produktmanagement.getInstance();
-		List<Produkt> allProducts = prodman.getAlleProdukt();
+		List<Produkt_mit_annotation> allProducts = prodman.getAlleProdukt();
 		
-		for(Produkt product : allProducts) {
+		for(Produkt_mit_annotation product : allProducts) {
 			prodOut.append("<div class=\"product\">"
 								+ "<div class=\"row\">"
 								+ "<div class=\"col-md-8\">"

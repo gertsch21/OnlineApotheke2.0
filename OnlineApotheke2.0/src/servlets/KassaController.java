@@ -14,7 +14,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import management.Produktmanagement;
-import model.Produkt;
+import model.Produkt_mit_annotation;
 
 /**
  * Servlet implementation class KassaController
@@ -55,7 +55,7 @@ public class KassaController extends HttpServlet {
     	 while (it.hasNext()) {
     	    	Map.Entry pair = (Map.Entry)it.next();
     	    	String keyValue = (String) pair.getKey();
-    	    	Produkt product = prodman.getProduktByProduktID(keyValue);
+    	    	Produkt_mit_annotation product = prodman.getProduktByProduktID(keyValue);
     	        double price = product.getprice() * Integer.parseInt(pair.getValue().toString());
     	    	sum += price;
     	        checkCart.append(""

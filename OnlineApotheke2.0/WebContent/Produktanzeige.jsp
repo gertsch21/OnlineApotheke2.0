@@ -1,13 +1,13 @@
-<%@page import="model.Produkt"%>
+<%@page import="model.Produkt_mit_annotation"%>
 <%@page import="java.util.List"%>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
 
 <%
 	if (session.getAttribute("username") == null
-			|| session.getAttribute("username").equals("null") || session.getAttribute("alleKunden")==null) {
+	|| session.getAttribute("username").equals("null") || session.getAttribute("alleKunden")==null) {
 		System.out
-				.println("HauptseiteMitarbeiter: nicht eingeloggt -> Login");
+		.println("HauptseiteMitarbeiter: nicht eingeloggt -> Login");
 		response.sendRedirect("Login.jsp");
 	}
 %>
@@ -49,8 +49,8 @@
 			%>
 			<h2><%=request.getSession().getAttribute("fehler")%></h2>
 			<%
-					request.getSession().setAttribute("fehler", null); //nach ausgabe auf null setzen
-				}
+				request.getSession().setAttribute("fehler", null); //nach ausgabe auf null setzen
+					}
 			%>
 
 
@@ -58,11 +58,15 @@
 			<form action="Produktverwaltungscontroller" method="POST">
 				<table class="table">
 					<tr><th>Name</th><th>Preis</th><th>löschen</th></tr>
-<%for(Produkt p : (List<Produkt>)(session.getAttribute("alleProdukte")) ){ %>
+<%
+	for(Produkt_mit_annotation p : (List<Produkt_mit_annotation>)(session.getAttribute("alleProdukte")) ){
+%>
 					<tr><td><%=p.getprodName()%></td><td><%=p.getprice()%></td><td><input type="submit" name="zuLoeschen" value="<%=p.getprodID()%>"/></td></tr>
-<%} %>
+<%
+	}
+%>
 </table>	
-Anzahl an Produkte: <%=( (List<Produkt>)(session.getAttribute("alleProdukte")) ).size()%>			
+Anzahl an Produkte: <%=( (List<Produkt_mit_annotation>)(session.getAttribute("alleProdukte")) ).size()%>			
 			</form>
 
 <!-- Einfaches Retour zur Hauptseite -->

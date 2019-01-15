@@ -2,7 +2,7 @@ package dao;
 
 import java.util.List;
 
-import model.Produkt;
+import model.Produkt_mit_annotation;
 import model.Produktgruppe;
 
 /**
@@ -11,13 +11,13 @@ import model.Produktgruppe;
  *
  */
 public interface ProduktDAO {
-	public boolean speichereProdukt(Produkt p);
+	public boolean speichereProdukt(Produkt_mit_annotation p);
 	public boolean speichereProduktgruppe(Produktgruppe pg);
 	
-	public List<Produkt> getProduktListe();
+	public List<Produkt_mit_annotation> getProduktListe();
 	public List<Produktgruppe> geProduktgruppenListe();
 	
-	public Produkt getProduktByProduktID(String produktgruppe_id);
+	public Produkt_mit_annotation getProduktByProduktID(String produktgruppe_id);
 	public Produktgruppe getProduktgruppeByProduktgruppeID(String produktgruppe_id);
     
 	public boolean loescheProduktByProduktID(String produkt_id);

@@ -74,7 +74,7 @@ public class DBProduktDAO implements ProduktDAO {
 	 * save Products in database - table ISE_Product
 	 */
 	@Override
-	public boolean speichereProdukt(Produkt p) {
+	public boolean speichereProdukt(Produkt_mit_annotation p) {
 		try {
 			System.out.println("DBBenutzerDAO1:speichereProdukt: " + p.getprodID() + ", " + p.getprodName());
 
@@ -125,8 +125,8 @@ public class DBProduktDAO implements ProduktDAO {
 	 * query list of all products from database
 	 */
 	@Override
-	public List<Produkt> getProduktList() {
-		List<Produkt> liste = new ArrayList<Produkt>();
+	public List<Produkt_mit_annotation> getProduktList() {
+		List<Produkt_mit_annotation> liste = new ArrayList<Produkt_mit_annotation>();
 		try {
 			ResultSet result = loadAllProdStmt.executeQuery();
 			int anzProdukte = 0;
@@ -140,7 +140,7 @@ public class DBProduktDAO implements ProduktDAO {
 					double pPrice = Double.parseDouble(result.getString("PRICE"));
 					int pCatID = Integer.parseInt(result.getString("CATEGORYID"));
 					
-					liste.add(new Produkt(pID, pName, pPrice, pDescr, pCatID));
+					liste.add(new Produkt_mit_annotation(pID, pName, pPrice, pDescr, pCatID));
 					anzProdukte++;
 				} catch (NumberFormatException e) {
 					System.out.println("DBProduktDao: getProduktList: Error beim Parsen des Strings in der DB in int wert");
@@ -206,7 +206,7 @@ public class DBProduktDAO implements ProduktDAO {
 	 * query product from DB by productID
 	 */
 	@Override
-	public Produkt getProduktByProduktID(String prodID) {
+	public Produkt_mit_annotation getProduktByProduktID(String prodID) {
 		
 		try {
 			loadProductByIdStmt.setInt(1, Integer.parseInt(prodID));
@@ -225,7 +225,7 @@ public class DBProduktDAO implements ProduktDAO {
 				double pPrice = Double.parseDouble(result.getString("PRICE"));
 				int pCatID = Integer.parseInt(result.getString("CATEGORYID"));
 			
-				return new Produkt(pID, pName, pPrice, pDescr, pCatID);
+				return new Produkt_mit_annotation(pID, pName, pPrice, pDescr, pCatID);
 				
 			} catch (NumberFormatException e) {
 				System.out.println("DBProduktDao: getProduktByProduktID: Error beim Parsen des Strings in der DB in int wert");

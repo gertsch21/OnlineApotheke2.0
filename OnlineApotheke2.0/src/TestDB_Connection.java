@@ -35,7 +35,7 @@ public class TestDB_Connection{
 	
 	public static void main(String[] args) {
 		TestDB_Connection tb = new TestDB_Connection();
-		for(Produkt p : tb.getProduktList()){
+		for(Produkt_mit_annotation p : tb.getProduktList()){
 			System.out.println(p);
 		}
 	}
@@ -73,8 +73,8 @@ public class TestDB_Connection{
 	 * 
 	 * query list of all products from database
 	 */
-	public List<Produkt> getProduktList() {
-		List<Produkt> liste = new ArrayList<Produkt>();
+	public List<Produkt_mit_annotation> getProduktList() {
+		List<Produkt_mit_annotation> liste = new ArrayList<Produkt_mit_annotation>();
 		try {
 			ResultSet result = loadAllProdStmt.executeQuery();
 			int anzProdukte = 0;
@@ -96,7 +96,7 @@ public class TestDB_Connection{
 					int ersteller_id = Integer.parseInt(result.getString("ersteller_id"));
 					int produktgruppe_id = Integer.parseInt(result.getString("produktgruppe_id"));
 					
-					liste.add(new Produkt(produkt_id, name, preis, menge_enthalten, hersteller, wirkstoff, wirkungsweise, anwendungsweise, anmerkung, ersteller_id, produktgruppe_id));
+					liste.add(new Produkt_mit_annotation(produkt_id, name, preis, menge_enthalten, hersteller, wirkstoff, wirkungsweise, anwendungsweise, anmerkung, ersteller_id, produktgruppe_id));
 					anzProdukte++;
 				} catch (NumberFormatException e) {
 					System.out.println("DBProduktDao: getProduktList: Error beim Parsen des Strings in der DB in int wert");

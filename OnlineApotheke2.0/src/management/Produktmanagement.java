@@ -3,7 +3,7 @@ package management;
 import java.util.List;
 import java.util.Random;
 
-import model.Produkt;
+import model.Produkt_mit_annotation;
 import model.Category;
 import dao.ProduktDAO;
 import dao.DBProduktDAO;
@@ -26,7 +26,7 @@ public class Produktmanagement {
         Random randomGenerator = new Random();
 		int id = randomGenerator.nextInt(Integer.MAX_VALUE);
 		System.out.println("Produktmanagement:produktAnlegen: "+id+", "+prodName+", "+price+", "+prodDescription+", "+categoryID+", anlegen!");
-		return dao.speichereProdukt(new Produkt(id, prodName, price, prodDescription, categoryID));
+		return dao.speichereProdukt(new Produkt_mit_annotation(id, prodName, price, prodDescription, categoryID));
     }
   
     public boolean categoryAnlegen(String categoryName, String categoryDescription) {
@@ -37,7 +37,7 @@ public class Produktmanagement {
     }
     
     
-    public List<Produkt> getAlleProdukt(){
+    public List<Produkt_mit_annotation> getAlleProdukt(){
 		return dao.getProduktList();
 	}
 	public List<Category> getAlleCategory(){
@@ -45,7 +45,7 @@ public class Produktmanagement {
 	}
     
     
-    public Produkt getProduktByProduktID(String prodID){
+    public Produkt_mit_annotation getProduktByProduktID(String prodID){
 		return dao.getProduktByProduktID(prodID);
 	}
 	public Category getCategorybyCategoryID(String categoryID){
@@ -53,7 +53,7 @@ public class Produktmanagement {
 	}
 	
 	
-	public Produkt getProduktByProduktName(String prodName){
+	public Produkt_mit_annotation getProduktByProduktName(String prodName){
 		return dao.getProduktByProduktID(prodName);
 	}
     

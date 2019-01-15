@@ -1,58 +1,77 @@
-/**
- * 
- */
 package model;
 
 import java.sql.Date;
+import java.util.Set;
 
-/**
- * 
- * @author Gerhard Schmidt
- *
- */
+import javax.persistence.CascadeType;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.OneToMany;
+import javax.persistence.PrimaryKeyJoinColumn;
+import javax.persistence.Table;
+import javax.xml.bind.annotation.XmlTransient;
+
+@Entity
+@Table(name = "Kunde")
+@PrimaryKeyJoinColumn(name = "benutzer_id")
 public class Kunde extends Benutzer {
-	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private Date anmeldedatum;
 	private String geschlecht;
-	private int betreuer_id;
-	
-	
-	
+
+	@OneToMany(mappedBy="kaeufer", fetch = FetchType.EAGER, cascade = { CascadeType.ALL })
+	private Set<Spezielle_salbe> beauftragteSalben;
+
+	public Kunde(String benutzername, String passwort, String vorname, String nachname, Date geburtsdatum, String email,
+			String telnr, String land, int plz, String ort, String strasse, int hausnummer, String hausnummer_zus,
+			Date anmeldedatum, String geschlecht) {
+		super(benutzername, passwort, vorname, nachname, geburtsdatum, email, telnr, land, plz, ort, strasse,
+				hausnummer, hausnummer_zus);
+		this.anmeldedatum = anmeldedatum;
+		this.geschlecht = geschlecht;
+	}
+
+	@Override
+	public String toString() {
+		return "Kunde [anmeldedatum=" + anmeldedatum + ", geschlecht=" + geschlecht + ", toString()=" + super.toString()
+				+ ", getBenutzer_id()=" + getBenutzer_id() + ", getBenutzername()=" + getBenutzername()
+				+ ", getPasswort()=" + getPasswort() + ", getVorname()=" + getVorname() + ", getNachname()="
+				+ getNachname() + ", getGeburtsdatum()=" + getGeburtsdatum() + ", getEmail()=" + getEmail()
+				+ ", getTelnr()=" + getTelnr() + ", getLand()=" + getLand() + ", getPlz()=" + getPlz() + ", getOrt()="
+				+ getOrt() + ", getStrasse()=" + getStrasse() + ", getHausnummer()=" + getHausnummer()
+				+ ", getHausnummer_zus()=" + getHausnummer_zus() + ", getClass()=" + getClass() + ", hashCode()="
+				+ hashCode() + ", Salben beauftragt: " + getBeauftragteSalben() + "]";
+	}
+
 	public Kunde() {
 		super();
 	}
-	
-	
-	public Kunde(int benutzer_id, String benutzername, String passwort, String vorname, String nachname,
-			Date geburtsdatum, String email, String tel_nr, String land, int plz, String ort, String strasse,
-			int hausNr, String hnr_zusatz, Date anmeldedatum, String geschlecht, int betreuer_id) {
-		super(benutzer_id, benutzername, passwort, vorname, nachname, geburtsdatum, email, tel_nr, land, plz, ort, strasse,
-				hausNr, hnr_zusatz);
-		this.anmeldedatum = anmeldedatum;
-		this.geschlecht = geschlecht;
-		this.betreuer_id = betreuer_id;
+
+	public Set<Spezielle_salbe> getBeauftragteSalben() {
+		return beauftragteSalben;
 	}
-	@Override
-	public String toString() {
-		return "Kunde [anmeldedatum=" + anmeldedatum + ", geschlecht=" + geschlecht + ", betreuer_id=" + betreuer_id
-				+ "]";
+
+	public void setBeauftragteSalben(Set<Spezielle_salbe> beauftragteSalben) {
+		this.beauftragteSalben = beauftragteSalben;
 	}
+
 	public Date getAnmeldedatum() {
 		return anmeldedatum;
 	}
+
 	public void setAnmeldedatum(Date anmeldedatum) {
 		this.anmeldedatum = anmeldedatum;
 	}
+
 	public String getGeschlecht() {
 		return geschlecht;
 	}
+
 	public void setGeschlecht(String geschlecht) {
 		this.geschlecht = geschlecht;
 	}
-	public int getBetreuer_id() {
-		return betreuer_id;
-	}
-	public void setBetreuer_id(int betreuer_id) {
-		this.betreuer_id = betreuer_id;
-	}
-	}
+
+}

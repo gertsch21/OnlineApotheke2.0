@@ -12,7 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 import management.Benutzerverwaltung;
 import management.Produktmanagement;
 import model.Benutzer;
-import model.Produkt;
+import model.Produkt_mit_annotation;
 
 /**
  * Servlet implementation class Produktverwaltungscontroller
@@ -58,7 +58,7 @@ public class Produktverwaltungscontroller extends HttpServlet {
 		}
 		
 		
-		List<Produkt> alleProdukte = prover.getAlleProdukt();
+		List<Produkt_mit_annotation> alleProdukte = prover.getAlleProdukt();
 		
 		request.getSession().setAttribute("alleProdukte", alleProdukte); //Benutzer an JSP übergeben
 		
