@@ -16,8 +16,8 @@
         <!-- Database connection settings -->
         <property name="connection.driver_class">org.postgresql.Driver</property>
         <property name="connection.url">jdbc:postgresql://gerhardscloud.ddns.net:5432/Online_Apotheke</property>        
-        <property name="connection.username">postgres</property>
-        <property name="connection.password">bullet2111</property>
+        <property name="connection.username">OnlineApothekenAdmin</property>
+        <property name="connection.password">OnlineApothekenAdmin</property>
 
         <!-- JDBC connection pool (use the built-in) -->
         <property name="connection.pool_size">1</property>

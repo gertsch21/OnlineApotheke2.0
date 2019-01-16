@@ -84,7 +84,7 @@ public interface BenutzerDAO {
 	 * @param uName Der Username des zu suchenden Kunden
 	 * @return true, falls der Vorgang erfolgreich war, ansonsten false
 	 */
-	public boolean loescheKundeByUname(String uName);
+	public void loescheKundeByUname(String benutzername);
 	
 	
 	/**
@@ -92,6 +92,6 @@ public interface BenutzerDAO {
 	 * @param uName Der Username des zu suchenden Mitarbeiters
 	 * @return true, falls der Vorgang erfolgreich war, ansonsten false
 	 */
-	public boolean loescheMitarbeiterByUname(String uName);		
+	public void loescheMitarbeiterByUname(String benutzername);		
 	
 }
