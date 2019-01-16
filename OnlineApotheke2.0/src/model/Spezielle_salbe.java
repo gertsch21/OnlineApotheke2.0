@@ -31,7 +31,7 @@ public class Spezielle_salbe extends Produkt {
 	@Override
 	public String toString() {
 		return "Spezielle_salbe [volumen=" + volumen + ", zusatzinformationen=" + zusatzinformationen
-				+ ", erstelldatum=" + erstelldatum + ", enthaltene_inhaltsstoffe=" + enthaltene_inhaltsstoffe + "]";
+				+ ", erstelldatum=" + erstelldatum + ", enthaltene_inhaltsstoffe=" + enthaltene_inhaltsstoffe + ", Reklamationen: " + this.getReklamationen()+"]";
 	}
 
 	public Kunde getKaeufer() {

@@ -25,6 +25,12 @@ public class Kunde extends Benutzer {
 	@OneToMany(mappedBy="kaeufer", fetch = FetchType.EAGER, cascade = { CascadeType.ALL })
 	private Set<Spezielle_salbe> beauftragteSalben;
 
+	@OneToMany(mappedBy="kunde", fetch = FetchType.EAGER, cascade = { CascadeType.ALL })
+	private Set<Einkaufswagen> einkaufswagen;
+
+	@OneToMany(mappedBy="kritiker", fetch = FetchType.EAGER, cascade = { CascadeType.ALL })
+	private Set<Reklamation> reklamationen;
+
 	public Kunde(String benutzername, String passwort, String vorname, String nachname, Date geburtsdatum, String email,
 			String telnr, String land, int plz, String ort, String strasse, int hausnummer, String hausnummer_zus,
 			Date anmeldedatum, String geschlecht) {
@@ -43,11 +49,20 @@ public class Kunde extends Benutzer {
 				+ ", getTelnr()=" + getTelnr() + ", getLand()=" + getLand() + ", getPlz()=" + getPlz() + ", getOrt()="
 				+ getOrt() + ", getStrasse()=" + getStrasse() + ", getHausnummer()=" + getHausnummer()
 				+ ", getHausnummer_zus()=" + getHausnummer_zus() + ", getClass()=" + getClass() + ", hashCode()="
-				+ hashCode() + ", Salben beauftragt: " + getBeauftragteSalben() + "]";
+				+ hashCode() + ", Salben beauftragt: " + getBeauftragteSalben() + ", Einkaufswagen: "+ einkaufswagen + 
+				", Reklamationen: " + reklamationen +" ]";
 	}
 
 	public Kunde() {
 		super();
+	}
+
+	public Set<Einkaufswagen> getEinkaufswagen() {
+		return einkaufswagen;
+	}
+
+	public void setEinkaufswagen(Set<Einkaufswagen> einkaufswagen) {
+		this.einkaufswagen = einkaufswagen;
 	}
 
 	public Set<Spezielle_salbe> getBeauftragteSalben() {

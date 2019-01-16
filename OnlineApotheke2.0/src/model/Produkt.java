@@ -1,9 +1,14 @@
 package model;
 
+import java.util.Set;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
@@ -16,42 +21,77 @@ public class Produkt {
 	private double preis;
 	private String anmerkung;
 	
+	@OneToMany(mappedBy="produkt", fetch = FetchType.EAGER, cascade = { CascadeType.ALL })
+	private Set<Item> items;
+	
+	@OneToMany(mappedBy="zuBeschwerendesProdukt", fetch = FetchType.EAGER, cascade = { CascadeType.ALL })
+	private Set<Reklamation> reklamationen;
 	
 	
-	public Produkt() {
-		super();
+	@Override
+	public String toString() {
+		return "Produkt [produkt_id=" + produkt_id + ", name=" + name + ", preis=" + preis + ", anmerkung=" + anmerkung
+				+ ", Reklamationen: " + reklamationen + "]";
 	}
-	public Produkt(long id, String name, double preis, String anmerkung) {
-		super();
-		this.produkt_id = id;
-		this.name = name;
-		this.preis = preis;
-		this.anmerkung = anmerkung;
-	}
-	public long getId() {
+
+
+	public long getProdukt_id() {
 		return produkt_id;
 	}
-	public void setId(long id) {
-		this.produkt_id = id;
+
+
+	public void setProdukt_id(long produkt_id) {
+		this.produkt_id = produkt_id;
 	}
+
+
 	public String getName() {
 		return name;
 	}
+
+
 	public void setName(String name) {
 		this.name = name;
 	}
+
+
 	public double getPreis() {
 		return preis;
 	}
+
+
 	public void setPreis(double preis) {
 		this.preis = preis;
 	}
+
+
 	public String getAnmerkung() {
 		return anmerkung;
 	}
+
+
 	public void setAnmerkung(String anmerkung) {
 		this.anmerkung = anmerkung;
 	}
-	
+
+
+	public Set<Item> getItems() {
+		return items;
+	}
+
+
+	public void setItems(Set<Item> items) {
+		this.items = items;
+	}
+
+
+	public Set<Reklamation> getReklamationen() {
+		return reklamationen;
+	}
+
+
+	public void setReklamationen(Set<Reklamation> reklamationen) {
+		this.reklamationen = reklamationen;
+	}	
 	
 }

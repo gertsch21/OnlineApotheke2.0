@@ -47,6 +47,12 @@
         <mapping class="model.Spezielle_salbe"/>
         
         <mapping class="model.Inhaltsstoff"/>
+        
+        <mapping class="model.Einkaufswagen"/>
+        <mapping class="model.Item"/>
+        
+        <mapping class="model.Reklamation"/>
+        
     </session-factory>
 
 </hibernate-configuration>

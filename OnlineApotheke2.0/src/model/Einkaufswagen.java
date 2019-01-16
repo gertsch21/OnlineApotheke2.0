@@ -1,40 +1,35 @@
 package model;
 
 import java.util.Date;
+import java.util.Set;
 
+import javax.persistence.CascadeType;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
+
+@Entity
+@Table(name = "einkaufswagen")
 public class Einkaufswagen {
-	private long id;
+	@Id
+	private int einkaufswagen_id;
 	private Date bestelldatum;
-	private long benutzer_id;
 	
-	public Einkaufswagen() {
-		
+	@ManyToOne
+	@JoinColumn(name="benutzer_id", nullable=false)
+	private Kunde kunde;
+	
+	@OneToMany(mappedBy="einkaufswagen", fetch = FetchType.EAGER, cascade = { CascadeType.ALL })
+	private Set<Item> items;
+
+	@Override
+	public String toString() {
+		return "Einkaufswagen [einkaufswagen_id=" + einkaufswagen_id + ", bestelldatum=" + bestelldatum + ", items=" + items + "]";
 	}
 	
-	public Einkaufswagen(long id, Date bestelldatum, long benutzer_id) {
-		super();
-		this.id = id;
-		this.bestelldatum = bestelldatum;
-		this.benutzer_id = benutzer_id;
-	}
-	
-	public long getId() {
-		return id;
-	}
-	public void setId(long id) {
-		this.id = id;
-	}
-	public Date getBestelldatum() {
-		return bestelldatum;
-	}
-	public void setBestelldatum(Date bestelldatum) {
-		this.bestelldatum = bestelldatum;
-	}
-	public long getBenutzer_id() {
-		return benutzer_id;
-	}
-	public void setBenutzer_id(long benutzer_id) {
-		this.benutzer_id = benutzer_id;
-	}
 	
 }

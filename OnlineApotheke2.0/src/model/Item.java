@@ -1,39 +1,35 @@
 package model;
 
-public class Item {
-	private long id;
-	private long einkaufswagen_id;
+import java.io.Serializable;
+
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
+
+@Entity
+@Table(name = "item")
+public class Item implements Serializable{
+	@Id
+	private int einkaufswagen_id;
+	@Id
+	private int item_id;
 	private int anzahl;
 	
-	
-	
-	public Item() {
-		super();
-	}
+	@ManyToOne
+	@JoinColumn(name="einkaufswagen_id", nullable=false)
+	private Einkaufswagen einkaufswagen;
 
-	public Item(long id, long einkaufswagen_id, int anzahl) {
-		super();
-		this.id = id;
-		this.einkaufswagen_id = einkaufswagen_id;
-		this.anzahl = anzahl;
+	@ManyToOne
+	@JoinColumn(name="produkt_id", nullable=false)
+	private Produkt produkt;
+
+	@Override
+	public String toString() {
+		return "Item [einkaufswagen_id=" + einkaufswagen_id + ", item_id=" + item_id + ", anzahl=" + anzahl
+				+ ", produkt: " + produkt + "]";
 	}
 	
-	public long getId() {
-		return id;
-	}
-	public void setId(long id) {
-		this.id = id;
-	}
-	public long getEinkaufswagen_id() {
-		return einkaufswagen_id;
-	}
-	public void setEinkaufswagen_id(long einkaufswagen_id) {
-		this.einkaufswagen_id = einkaufswagen_id;
-	}
-	public int getAnzahl() {
-		return anzahl;
-	}
-	public void setAnzahl(int anzahl) {
-		this.anzahl = anzahl;
-	}
+	
 }
