@@ -21,6 +21,8 @@ public class HibernateConnection {
 		}
 	}
 
+	
+	
 	public static HibernateConnection getInstance() {
 		if (con == null)
 			con = new HibernateConnection();

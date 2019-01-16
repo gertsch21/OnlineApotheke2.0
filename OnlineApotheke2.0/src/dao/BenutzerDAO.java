@@ -18,6 +18,10 @@ import model.*;
  */
 public interface BenutzerDAO {
 	
+	public void closeConnection();
+	
+	public boolean reklamationErstellen(Reklamation r);
+	
 	/**
 	 * Mit dieser Methode kann ein Kunde im System gespeichert werden.
 	 * @param k der zu speichernde Kunde

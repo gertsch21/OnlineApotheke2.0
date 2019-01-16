@@ -3,13 +3,15 @@
  */
 package dao;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
+
+import org.hibernate.HibernateException;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
+import org.hibernate.cfg.Configuration;
 
 import model.*;
 
@@ -20,304 +22,149 @@ import model.*;
  */
 
 public class DBProduktDAO implements ProduktDAO {
-//Daten für DB Verbindung
-	private final String dbUrl = "jdbc:postgresql:gerhardscloud.ddns.net:5432:online_apotheke_db";
-	private final String user = "postgres";
-	private final String pwd = "bullet2111";
-	
-//Statements um Daten aus db zu holen(über SQL)
-	private PreparedStatement saveProdStmt;
-	private PreparedStatement saveCatStmt;
-	private PreparedStatement loadAllProdStmt;
-	private PreparedStatement loadAllCatStmt;
-	private PreparedStatement loadProductByIdStmt;
-	private PreparedStatement loadCategoryByIdStmt;
-	private PreparedStatement deleteProdStmt;
-	private PreparedStatement deleteCatStmt;
-	
-	
+
+	private static SessionFactory factory;
 
 	/**
-	 * Im Konstruktor wird die Verbindung zur Datenbank hergestellt
-	 * Es werden auch die Statements definiert, mit welchen man die Daten aus der Datenbank bekommt
-	 * Achtung, die User werden aus der Datenbank mit dem Usernamen herausgeholt, wohingegen es beim Kunden und Mitarbeiter die UserID ist
+	 * Im Konstruktor wird die Verbindung zur Datenbank hergestellt Es werden auch
+	 * die Statements definiert, mit welchen man die Daten aus der Datenbank bekommt
+	 * Achtung, die User werden aus der Datenbank mit dem Usernamen herausgeholt,
+	 * wohingegen es beim Kunden und Mitarbeiter die UserID ist
 	 */
 	public DBProduktDAO() {
 		try {
-			Class.forName("org.postgresql.Driver");
-			Connection con = DriverManager.getConnection(dbUrl, user, pwd);
-			
-			saveProdStmt = con
-					.prepareStatement("INSERT INTO ISE_PRODUCT(PRODUCTID,NAME,PRICE,DESCRIPTION,CATEGORYID) VALUES(?,?,?,?,?)");
-			saveCatStmt = con
-					.prepareStatement("INSERT INTO ISE_CATEGORY(CATEGORYID,NAME,DESCRIPTION) VALUES(?,?,?)");
-			
-			loadAllProdStmt = con.prepareStatement("SELECT * FROM ISE_PRODUCT");
-			loadAllCatStmt = con.prepareStatement("SELECT * FROM ISE_CATEGORY");
-			
-			loadProductByIdStmt = con.prepareStatement("SELECT * FROM ISE_PRODUCT WHERE PRODUCTID=?");
-			loadCategoryByIdStmt = con.prepareStatement("SELECT * FROM ISE_CATEGORY WHERE CATEGORYID=?");
-			
-			deleteProdStmt = con.prepareStatement("DELETE FROM ISE_PRODUCT WHERE PRODUCTID=?");
-			deleteCatStmt = con.prepareStatement("DELETE FROM ISE_CATEGORY WHERE CATEGORYID=?");
-			
-			
-		} catch (Exception e) {
+			factory = new Configuration().configure().
+			// addPackage("com.xyz") //add package if used.
+					buildSessionFactory();
+		} catch (Throwable ex) {
+			System.err.println("DBProduktDAO:Failed to create sessionFactory object." + ex);
+			throw new ExceptionInInitializerError(ex);
+		}
+	}
+	
+	@Override
+	public void closeConnection() {
+		factory.close();
+	}
+	
+	
+	@Override
+	public boolean speichereProdukt(Produkt p) {
+		Session session = factory.openSession();
+		Transaction tx = null;
+		Long produktID = null;
+
+		try {
+			tx = session.beginTransaction();
+			produktID = (Long) session.save(p);
+			tx.commit();
+
+		} catch (HibernateException e) {
+			if (tx != null)
+				tx.rollback();
 			e.printStackTrace();
-			System.out.println("Verbindungsaufbau zur DB nicht möglich!! ("+e.getMessage()+")");
+		} finally {
+
 		}
-
-	}
-
-	/**
-	 * 
-	 * save Products in database - table ISE_Product
-	 */
-	@Override
-	public boolean speichereProdukt(Produkt_mit_annotation p) {
-		try {
-			System.out.println("DBBenutzerDAO1:speichereProdukt: " + p.getprodID() + ", " + p.getprodName());
-
-			
-			saveProdStmt.setInt(1, p.getprodID());
-			saveProdStmt.setString(2, p.getprodName());
-			saveProdStmt.setDouble(3, p.getprice());
-			saveProdStmt.setString(4, p.getprodDescription());
-			saveProdStmt.setInt(5, p.getcategoryID());
-			
-			saveProdStmt.executeUpdate();
+		if (produktID != null)
 			return true;
-		}catch(NullPointerException e){
-			System.out.println("DBProduktDAO1:speichereProdukt: Übergebenes Produkt(Parameter) ist null!!! ("+e.getMessage()+")");
-			return false;
-		}catch (Exception e) {
-			System.out.println("DBProduktDAO1:speichereProdukt: Fehler beim einfuegen des Produkts zBSchon vorhanden,...("+e.getMessage()+")!!!");
-			return false;
-		}
+		return false;
 	}
-	
-	/**
-	 * 
-	 * save Category in database - table ISE_Category
-	 */
+
 	@Override
-	public boolean speichereCategory(Category c) {
+	public List<Produkt> getProduktListe() {
+		Session session = factory.openSession();
+		Transaction tx = null;
+		List<Produkt> liste = new ArrayList<Produkt>();
 		try {
-			System.out.println("DBProduktDAO1:speichereCategory: " + c.getcategoryID() + ", " + c.getcategoryName());
-
-			saveCatStmt.setInt(1, c.getcategoryID());
-			saveCatStmt.setString(2, c.getcategoryName());
-			saveCatStmt.setString(3, c.getcategoryDescription());
-
-			saveCatStmt.executeUpdate();
-			return true;
-		}catch(NullPointerException e){
-			System.out.println("DBProduktDAO1:speichereCategory: Übergebene Kategorie(Parameter) ist null!!! ("+e.getMessage()+")");
-			return false;
-		}catch (Exception e) {
-			System.out.println("DBProduktDAO1:speichereCategory: Fehler beim einfuegen der Kategorie zBSchon vorhanden,...("+e.getMessage()+")!!!");
-			return false;
-		}
-	}
-	
-	/**
-	 * 
-	 * query list of all products from database
-	 */
-	@Override
-	public List<Produkt_mit_annotation> getProduktList() {
-		List<Produkt_mit_annotation> liste = new ArrayList<Produkt_mit_annotation>();
-		try {
-			ResultSet result = loadAllProdStmt.executeQuery();
-			int anzProdukte = 0;
-			
-			while(result.next()){
-			    String pName = result.getString("NAME");
-			    String pDescr = result.getString("DESCRIPTION");
-
-				try {
-					int pID = Integer.parseInt(result.getString("PRODUCTID"));
-					double pPrice = Double.parseDouble(result.getString("PRICE"));
-					int pCatID = Integer.parseInt(result.getString("CATEGORYID"));
-					
-					liste.add(new Produkt_mit_annotation(pID, pName, pPrice, pDescr, pCatID));
-					anzProdukte++;
-				} catch (NumberFormatException e) {
-					System.out.println("DBProduktDao: getProduktList: Error beim Parsen des Strings in der DB in int wert");
-					return null;
-				}catch(Exception e){
-					System.out.println("DBProduktDao: getProduktList: Error beim Parsen: "+e.getMessage());
-					return null;
-				}	
+			tx = session.beginTransaction();
+			List produktliste = session.createQuery("FROM Produkt").list();
+			for (Iterator iterator = produktliste.iterator(); iterator.hasNext();) {
+				liste.add((Produkt) iterator.next());
 			}
-			
-			System.out.println("DBProduktDao: getProduktList: Anzahl Produkte: " + anzProdukte);
 
-			return liste;
-			
-		} catch (Exception e) {
-			System.out.println("DBProduktDAO: getProduktListe: Error");
-			return null;
+			tx.commit();
+		} catch (HibernateException e) {
+			if (tx != null)
+				tx.rollback();
+			e.printStackTrace();
+		} finally {
+
 		}
+		return liste;
 	}
-	
-	/**
-	 * 
-	 * query list of all products from database
-	 */
+
 	@Override
-	public List<Category> getCategoryList() {
-		List<Category> liste = new ArrayList<Category>();
+	public List<Spezielle_salbe> getSpezielleSalbenListe() {
+		Session session = factory.openSession();
+		Transaction tx = null;
+		List<Spezielle_salbe> liste = new ArrayList<Spezielle_salbe>();
 		try {
-			ResultSet result = loadAllCatStmt.executeQuery();
-			int anzCategory = 0;
-			
-			while(result.next()){
-			    String cName = result.getString("NAME");
-			    String cDescr = result.getString("DESCRIPTION");
-
-				try {
-					int cID = Integer.parseInt(result.getString("CATEGORYID"));
-					
-					
-					liste.add(new Category(cID, cName, cDescr));
-					anzCategory++;
-				} catch (NumberFormatException e) {
-					System.out.println("DBProduktDao: getCategoryList: Error beim Parsen des Strings in der DB in int wert");
-					return null;
-				}catch(Exception e){
-					System.out.println("DBProduktDao: getCategoryList: Error beim Parsen: "+e.getMessage());
-					return null;
-				}	
+			tx = session.beginTransaction();
+			List spezielle_salben = session.createQuery("FROM Spezielle_salbe").list();
+			for (Iterator iterator = spezielle_salben.iterator(); iterator.hasNext();) {
+				liste.add((Spezielle_salbe) iterator.next());
 			}
-			
-			System.out.println("DBProduktDao: getCategoryList: Anzahl Categories: " + anzCategory);
 
-			return liste;
-			
-		} catch (Exception e) {
-			System.out.println("DBProduktDAO: getCategoryListe: Error");
-			return null;
+			tx.commit();
+		} catch (HibernateException e) {
+			if (tx != null)
+				tx.rollback();
+			e.printStackTrace();
+		} finally {
+
 		}
+		return liste;
 	}
 
-	/**
-	 * 
-	 * query product from DB by productID
-	 */
 	@Override
-	public Produkt_mit_annotation getProduktByProduktID(String prodID) {
-		
+	public List<ZugekauftesProdukt> getZugekauftesProduktListe() {
+		Session session = factory.openSession();
+		Transaction tx = null;
+		List<ZugekauftesProdukt> liste = new ArrayList<ZugekauftesProdukt>();
 		try {
-			loadProductByIdStmt.setInt(1, Integer.parseInt(prodID));
-			ResultSet result = loadProductByIdStmt.executeQuery();
-			if (!result.next()){
-				System.out.println("DBProduktDAO: getProduktByProduktID: Kein Produkt gefunden!");
-				return null;
+			tx = session.beginTransaction();
+			List zugekaufte_produkte = session.createQuery("FROM ZugekauftesProdukt").list();
+			for (Iterator iterator = zugekaufte_produkte.iterator(); iterator.hasNext();) {
+				liste.add((ZugekauftesProdukt) iterator.next());
 			}
-			
-			
-			String pName = result.getString("NAME");
-		    String pDescr = result.getString("DESCRIPTION");
 
-			try {
-				int pID = Integer.parseInt(result.getString("PRODUCTID"));
-				double pPrice = Double.parseDouble(result.getString("PRICE"));
-				int pCatID = Integer.parseInt(result.getString("CATEGORYID"));
-			
-				return new Produkt_mit_annotation(pID, pName, pPrice, pDescr, pCatID);
-				
-			} catch (NumberFormatException e) {
-				System.out.println("DBProduktDao: getProduktByProduktID: Error beim Parsen des Strings in der DB in int wert");
-				return null;
-			}catch(Exception e){
-				System.out.println("DBProduktDao: getProduktByProduktID: Error beim Parsen: "+e.getMessage());
-				return null;
-			}	
-			
+			tx.commit();
+		} catch (HibernateException e) {
+			if (tx != null)
+				tx.rollback();
+			e.printStackTrace();
+		} finally {
 
-		} catch (Exception e) {
-			System.out.println("DBProduktDAO: getProduktByProduktID: Error");
-			return null;
 		}
+		return liste;
 	}
 
-
-	/**
-	 * 
-	 * query category from DB by productID
-	 */
 	@Override
-	public  Category getCategoryByCategoryID(String categoryID) {
-		
+	public Produkt getProduktByProduktID(int produkt_id) {
+		for(Produkt i : getProduktListe())
+			if(i.getProdukt_id() == produkt_id)
+				return i;
+		return null;
+	}
+
+	@Override
+	public void loescheProduktByProduktID(int produkt_id) {
+		Session session = factory.openSession();
+		Transaction tx = null;
+
 		try {
-			loadCategoryByIdStmt.setInt(1, Integer.parseInt(categoryID));
-			ResultSet result = loadCategoryByIdStmt.executeQuery();
-			if (!result.next()){
-				System.out.println("DBProduktDAO: getCategoryByCategoryID: Keine Kategorie gefunden!");
-				return null;
-			}
-			
-			
-			String cName = result.getString("NAME");
-		    String cDescr = result.getString("DESCRIPTION");
-
-			try {
-				int cID = Integer.parseInt(result.getString("CATEGORYID"));
-			
-				return new Category(cID, cName, cDescr);
-				
-			} catch (NumberFormatException e) {
-				System.out.println("DBProduktDao: getCategoryByCategoryID: Error beim Parsen des Strings in der DB in int wert");
-				return null;
-			}catch(Exception e){
-				System.out.println("DBProduktDao: getCategoryByCategoryID: Error beim Parsen: "+e.getMessage());
-				return null;
-			}	
-			
-
-		} catch (Exception e) {
-			System.out.println("DBProduktDAO: getCategoryByCategoryID: Error");
-			return null;
+			tx = session.beginTransaction();
+			Produkt produkt = getProduktByProduktID(produkt_id);
+			session.delete(produkt);
+			tx.commit();
+		} catch (HibernateException e) {
+			if (tx != null)
+				tx.rollback();
+			e.printStackTrace();
+		} finally {
+			session.close();
 		}
-	}
-	
-	/**
-	 * 
-	 * delete product from DB
-	 */
-	@Override
-	public boolean loescheProduktByProdID(String prodID) {
-		if(prodID.equals(""))
-			return false; //no product with this ID
-		
-		try{
-			deleteProdStmt.setString(1, prodID);
-			deleteProdStmt.executeUpdate();
-		}catch(SQLException e){
-			System.out.println("DBProduktDAO: LoescheProduktByProdID: "+e.getMessage());
-			return false;
-		}
-		return true;
-	}
-	
-	/**
-	 * 
-	 * delete product from DB
-	 */
-	@Override
-	public boolean loescheCategoryByCategoryID(String catID) {
-		if(catID.equals(""))
-			return false; //no product with this ID
-		
-		try{
-			deleteCatStmt.setString(1, catID);
-			deleteCatStmt.executeUpdate();
-		}catch(SQLException e){
-			System.out.println("DBProduktDAO: LoescheCategoryByCategoryID: "+e.getMessage());
-			return false;
-		}
-		return true;
 	}
 
 }

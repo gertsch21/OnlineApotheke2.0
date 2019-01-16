@@ -3,279 +3,194 @@
  */
 package dao;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Timestamp;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
+import org.hibernate.HibernateException;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
+import org.hibernate.cfg.Configuration;
+
 import model.Benutzer;
-import model.Bestellung;
-import model.Position;
+import model.Einkaufswagen;
+import model.Item;
+import model.Produkt;
 
 /**
  * @author Gerhard
  *
  */
 public class DBBestellungDAO implements BestellungDAO {
-	//Daten für DB Verbindung
-	private final String dbUrl = "jdbc:postgresql:gerhardscloud.ddns.net:5432:online_apotheke_db";
-	private final String user = "postgres";
-	private final String pwd = "bullet2111";
-	
-	//Statements um Daten aus db zu holen(über SQL)
-	private PreparedStatement savePositionStmt;
-	private PreparedStatement saveBestellungStmt;
-	
-	private PreparedStatement loadPositionStmt;
-	private PreparedStatement loadBestellungStmt;
-	private PreparedStatement loadAllPositionStmtB;
-	private PreparedStatement loadAllBestellungenStmt;
-	
-	private PreparedStatement deletePositionStmt;
-	private PreparedStatement deleteBestellungStmt;
+	private static SessionFactory factory;
 
 	public DBBestellungDAO() {
 		try {
-			Class.forName("org.postgresql.Driver");
-			Connection con = DriverManager.getConnection(dbUrl, user, pwd);
-			
-			savePositionStmt = con
-					.prepareStatement("INSERT INTO ISE_ITEM(orderID,itemID,quantity,totalPrice,productID) VALUES(?,?,?,?,?)");
-			saveBestellungStmt = con
-					.prepareStatement("INSERT INTO ISE_ShoppingCart(orderID,orderDate,totalPrice,usrID) VALUES (?, TO_DATE(?, 'mm/dd/yyyy'), ?, ?)");
-			
-			loadPositionStmt = con.prepareStatement("SELECT * FROM ISE_Item WHERE orderID=? AND itemID=?");
-			loadBestellungStmt = con.prepareStatement("SELECT * FROM ISE_ShoppingCart WHERE orderID=?");
-			loadAllPositionStmtB = con.prepareStatement("SELECT * FROM ISE_ITEM WHERE orderID=?");
-			loadAllBestellungenStmt = con.prepareStatement("SELECT * FROM ISE_ShoppingCart");
-			
-			deletePositionStmt = con.prepareStatement("DELETE FROM ISE_ITEM WHERE itemID=? AND orderID=?");
-			deleteBestellungStmt = con.prepareStatement("DELETE FROM ISE_ShoppingCart WHERE orderID=?");			
-		} catch (Exception e) {
+			factory = new Configuration().configure().
+			// addPackage("com.xyz") //add package if used.
+					buildSessionFactory();
+		} catch (Throwable ex) {
+			System.err.println("DBBestellungDAO:Failed to create sessionFactory object." + ex);
+			throw new ExceptionInInitializerError(ex);
+		}
+	}
+
+	@Override
+	public void closeConnection() {
+		factory.close();
+	}
+	
+	@Override
+	public boolean speichereItem(Item i) {
+		Session session = factory.openSession();
+		Transaction tx = null;
+		Long itemID = null;
+
+		try {
+			tx = session.beginTransaction();
+			itemID = (Long) session.save(i);
+			tx.commit();
+
+		} catch (HibernateException e) {
+			if (tx != null)
+				tx.rollback();
 			e.printStackTrace();
-			System.out.println("Verbindungsaufbau zur DB nicht möglich!! ("+e.getMessage()+")");
+		} finally {
+			session.close();
 		}
-	}
-	
-	/* (non-Javadoc)
-	 * @see dao.BestellungDAO#speicherePosition(model.Position)
-	 */
-	@Override
-	public boolean speicherePosition(Position p) {
-		if(getPositionByID(p.getPositionsNr(), p.getorderID()) == null) { //Position noch nicht vorhanden
-			try {
-				System.out.println("DBBestellungDAO: speicherePosition: " + p.getorderID() + ", " + p.getPositionsNr());
-	
-				savePositionStmt.setString(1, p.getorderID());
-				savePositionStmt.setInt(2, p.getPositionsNr());
-				savePositionStmt.setInt(3, p.getMenge());
-				savePositionStmt.setDouble(4, p.getGesamtpreis());
-				savePositionStmt.setInt(5, p.getProduktID());			
-				
-				savePositionStmt.executeUpdate();
-				return true;
-			}catch(NullPointerException e){
-				System.out.println("DBBestellungDAO: speicherePosition: Übergebene Position (Parameter) ist null!!! ("+e.getMessage()+")");
-				return false;
-			}catch (Exception e) {
-				System.out.println("DBBestellungDAO: speicherePosition: Fehler beim einfuegen der Position ("+e.getMessage()+")!!!");
-				return false;
-			}
-		}
-		System.out.println("DBBestellungDAO: speicherePosition: Fehler beim speichern der Position (evtl. bereits vorhanden)!");
+		if (itemID != null)
+			return true;
 		return false;
 	}
 
-	/* (non-Javadoc)
-	 * @see dao.BestellungDAO#speichereBestellung(model.Bestellung)
-	 */
 	@Override
-	public boolean speichereBestellung(Bestellung b) {
-		if(getBestellungByID(b.getOrderID()) == null) { //Bestellung nicht vorhanden
-			try {
-				System.out.println("DBBestellungDAO: speichereBestellung: " + b.getOrderID());
-	
-				saveBestellungStmt.setString(1, b.getOrderID());
-				saveBestellungStmt.setString(2, b.getOrderDate());
-				saveBestellungStmt.setDouble(3, b.getGesamtpreis());
-				saveBestellungStmt.setInt(4, b.getBenuterID());		
-				
-				saveBestellungStmt.executeUpdate();
-				return true;
-			}catch(NullPointerException e){
-				System.out.println("DBBestellungDAO: speichereBestellung: Übergebene Bestellung (Parameter) ist null!!! ("+e.getMessage()+")");
-				return false;
-			}catch (Exception e) {
-				System.out.println("DBBestellungDAO: speichereBestellung: Fehler beim einfuegen der Bestellung ("+e.getMessage()+")!!!");
-				return false;
-			}
+	public boolean speichereEinkaufswagen(Einkaufswagen e) {
+		Session session = factory.openSession();
+		Transaction tx = null;
+		Long einkaufswagenID = null;
+
+		try {
+			tx = session.beginTransaction();
+			einkaufswagenID = (Long) session.save(e);
+			tx.commit();
+
+		} catch (HibernateException ex) {
+			if (tx != null)
+				tx.rollback();
+			ex.printStackTrace();
+		} finally {
+			session.close();
 		}
-		System.out.println("DBBestellungDAO: speichereBestellung: Fehler beim speichern der Bestellung - Bestellung evtl bereits vorhanden!");
+		if (einkaufswagenID != null)
+			return true;
 		return false;
 	}
 
-	/* (non-Javadoc)
-	 * @see dao.BestellungDAO#getPositionListbyBestellung(java.lang.String)
-	 */
 	@Override
-	public List<Position> getPositionListbyBestellung(String oID) {
-		List<Position> liste = new ArrayList<Position>();
+	public List<Item> getItemListbyEinkaufswagen(int einkaufswagen_id) {
+		Einkaufswagen einkaufswagen = getEinkaufswagenByID(einkaufswagen_id);
+		if (einkaufswagen != null)
+			return new ArrayList<Item>(einkaufswagen.getItems());
+		return new ArrayList<Item>();
+
+	}
+
+	@Override
+	public List<Einkaufswagen> getEinkaufswagenList() {
+		Session session = factory.openSession();
+		Transaction tx = null;
+		List<Einkaufswagen> liste = new ArrayList<Einkaufswagen>();
 		try {
-			loadAllPositionStmtB.setString(1, oID);
-			ResultSet result = loadAllPositionStmtB.executeQuery();
-			int anzPos = 0;
-			
-			while(result.next()){
-				String orID = result.getString("orderID");
-				int posNr = result.getInt("itemID");
-				int menge = result.getInt("quantity");
-				double gesamtpreis = result.getDouble("totalPrice");
-				int prID = result.getInt("productID");
-
-				liste.add(new Position(orID, posNr, menge, gesamtpreis, prID));
-				anzPos++;
+			tx = session.beginTransaction();
+			List einkaufswagenliste = session.createQuery("FROM Einkaufswagen").list();
+			for (Iterator iterator = einkaufswagenliste.iterator(); iterator.hasNext();) {
+				liste.add((Einkaufswagen) iterator.next());
 			}
-			
-			System.out.println("DBBestellungDAO: getPositionListbyBestellung: Anzahl Positionen: " + anzPos);
-			return liste;
-		} catch (Exception e) {
-			System.out.println("DBBestellungDAO: getPositionListbyBestellung: Error ("+e.getMessage()+")!");
-			return null;
+
+			tx.commit();
+		} catch (HibernateException e) {
+			if (tx != null)
+				tx.rollback();
+			e.printStackTrace();
+		} finally {
+			session.close();
 		}
+		return liste;
+
 	}
 
-	/* (non-Javadoc)
-	 * @see dao.BestellungDAO#getBestellungList()
-	 */
 	@Override
-	public List<Bestellung> getBestellungList() {
-		List<Bestellung> liste = new ArrayList<Bestellung>();
+	public Item getItemByID(int item_id, int einkaufswagen_id) {
+		Einkaufswagen e = getEinkaufswagenByID(einkaufswagen_id);
+		if (e == null)
+			return null;
+		for (Item i : e.getItems())
+			if (i.getItem_id() == item_id)
+				return i;
+		return null;
+	}
+
+	@Override
+	public Einkaufswagen getEinkaufswagenByID(int einkaufswagen_id) {
+		Session session = factory.openSession();
+		Transaction tx = null;
+		Einkaufswagen einkaufswagen = null;
 		try {
-			ResultSet result = loadAllBestellungenStmt.executeQuery();
-			int anzBestellungen = 0;
-			
-			while(result.next()){
-				String orID = result.getString("orderID");
-				String date = result.getString("orderDate");
-				double gesamtpreis = result.getDouble("totalPrice");
-				int pID = result.getInt("usrID");
+			tx = session.beginTransaction();
 
-				liste.add(new Bestellung(orID, date, gesamtpreis, pID));
-				anzBestellungen++;
-			}
-			
-			System.out.println("DBBestellungDAO: getBestellungList: Anzahl Bestellungen: " + anzBestellungen);
-			return liste;
-		} catch (Exception e) {
-			System.out.println("DBBestellungDAO: getBestellungList: Error ("+e.getMessage()+")!");
-			return null;
+			einkaufswagen = (Einkaufswagen) session.get(Einkaufswagen.class, einkaufswagen_id);
+			tx.commit();
+		} catch (HibernateException e) {
+			if (tx != null)
+				tx.rollback();
+			e.printStackTrace();
+		} finally {
+			session.close();
 		}
+		return einkaufswagen;
 	}
 
-	/* (non-Javadoc)
-	 * @see dao.BestellungDAO#getPositionByID(int, java.lang.String)
-	 */
 	@Override
-	public Position getPositionByID(int pID, String oID) {
+	public void loescheItem(int item_id, int einkaufswagen_id) {
+		Item item = getItemByID(item_id, einkaufswagen_id);
+		if(item ==null ) return;
+		Session session = factory.openSession();
+		Transaction tx = null;
+
 		try {
-			loadPositionStmt.setString(1, oID);
-			loadPositionStmt.setInt(2, pID);
+			tx = session.beginTransaction();
 			
-			ResultSet result = loadPositionStmt.executeQuery();
-			
-			if (!result.next()){
-				System.out.println("DBBestellungDAO: getPositionByID: Keine Position gefunden!");
-				return null;
-			}
-			
-			String orID = result.getString("orderID");
-			int posNr = result.getInt("itemID");
-			int menge = result.getInt("quantity");
-			double gesamtpreis = result.getDouble("totalPrice");
-			int prID = result.getInt("productID");
-
-			return new Position(orID, posNr, menge, gesamtpreis, prID);
-		} catch (Exception e) {
-			System.out.println("DBBestellungDAO: getPositionByID: Fehler ("+e.getMessage()+")!");
-			return null;
+			System.out.println("drinnen: " + item);
+			session.delete(item);
+			session.getTransaction().commit();
+		} catch (HibernateException e) {
+			if (tx != null)
+				tx.rollback();
+			e.printStackTrace();
+		} finally {
+			session.close();
 		}
 	}
 
-	/* (non-Javadoc)
-	 * @see dao.BestellungDAO#getBestellungByID(java.lang.String)
-	 */
 	@Override
-	public Bestellung getBestellungByID(String oID) {
+	public void loescheEinkaufswagen(int einkaufswagen_id) {
+		Session session = factory.openSession();
+		Transaction tx = null;
+
 		try {
-			loadBestellungStmt.setString(1, oID);
-			ResultSet result = loadBestellungStmt.executeQuery();
+			tx = session.beginTransaction();
+			Einkaufswagen ein = getEinkaufswagenByID(einkaufswagen_id);
 			
-			if (!result.next()){
-				System.out.println("DBBestellungDAO: getBestellungByID: Keine Bestellung gefunden!");
-				return null;
-			}
-			
-			String orID = result.getString("orderID");
-			///String date = result.getString("orderDate");
-			
-			SimpleDateFormat format = new SimpleDateFormat("MM/dd/yyyy");
-			Timestamp timestamp = result.getTimestamp("orderDate");
-			String date = format.format(timestamp);
-			
-			double gesamtpreis = result.getDouble("totalPrice");
-			int pID = result.getInt("usrID");
-
-			return new Bestellung(orID, date, gesamtpreis, pID);
-		} catch (Exception e) {
-			System.out.println("DBBestellungDAO: getBestellungByID: Fehler ("+e.getMessage()+")!");
-			return null;
+			session.delete(ein);
+			tx.commit();
+		} catch (HibernateException e) {
+			if (tx != null)
+				tx.rollback();
+			e.printStackTrace();
+		} finally {
+			session.close();
 		}
 	}
 
-	/* (non-Javadoc)
-	 * @see dao.BestellungDAO#loeschePosition(int, java.lang.String)
-	 */
-	@Override
-	public boolean loeschePosition(int pID, String oID) {
-		if(oID.equals("") || getPositionByID(pID,oID) == null)
-			return false;
-		try{
-			deletePositionStmt.setInt(1, pID);
-			deletePositionStmt.setString(2, oID);
-			deletePositionStmt.executeUpdate();
-		}catch(SQLException e){
-			System.out.println("DBBenutzerDAO: LoeschePosition: "+e.getMessage());
-			return false;
-		}
-		return true;
-	}
-
-	/* (non-Javadoc)
-	 * @see dao.BestellungDAO#loescheBestellung(java.lang.String)
-	 */
-	@Override
-	public boolean loescheBestellung(String oID) {
-		if(oID.equals("") || getBestellungByID(oID) == null)
-			return false;
-		try{
-			List<Position> list = getPositionListbyBestellung(oID);
-			if(!list.isEmpty()){
-				for(int i=0; i<list.size(); i++){
-					int pos = list.get(i).getPositionsNr();
-					loeschePosition(pos,oID);
-				}
-			}
-			deleteBestellungStmt.setString(1, oID);
-			deleteBestellungStmt.executeUpdate();
-		}catch(SQLException e){
-			System.out.println("DBBenutzerDAO: LoeschePosition: "+e.getMessage());
-			return false;
-		}
-		return true;
-	}
 }

@@ -4,6 +4,8 @@ import java.io.Serializable;
 import java.sql.Date;
 
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -13,11 +15,13 @@ import javax.persistence.Table;
 @Table(name = "reklamation")
 public class Reklamation implements Serializable{
 	@Id
+	@GeneratedValue(strategy=GenerationType.AUTO)
 	private int reklamation_id;
 	@Id
 	private int kunden_id;
 	private String kurzbeschreibung;
 	private Date erstelldatum;
+	
 	
 	@ManyToOne
 	@JoinColumn(name="kunden_id", nullable=false)
@@ -28,9 +32,18 @@ public class Reklamation implements Serializable{
 	private Produkt zuBeschwerendesProdukt;
 
 	
+	public Reklamation() {}
 	
 	
-	
+	public Reklamation(int kunden_id, String kurzbeschreibung, Date erstelldatum, Kunde kritiker, Produkt zuBeschwerendesProdukt) {
+		super();
+		this.kunden_id = kunden_id;
+		this.kurzbeschreibung = kurzbeschreibung;
+		this.erstelldatum = erstelldatum;
+		this.kritiker = kritiker;
+		this.zuBeschwerendesProdukt = zuBeschwerendesProdukt;
+	}
+
 	@Override
 	public String toString() {
 		return "Reklamation [reklamation_id=" + reklamation_id + ", kunden_id=" + kunden_id + ", kurzbeschreibung="

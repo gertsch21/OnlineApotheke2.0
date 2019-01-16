@@ -16,7 +16,7 @@ public class Spezielle_salbe extends Produkt {
 	private Date erstelldatum;
 
 	@ManyToOne
-	@JoinColumn(name="kaeufer_id", nullable=false)
+	@JoinColumn(name="kaeufer_id", nullable=true)
 	private Kunde kaeufer;
 
 	@ManyToMany(fetch = FetchType.EAGER, cascade = { CascadeType.ALL })
@@ -24,14 +24,30 @@ public class Spezielle_salbe extends Produkt {
 			@JoinColumn(name = "salben_id") }, inverseJoinColumns = { @JoinColumn(name = "inhaltsstoff_id") })
 	private Set<Inhaltsstoff> enthaltene_inhaltsstoffe;
 
+	
 	public Spezielle_salbe() {
 		super();
 	}
+	
+	public Spezielle_salbe(String name, double preis, String anmerkung, double volumen, String zusatzinformationen, Date erstelldatum,
+			Set<Inhaltsstoff> enthaltene_inhaltsstoffe) {
+		super(name, preis, anmerkung);
+		this.volumen = volumen;
+		this.zusatzinformationen = zusatzinformationen;
+		this.erstelldatum = erstelldatum;
+		this.enthaltene_inhaltsstoffe = enthaltene_inhaltsstoffe;
+		this.kaeufer=null;
+	}
+
+
 
 	@Override
 	public String toString() {
 		return "Spezielle_salbe [volumen=" + volumen + ", zusatzinformationen=" + zusatzinformationen
-				+ ", erstelldatum=" + erstelldatum + ", enthaltene_inhaltsstoffe=" + enthaltene_inhaltsstoffe + ", Reklamationen: " + this.getReklamationen()+"]";
+				+ ", erstelldatum=" + erstelldatum + ", enthaltene_inhaltsstoffe=" + enthaltene_inhaltsstoffe + ", toString()=" + ", getProdukt_id()=" + getProdukt_id() + ", getName()="
+						+ getName() + ", getPreis()=" + getPreis() + ", getAnmerkung()=" + getAnmerkung()  
+						+ ", getReklamationen()=" + getReklamationen() + ", getClass()=" + getClass()
+						+ ", hashCode()=" + hashCode() + "]";
 	}
 
 	public Kunde getKaeufer() {

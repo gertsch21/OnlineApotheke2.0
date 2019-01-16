@@ -1,10 +1,13 @@
 package model;
 
+import java.util.HashSet;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
@@ -16,6 +19,7 @@ import javax.persistence.Table;
 @Inheritance(strategy = InheritanceType.JOINED)
 public class Produkt {
 	@Id
+	@GeneratedValue(strategy=GenerationType.AUTO)
 	private long produkt_id;
 	private String name;
 	private double preis;
@@ -28,6 +32,17 @@ public class Produkt {
 	private Set<Reklamation> reklamationen;
 	
 	
+	public Produkt() {}
+	public Produkt(String name, double preis, String anmerkung) {
+		super();
+		this.name = name;
+		this.preis = preis;
+		this.anmerkung = anmerkung;
+		this.items = new HashSet<Item>();
+		this.reklamationen = new HashSet<Reklamation>();
+	}
+
+
 	@Override
 	public String toString() {
 		return "Produkt [produkt_id=" + produkt_id + ", name=" + name + ", preis=" + preis + ", anmerkung=" + anmerkung

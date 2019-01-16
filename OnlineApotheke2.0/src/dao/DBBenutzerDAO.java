@@ -3,11 +3,6 @@
  */
 package dao;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -41,11 +36,42 @@ public class DBBenutzerDAO implements BenutzerDAO {
 			// addPackage("com.xyz") //add package if used.
 					buildSessionFactory();
 		} catch (Throwable ex) {
-			System.err.println("Failed to create sessionFactory object." + ex);
+			System.err.println("DBBenutzerDAO: Failed to create sessionFactory object." + ex);
 			throw new ExceptionInInitializerError(ex);
 		}
 	}
 
+	@Override
+	public void closeConnection() {
+		factory.close();
+	}
+	
+	
+	@Override
+	public boolean reklamationErstellen(Reklamation r) {
+		Session session = factory.openSession();
+		Transaction tx = null;
+		Integer reklamation_id = null;
+
+		try {
+			tx = session.beginTransaction();
+			reklamation_id = (Integer) session.save(r);
+			tx.commit();
+
+		} catch (HibernateException e) {
+			if (tx != null)
+				tx.rollback();
+			e.printStackTrace();
+		} finally {
+			session.close();
+
+		}
+		if (reklamation_id != null)
+			return true;
+		return false;
+	}
+	
+	
 	@Override
 	public boolean speichereKunde(Kunde k) {
 		Session session = factory.openSession();
@@ -62,6 +88,7 @@ public class DBBenutzerDAO implements BenutzerDAO {
 				tx.rollback();
 			e.printStackTrace();
 		} finally {
+			session.close();
 
 		}
 		if (kundeID != null)
@@ -84,6 +111,7 @@ public class DBBenutzerDAO implements BenutzerDAO {
 				tx.rollback();
 			e.printStackTrace();
 		} finally {
+			session.close();
 
 		}
 		if (mitarbeiterID != null)
@@ -101,7 +129,7 @@ public class DBBenutzerDAO implements BenutzerDAO {
 			tx = session.beginTransaction();
 			List benutzerliste = session.createQuery("FROM Benutzer").list();
 			for (Iterator iterator = benutzerliste.iterator(); iterator.hasNext();) {
-				liste.add((Mitarbeiter) iterator.next());
+				liste.add((Benutzer) iterator.next());
 			}
 
 			tx.commit();
@@ -110,6 +138,7 @@ public class DBBenutzerDAO implements BenutzerDAO {
 				tx.rollback();
 			e.printStackTrace();
 		} finally {
+			session.close();
 
 		}
 		return liste;
@@ -133,10 +162,10 @@ public class DBBenutzerDAO implements BenutzerDAO {
 				tx.rollback();
 			e.printStackTrace();
 		} finally {
+			session.close();
 
 		}
 		return liste;
-
 	}
 
 	@Override
@@ -174,7 +203,7 @@ public class DBBenutzerDAO implements BenutzerDAO {
 	@Override
 	public Kunde getKundeByUsername(String benutzername) {
 		for (Kunde x : getKundenList()) {
-			if (x.getBenutzername() == benutzername)
+			if (x.getBenutzername().equals(benutzername))
 				return x;
 		}
 		return null;
@@ -183,7 +212,7 @@ public class DBBenutzerDAO implements BenutzerDAO {
 	@Override
 	public Mitarbeiter getMitarbeiterByUsername(String benutzername) {
 		for (Mitarbeiter x : getMitarbeiterList()) {
-			if (x.getBenutzername() == benutzername)
+			if (x.getBenutzername().equals(benutzername))
 				return x;
 		}
 		return null;
@@ -191,13 +220,15 @@ public class DBBenutzerDAO implements BenutzerDAO {
 
 	@Override
 	public void loescheKundeByUname(String benutzername) {
+		Kunde kunde = getKundeByUsername(benutzername);
+		if(kunde == null) return;
 		Session session = factory.openSession();
 		Transaction tx = null;
-		
+
 		try {
 			tx = session.beginTransaction();
-			Mitarbeiter employee = getMitarbeiterByUsername(benutzername);
-			session.delete(employee);
+			
+			session.delete(kunde);
 			tx.commit();
 		} catch (HibernateException e) {
 			if (tx != null)
@@ -210,12 +241,13 @@ public class DBBenutzerDAO implements BenutzerDAO {
 
 	@Override
 	public void loescheMitarbeiterByUname(String benutzername) {
+		Mitarbeiter employee = getMitarbeiterByUsername(benutzername);
+		if(employee == null) return;
 		Session session = factory.openSession();
 		Transaction tx = null;
-		
+
 		try {
 			tx = session.beginTransaction();
-			Mitarbeiter employee = getMitarbeiterByUsername(benutzername);
 			session.delete(employee);
 			tx.commit();
 		} catch (HibernateException e) {
@@ -228,4 +260,6 @@ public class DBBenutzerDAO implements BenutzerDAO {
 
 	}
 
-	}
+
+
+}
