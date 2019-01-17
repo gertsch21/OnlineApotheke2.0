@@ -142,7 +142,7 @@
 <!-------- Footer -------->		
 		<div class="row"> 
 			<div class="col-md-12">
-				<br/>&copy; Apotheke Online 2016
+				<br/>&copy; Apotheke Online 2019
 			</div>
 		</div> <!-- Ende Footer -->
 	</div>
