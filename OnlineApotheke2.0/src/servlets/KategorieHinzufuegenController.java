@@ -9,7 +9,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import management.Benutzerverwaltung;
+import management.Benutzermanagement;
 import management.Produktmanagement;
 
 /**

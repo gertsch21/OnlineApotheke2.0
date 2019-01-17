@@ -4,6 +4,8 @@
 package dao;
 
 import java.util.List;
+import java.util.Set;
+
 import model.*;
 
 /**
@@ -19,7 +21,8 @@ public interface BestellungDAO {
 	public boolean speichereItem(Item i);
 	public boolean speichereEinkaufswagen(Einkaufswagen e);
 	
-	public List<Item> getItemListbyEinkaufswagen(int einkaufswagen_id);
+	public Set<Item> getAllItems();
+	public Set<Item> getItemListbyEinkaufswagen(int einkaufswagen_id);
 	public List<Einkaufswagen> getEinkaufswagenList();
 	public Item getItemByID(int item_id, int einkaufswagen_id);
 	public Einkaufswagen getEinkaufswagenByID(int einkaufswagen_id);

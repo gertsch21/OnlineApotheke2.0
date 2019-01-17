@@ -17,7 +17,7 @@ import javax.servlet.http.HttpSession;
 
 import org.apache.jasper.tagplugins.jstl.core.Out;
 
-import management.Benutzerverwaltung;
+import management.Benutzermanagement;
 import management.Produktmanagement;
 import model.Produkt_mit_annotation;
 

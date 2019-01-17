@@ -9,7 +9,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import management.Benutzerverwaltung;
+import management.Benutzermanagement;
 
 /**
  * Servlet implementation class MitarbeiterRegistrierController
@@ -44,7 +44,7 @@ public class MitarbeiterRegistrierController extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		Benutzerverwaltung benver = Benutzerverwaltung.getInstance();
+		Benutzermanagement benver = Benutzermanagement.getInstance();
 		
 		//Hier wird geprüft, ob einfach nur auf das JSP zugegriffen wird und dies Authorisiert erfolgt
 		if(request.getParameter("regBest")!=null){

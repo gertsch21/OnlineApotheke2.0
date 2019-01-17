@@ -16,6 +16,7 @@ public interface ProduktDAO {
 	
 	public boolean speichereProdukt(Produkt p);
 	
+	
 	public List<Produkt> getProduktListe();
 	public List<Spezielle_salbe> getSpezielleSalbenListe();
 	public List<ZugekauftesProdukt> getZugekauftesProduktListe();

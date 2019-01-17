@@ -4,8 +4,10 @@
 package dao;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
@@ -88,11 +90,11 @@ public class DBBestellungDAO implements BestellungDAO {
 	}
 
 	@Override
-	public List<Item> getItemListbyEinkaufswagen(int einkaufswagen_id) {
+	public Set<Item> getItemListbyEinkaufswagen(int einkaufswagen_id) {
 		Einkaufswagen einkaufswagen = getEinkaufswagenByID(einkaufswagen_id);
 		if (einkaufswagen != null)
-			return new ArrayList<Item>(einkaufswagen.getItems());
-		return new ArrayList<Item>();
+			return (einkaufswagen.getItems());
+		return new HashSet<Item>();
 
 	}
 
@@ -117,7 +119,6 @@ public class DBBestellungDAO implements BestellungDAO {
 			session.close();
 		}
 		return liste;
-
 	}
 
 	@Override
@@ -191,6 +192,29 @@ public class DBBestellungDAO implements BestellungDAO {
 		} finally {
 			session.close();
 		}
+	}
+
+	@Override
+	public Set<Item> getAllItems() {
+		Session session = factory.openSession();
+		Transaction tx = null;
+		List<Item> liste = new ArrayList<Item>();
+		try {
+			tx = session.beginTransaction();
+			List itemliste = session.createQuery("FROM Item").list();
+			for (Iterator iterator = itemliste.iterator(); iterator.hasNext();) {
+				liste.add((Item) iterator.next());
+			}
+
+			tx.commit();
+		} catch (HibernateException e) {
+			if (tx != null)
+				tx.rollback();
+			e.printStackTrace();
+		} finally {
+			session.close();
+		}
+		return new HashSet<Item>(liste);
 	}
 
 }

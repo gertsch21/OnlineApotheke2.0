@@ -1,41 +1,25 @@
+import java.util.List;
 
-import dao.BenutzerDAO;
-import dao.BestellungDAO;
-import dao.DBBenutzerDAO;
-import dao.DBBestellungDAO;
-import dao.DBProduktDAO;
-import dao.ProduktDAO;
-import model.Benutzer;
-import model.Einkaufswagen;
+import management.Benutzermanagement;
+import management.Produktmanagement;
 
 public class HibernateTest {
 
 	public static void main(String[] args) {
 
-		BenutzerDAO benutzer_dao = new DBBenutzerDAO();
-		ProduktDAO produkt_dao = new DBProduktDAO();
-		BestellungDAO bestell_dao = new DBBestellungDAO();
+		Benutzermanagement benman = Benutzermanagement.getInstance();
+		Produktmanagement prodman = Produktmanagement.getInstance();
 		
+		printList(benman.getAlleBenutzer());
+		printList(prodman.getAlleProdukt());
+		prodman.ZugekauftesProduktAnlegen("neues Produkt", 1000, "meine Anmerkung", 10, "Gerhards GesmBH", "Wrikstoff", "wirkungsweise", "anwendung");
+		printList(prodman.getAlleProdukt());
 		
-		for (Benutzer i : benutzer_dao.getBenutzerList())
-			System.out.println(i);
-		
-		for(Einkaufswagen i : bestell_dao.getEinkaufswagenList())
-			System.out.println(i);
-
-		System.out.println(bestell_dao.getItemByID(1, 1));
-		bestell_dao.loescheItem(1, 1);
-		System.out.println("nach: " +bestell_dao.getItemByID(1, 1));
-		benutzer_dao.loescheKundeByUname("gertsch");
-		benutzer_dao.loescheMitarbeiterByUname("gertsch");
-		
-		
-		for (Benutzer i : benutzer_dao.getBenutzerList())
-			System.out.println(i);
-		
-
-	
 	}
 
-	
+	public static void printList(List liste) {
+		for (Object o : liste)
+			System.out.println(o);
+	}
+
 }

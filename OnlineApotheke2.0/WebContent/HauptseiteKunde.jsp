@@ -1,13 +1,13 @@
-<%@page import="management.Benutzerverwaltung"%>
+<%@page import="management.Benutzermanagement"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 
 
 <%
 	if (session.getAttribute("username") == null
-			|| session.getAttribute("username").equals("null")) {
+	|| session.getAttribute("username").equals("null")) {
 		System.out
-				.println("HauptseiteMitarbeiter: nicht eingeloggt -> Login");
+		.println("HauptseiteMitarbeiter: nicht eingeloggt -> Login");
 		response.sendRedirect("Login.jsp");
 	}
 %>
@@ -47,14 +47,18 @@
 					<h3>Herzlich Willkommen <%=session.getAttribute("username")%>!</h3> <!-- wenn null, dann darf man sowieso nicht auf die Hauptseite zugreifen -->
 
 <%
-	if(session.getAttribute("message")!=null){ %>
-		<h2>Neue Meldung: <%=session.getAttribute("message") %></h2>
-<% 		request.getSession().setAttribute("message", null);
+	if(session.getAttribute("message")!=null){
+%>
+		<h2>Neue Meldung: <%=session.getAttribute("message")%></h2>
+<%
+	request.getSession().setAttribute("message", null);
 	} 
-	if(request.getSession().getAttribute("fehler")!=null){ %> 
+	if(request.getSession().getAttribute("fehler")!=null){
+%> 
 		<h2>Achtung Fehler aufgetreten: <%=request.getSession().getAttribute("fehler")%></h2>
-<% 		request.getSession().setAttribute("fehler", null);
-	} 
+<%
+	request.getSession().setAttribute("fehler", null);
+	}
 %>
 					<!-- Suchfeld -->
 					<div class="col-md-10">
@@ -104,9 +108,10 @@
 		</div> <!-- Ende Container Hauptbereich -->
 
 		
-	<%Benutzerverwaltung a = Benutzerverwaltung.getInstance();
-	if(a.getEmployeeByUname((String)session.getAttribute("username"))!=null){
-	%>
+	<%
+				Benutzermanagement a = Benutzermanagement.getInstance();
+				if(a.getEmployeeByUname((String)session.getAttribute("username"))!=null){
+			%>
 	
     	</div>
     		<form action="Produktverwaltungscontroller" method="POST">

@@ -9,7 +9,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import management.Benutzerverwaltung;
+import management.Benutzermanagement;
 import management.Produktmanagement;
 import model.Benutzer;
 import model.Produkt_mit_annotation;

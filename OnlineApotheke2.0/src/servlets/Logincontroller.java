@@ -9,7 +9,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import management.Benutzerverwaltung;
+import management.Benutzermanagement;
 import model.Kunde;
 import model.Mitarbeiter;
 
@@ -45,7 +45,7 @@ public class Logincontroller extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		Benutzerverwaltung benver = Benutzerverwaltung.getInstance();
+		Benutzermanagement benver = Benutzermanagement.getInstance();
 		String username = request.getParameter("username"); 
 		String password = request.getParameter("password");
 		System.out.println("LoginController: Pruefe Login: '"+username+"' mit PWD:'"+password+".");

@@ -15,7 +15,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import management.Produktmanagement;
-import management.Benutzerverwaltung;
+import management.Benutzermanagement;
 import management.Bestellungsmanagement;
 
 import model.*;
@@ -43,7 +43,7 @@ public class BestellController extends HttpServlet {
 		
 		Produktmanagement prodman = Produktmanagement.getInstance();
 		Bestellungsmanagement bestman = Bestellungsmanagement.getInstance();
-		Benutzerverwaltung benver = Benutzerverwaltung.getInstance();
+		Benutzermanagement benver = Benutzermanagement.getInstance();
 		
 		Map<String, Integer> cart = new HashMap<String, Integer>();
 

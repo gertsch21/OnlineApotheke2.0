@@ -9,7 +9,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import management.Benutzerverwaltung;
+import management.Benutzermanagement;
 import model.Benutzer;
 
 /**
@@ -42,7 +42,7 @@ public class Benutzerverwaltungscontroller extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		Benutzerverwaltung benver = Benutzerverwaltung.getInstance();
+		Benutzermanagement benver = Benutzermanagement.getInstance();
 
 		if(request.getParameter("zuLoeschen") != null){
 			benver.loescheKunden(request.getParameter("zuLoeschen"));

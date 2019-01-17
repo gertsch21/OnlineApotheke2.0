@@ -11,7 +11,7 @@ import model.Position;
 import java.util.List;
 
 /**
- * @author Katrin
+ * @author Gerhard
  *
  */
 public class Bestellungsmanagement {
