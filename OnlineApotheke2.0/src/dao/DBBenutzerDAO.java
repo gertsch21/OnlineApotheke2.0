@@ -194,7 +194,7 @@ public class DBBenutzerDAO implements BenutzerDAO {
 	@Override
 	public Benutzer getBenutzerByUName(String benutzername) {
 		for (Benutzer x : getBenutzerList()) {
-			if (x.getBenutzername() == benutzername)
+			if (x.getBenutzername().equals(benutzername))
 				return x;
 		}
 		return null;

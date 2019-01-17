@@ -21,7 +21,7 @@ public interface BenutzerDAO {
 	public void closeConnection();
 	
 	public boolean reklamationErstellen(Reklamation r);
-	
+
 	/**
 	 * Mit dieser Methode kann ein Kunde im System gespeichert werden.
 	 * @param k der zu speichernde Kunde
@@ -97,5 +97,7 @@ public interface BenutzerDAO {
 	 * @return true, falls der Vorgang erfolgreich war, ansonsten false
 	 */
 	public void loescheMitarbeiterByUname(String benutzername);		
+	
+	
 	
 }

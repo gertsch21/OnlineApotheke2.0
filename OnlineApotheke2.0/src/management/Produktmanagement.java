@@ -68,7 +68,7 @@ public class Produktmanagement {
 	public List<Produkt> getProduktByProduktName(String prodName) {
 		List<Produkt> returnListe = new ArrayList<Produkt>();
 		for(Produkt p : produkt_dao.getProduktListe())
-			if(p.getName().contains(prodName))
+			if(p.getName().toLowerCase().contains(prodName.toLowerCase()))
 				returnListe.add(p);
 		return returnListe;
 	}

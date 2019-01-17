@@ -34,6 +34,16 @@ public class Item implements Serializable{
 				+ ", produkt: " + produkt + "]";
 	}
 
+	
+	public Item() {}
+	public Item(int anzahl, Einkaufswagen einkaufswagen, Produkt produkt) {
+		super();
+		this.anzahl = anzahl;
+		this.einkaufswagen = einkaufswagen;
+		this.produkt = produkt;
+	}
+
+
 	public int getEinkaufswagen_id() {
 		return einkaufswagen_id;
 	}

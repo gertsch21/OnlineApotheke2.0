@@ -2,7 +2,6 @@ package servlets;
 
 import java.io.IOException;
 import java.text.DecimalFormat;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -15,11 +14,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import org.apache.jasper.tagplugins.jstl.core.Out;
-
-import management.Benutzermanagement;
 import management.Produktmanagement;
-import model.Produkt_mit_annotation;
+import model.Produkt;
 
 /**
  * Servlet implementation class ShopController
@@ -46,28 +42,38 @@ public class ShopController extends HttpServlet {
 		
 		HttpSession session = request.getSession(true);
 		
+		if (session.getAttribute("username") == null) {
+			response.sendRedirect(request.getContextPath() + "/Logincontroller");
+			response.setContentType("text/html");
+			return;
+		}
 		StringBuffer prodOut = new StringBuffer();
 		
 		Produktmanagement prodman = Produktmanagement.getInstance();
-		List<Produkt_mit_annotation> allProducts = prodman.getAlleProdukt();
 		
-		for(Produkt_mit_annotation product : allProducts) {
+		List<Produkt> produkte = null;
+		if(session.getAttribute("ausgewaehlteProdukte")==null)
+			produkte = prodman.getAlleProdukt();
+		else
+			produkte = (List<Produkt>) session.getAttribute("ausgewaehlteProdukte");
+		
+		for(Produkt product : produkte) {
 			prodOut.append("<div class=\"product\">"
 								+ "<div class=\"row\">"
 								+ "<div class=\"col-md-8\">"
-								+ "		<h2>" + product.getprodName() + "</h2>" 
-								+ "		<p class=\"description\">" + product.getprodDescription() + "</p>"
+								+ "		<h2>" + product.getName() + "</h2>" 
+								+ "		<p class=\"description\">" + product.getAnmerkung() + "</p>"
 								+ "</div>"
 								+ "<div class=\"col-md-4\" style=\"display: table; overflow: hidden;\">"
 								+ "		<div class=\"pricebox\">"
 								+ "			<div class=\"centered\">"
-								+ "			<p class=\"price\"> &nbsp; &nbsp; &nbsp;" + df.format(product.getprice()) + " &euro; </p>"
+								+ "			<p class=\"price\"> &nbsp; &nbsp; &nbsp;" + df.format(product.getPreis()) + " &euro; </p>"
 								
 			);
 			
 				prodOut.append("			<form action=\"ShopController\" method=\"POST\">"
 								+ "			<input class=\"btnAdd2Cart\" name=\"zumWarenkorb\" type=\"submit\" value=\"zum Warenkorb\"/>"
-								+ "			<input type=\"hidden\" name=\"product_id\" value=" + product.getprodID() + ">"
+								+ "			<input type=\"hidden\" name=\"product_id\" value=" + product.getProdukt_id() + ">"
 								+ "			</form>"
 								+ "			</div>"
 								+ "		</div>"
@@ -132,7 +138,7 @@ public class ShopController extends HttpServlet {
 	        	    	String keyValue = (String) pair.getKey();
 	        	        cartOut.append(""
 	        	        		+ "<tr>"
-	        	        		+ "<td>" + prodman.getProduktByProduktID(keyValue).getprodName() + "</td>"
+	        	        		+ "<td>" + prodman.getProduktByProduktID(Integer.parseInt(keyValue)).getName() + "</td>"
 	        	        		+ "<td>&nbsp; x &nbsp;</td>"
 	        	        		+ "<td>" + pair.getValue().toString() + "</td>"
 	        	        		+ "</tr>");

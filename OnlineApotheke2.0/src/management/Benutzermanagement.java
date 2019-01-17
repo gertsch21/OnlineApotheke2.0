@@ -94,7 +94,7 @@ public class Benutzermanagement {
 		return dao.getBenutzerByUName(uName);
 	}
 
-	public Kunde getCustomerByUname(String uName) {
+	public Kunde getKundeByUname(String uName) {
 		return dao.getKundeByUsername(uName);
 	}
 
@@ -119,5 +119,7 @@ public class Benutzermanagement {
 			return false;
 		}
 	}
+	
+	
 
 }

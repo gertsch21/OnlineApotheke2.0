@@ -34,8 +34,8 @@
 			<h2>Login</h2>
 			<p>
 
-				Kunde: (user:nessi | passwort:hallo)<br /> Mitarbeiter:
-				(user:gertsch21 | passwort:hallo)
+				Kunde: (user:user1 | passwort:test)<br /> Mitarbeiter:
+				(user:gertsch | passwort:test)
 			</p>
 <%
 				if (request.getSession().getAttribute("fehler") != null) {

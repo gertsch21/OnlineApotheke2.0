@@ -63,7 +63,7 @@
 					<!-- Suchfeld -->
 					<div class="col-md-10">
 						<form class="navbar-form navbar-left"
-							action="SucheProduktController" method="post">
+							action="ProduktsucheController" method="post">
 								<input class="form-control" name="suchwert" type="text" size="80" />
 								<input class="btnGreen" type="submit" value="Produkt suchen" />
 						</form>
