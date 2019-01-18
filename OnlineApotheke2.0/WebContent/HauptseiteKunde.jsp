@@ -84,8 +84,11 @@
 		<div class="container"> 
 			<div class="row">
 				 <div class="col-md-8"> <!-- Hauptspalte -->
-				 	<jsp:include page="Produktuebersicht.jsp" />
-				 	
+				 <!--  	<jsp:include page="Produktuebersicht.jsp" />-->
+				 
+<% 		
+	out.println(session.getAttribute("prodOut"));
+%>	
 				 </div> <!-- Ende Hauptspalte -->
 				 
 				 <!-------- Sidebar für Warenkorb -------->				 
