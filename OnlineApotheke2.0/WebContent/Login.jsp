@@ -37,7 +37,7 @@
 				Kunde: (user:user1 | passwort:test)<br /> Mitarbeiter:
 				(user:gertsch | passwort:test)
 			</p>
-<%
+			<%
 				if (request.getSession().getAttribute("fehler") != null) {
 			%>
 					<h2><%=request.getSession().getAttribute("fehler")%></h2>

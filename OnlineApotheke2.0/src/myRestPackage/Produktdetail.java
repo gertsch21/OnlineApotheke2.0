@@ -19,7 +19,7 @@ public class Produktdetail {
 		
 		Produkt p = proman.getProduktByProduktID(produktid);
 		
-		return "<Produkt><name>" + p + "</name></Produkt>";
+		return "<Produkt><name>" + p.getName() + "</name></Produkt>";
 		//return "<ctofservice>" + "<celsius>" + celsius + "</celsius>" + "<ctofoutput>" + result + "</ctofoutput>" + "</ctofservice>";
 	}
 }
