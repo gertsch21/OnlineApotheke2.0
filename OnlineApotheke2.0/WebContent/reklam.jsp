@@ -58,7 +58,7 @@
 		<div class="row">
 			<div class="col-lg-10">
 				<div class="container">
-					<form action="ReklamierenController" method="GET">
+					<form action="ReklamierenController" method="POST">
 						<div class="form-group">
 							<label for="inputProductName">Beschreibung</label>
 							<textarea type="text" name="descr" class="form-control" id="inputProductName" placeholder="Kurzbeschreibung des Problems" rows="4" value="eins"></textarea>
