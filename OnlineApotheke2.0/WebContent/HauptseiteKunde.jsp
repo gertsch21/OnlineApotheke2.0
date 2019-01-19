@@ -81,6 +81,9 @@
 				<input class="btn btn-primary" type="submit"
 					value="SalbeHerstellen" />
 			</form>
+			<form action="/OnlineApotheke2.0/meinebestellungen.jsp" method="GET">
+				<input class="btn btn-primary" type="submit" value="Meine Bestellungen" />
+			</form>
 				</div> <!-- End jumbotron -->
 			</div> 
 		</div><!-- End HEADER -->
