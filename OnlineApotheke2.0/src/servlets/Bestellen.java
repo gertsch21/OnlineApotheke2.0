@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.StringReader;
 import java.util.Date;
+import java.util.List;
 import java.util.Set;
 
 import javax.servlet.ServletException;
@@ -63,16 +64,18 @@ public class Bestellen extends HttpServlet {
 		String xml = B2Bmanagement.getInstance().readB2BRequest(request);
 		B2BBestellung b2b = B2Bmanagement.getInstance().getBestellungen();
 		String schema = b2b.getSchemaString();
-		System.out.println(schema);
 		B2Bmanagement.getInstance().validate(xml, schema);
+		System.out.println("Hier");
 		try {
+			System.out.println("VOR DOKUMENT");
 			Document dokument = B2Bmanagement.getInstance().parseXML(xml);
+			System.out.println("VERARBEITE");
 			verarbeiteBestellung(dokument);
+			System.out.println("fertig");
 		} catch (SAXException | ParserConfigurationException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		HttpSession session = request.getSession(true);
 		System.out.println("LoginController: Weiterleiten zum Login!");
 		response.setContentType("text/html");
 		//doGet(request, response);
@@ -92,33 +95,38 @@ public class Bestellen extends HttpServlet {
         Item einkaufswagenItem = null;
         if(kunde!=null && kunde.getPasswort().equals(passwort)) {
         	Einkaufswagen einkaufswagen =Bestellungsmanagement.getInstance().getEinkaufswagen(kunde.getBenutzer_id());
-        	if(einkaufswagen==null || einkaufswagen.getItems().size()<= 0) {
+        	System.out.println("Existing EK: " + einkaufswagen);
+        	System.out.println("EK Size: " + einkaufswagen.getItems().size());
+        	if(einkaufswagen==null || einkaufswagen.getItems().size()> 0) {
         		einkaufswagen = new Einkaufswagen(kunde);
+        		Bestellungsmanagement.getInstance().speichereEinkaufswagen(einkaufswagen);
+        		einkaufswagen =Bestellungsmanagement.getInstance().getEinkaufswagen(kunde.getBenutzer_id());
+        		System.out.println("NEUER EINKAUFSWAGEN WIESO??");
         	}
+        	System.out.println("Existing EK Neu: " + einkaufswagen);
+        	
         	Date datum = new Date();
-			System.out.println("DATE: " + datum);
 			einkaufswagen.setBestelldatum(datum);
 			Set<Item> itemSet = einkaufswagen.getItems();
-			
 	        NodeList itemList = dokument.getElementsByTagName("Item");
-	        System.out.println("LENGETH: " + itemList.getLength());
+
 	        for (int i = 0; i < itemList.getLength(); i++) {                
 	        	item= (Element) itemList.item(i).getChildNodes();  
-	        	  System.out.println(item.getElementsByTagName("produkt_id").item(0).getTextContent());
 	        	  String produkt_id = item.getElementsByTagName("produkt_id").item(0).getTextContent();
 	        	  int anzahl = Integer.parseInt(item.getElementsByTagName("anzahl").item(0).getTextContent()); 
 	        	  produkt = Produktmanagement.getInstance().getProduktByProduktID(Integer.parseInt(produkt_id));
 	  			  einkaufswagenItem = new Item(anzahl, einkaufswagen, produkt);
-	  			  System.out.println(einkaufswagen);
-	  			  System.out.println("Item: " + einkaufswagenItem);
 	  			  //itemSet.add(einkaufswagenItem);
 	  			  itemSet.add(einkaufswagenItem);
 	        }
 	        System.out.println(einkaufswagen);
-	        Bestellungsmanagement.getInstance().speichereEinkaufswagen(einkaufswagen);
+	        Bestellungsmanagement.getInstance().aktualisiereEinkaufswagen(einkaufswagen);
 	        einkaufswagen = new Einkaufswagen(kunde);
 	        Bestellungsmanagement.getInstance().speichereEinkaufswagen(einkaufswagen);
-	        
+	        List<Einkaufswagen> eklist = Bestellungsmanagement.getInstance().getAllEinkaufswagen();
+	        for(Einkaufswagen ekw:eklist) {
+	        	System.out.println(ekw);
+	        }
         
         }
 	}
