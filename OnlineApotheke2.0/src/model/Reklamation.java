@@ -17,8 +17,7 @@ public class Reklamation implements Serializable{
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	private int reklamation_id;
-	@Id
-	private int kunden_id;
+	
 	private String kurzbeschreibung;
 	private Date erstelldatum;
 	
@@ -35,9 +34,8 @@ public class Reklamation implements Serializable{
 	public Reklamation() {}
 	
 	
-	public Reklamation(int kunden_id, String kurzbeschreibung, Date erstelldatum, Kunde kritiker, Produkt zuBeschwerendesProdukt) {
+	public Reklamation(String kurzbeschreibung, Date erstelldatum, Kunde kritiker, Produkt zuBeschwerendesProdukt) {
 		super();
-		this.kunden_id = kunden_id;
 		this.kurzbeschreibung = kurzbeschreibung;
 		this.erstelldatum = erstelldatum;
 		this.kritiker = kritiker;
@@ -46,7 +44,7 @@ public class Reklamation implements Serializable{
 
 	@Override
 	public String toString() {
-		return "Reklamation [reklamation_id=" + reklamation_id + ", kunden_id=" + kunden_id + ", kurzbeschreibung="
+		return "Reklamation [reklamation_id=" + reklamation_id  + ", kurzbeschreibung="
 				+ kurzbeschreibung + ", erstelldatum=" + erstelldatum + ", kritiker=" + kritiker.getBenutzername()
 				+ ", zuBeschwerendesProdukt=" + zuBeschwerendesProdukt.getName() + "]";
 	}
@@ -59,13 +57,6 @@ public class Reklamation implements Serializable{
 		this.reklamation_id = reklamation_id;
 	}
 
-	public int getKunden_id() {
-		return kunden_id;
-	}
-
-	public void setKunden_id(int kunden_id) {
-		this.kunden_id = kunden_id;
-	}
 
 	public String getKurzbeschreibung() {
 		return kurzbeschreibung;

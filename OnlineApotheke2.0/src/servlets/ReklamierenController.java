@@ -67,7 +67,7 @@ public class ReklamierenController extends HttpServlet {
 		System.out.println(userid);
 		System.out.println(user);
 		
-		Reklamation rekm = new Reklamation((int) userid, (String)description, (Date) date, (Kunde) user, (Produkt) produkt);
+		Reklamation rekm = new Reklamation( (String)description, (Date) date, (Kunde) user, (Produkt) produkt);
 		System.out.println(rekm);
 	}
 
@@ -97,7 +97,7 @@ public class ReklamierenController extends HttpServlet {
 		System.out.println(userid);
 		System.out.println(user);
 		
-		Reklamation rekm = new Reklamation((int) userid, (String)description, (Date) date, (Kunde) user, (Produkt) produkt);
+		Reklamation rekm = new Reklamation( (String)description, (Date) date, (Kunde) user, (Produkt) produkt);
 		System.out.println(rekm);
 		Benutzermanagement.getInstance().reklamationErstellen((Reklamation) rekm);
 		
