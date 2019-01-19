@@ -81,6 +81,9 @@
 				<input class="btn btn-primary" type="submit"
 					value="SalbeHerstellen" />
 			</form>
+			<form action="/OnlineApotheke2.0/meinebestellungen.jsp" method="GET">
+				<input class="btn btn-primary" type="submit" value="Meine Bestellungen" />
+			</form>
 				</div> <!-- End jumbotron -->
 			</div> 
 		</div><!-- End HEADER -->
@@ -91,9 +94,9 @@
 				 <div class="col-md-8"> <!-- Hauptspalte -->
 				
 				 
-<% 		
-	out.println(session.getAttribute("prodOut"));
-%>	
+				<% 		
+					out.println(session.getAttribute("prodOut"));
+				%>	
 				 </div> <!-- Ende Hauptspalte -->
 				 
 				 <!-------- Sidebar für Warenkorb -------->				 
@@ -116,10 +119,10 @@
 		</div> <!-- Ende Container Hauptbereich -->
 
 		
-	<%
+		<%
 				Benutzermanagement a = Benutzermanagement.getInstance();
 				if(a.getEmployeeByUname((String)session.getAttribute("username"))!=null){
-			%>
+		%>
 	
     	</div>
     		<form action="Produktverwaltungscontroller" method="POST">

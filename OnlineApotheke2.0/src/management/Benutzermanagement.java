@@ -9,6 +9,7 @@ import java.util.List;
 import model.Benutzer;
 import model.Kunde;
 import model.Mitarbeiter;
+import model.Reklamation;
 import dao.BenutzerDAO;
 import dao.DBBenutzerDAO;
 
@@ -69,7 +70,7 @@ public class Benutzermanagement {
 		try {
 			Benutzer p = dao.getBenutzerByUName(username);
 
-			System.out.println("Prüfe login von: " + username + ", korrektes pwd: " + p.getPasswort());
+			System.out.println("PrÃ¼fe login von: " + username + ", korrektes pwd: " + p.getPasswort());
 
 			if (p.getPasswort().equals(passwort)) {
 				return true;
@@ -120,6 +121,8 @@ public class Benutzermanagement {
 		}
 	}
 	
-	
+	public boolean reklamationErstellen(Reklamation r) {
+		return dao.reklamationErstellen(r);
+	}
 
 }

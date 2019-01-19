@@ -43,26 +43,12 @@ public class KassaController extends HttpServlet {
 		HttpSession session = request.getSession();
 		
 		Produktmanagement prodman = Produktmanagement.getInstance();
-		Map<String, Integer> cart = new HashMap<String, Integer>();
-
-		// if session variable "cart" is  set, store content in local cart
-		if ( session.getAttribute("cart") != null ){
-			cart = (Map<String, Integer>) session.getAttribute("cart");
-		}
-		
 		StringBuffer checkCart = new StringBuffer();
-	
-    	
-    	 // Iterate over all Key-Value-Pairs
-    	 //Iterator it = cart.entrySet().iterator();
+
 		Einkaufswagen einkaufswagen = (Einkaufswagen) session.getAttribute("Einkaufswagen");
 		System.out.println(einkaufswagen);
 		Set<Item> itemSet = einkaufswagen.getItems();
     	 Double sum = 0.0;
-    	 //while (it.hasNext()) {
-    	    	//Map.Entry pair = (Map.Entry)it.next();
-    	    	//int keyValue = pair.getKey();
-    	    	//Produkt_mit_annotation product = prodman.getProduktByProduktID();
     	 for(Item item:itemSet) {
     		 	Produkt produkt = item.getProdukt();
     	        double price = produkt.getPreis() * item.getAnzahl();
@@ -104,18 +90,10 @@ public class KassaController extends HttpServlet {
 		HttpSession session = request.getSession();
 		Map<Long, Integer> cart = new HashMap<Long, Integer>();
 		Einkaufswagen einkaufswagen = (Einkaufswagen) session.getAttribute("Einkaufswagen");
-		// if session variable "cart" is  set, store content in local cart
 		if ( session.getAttribute("cart") != null ){
 			cart = (Map<Long, Integer>) session.getAttribute("cart");
 		}
-		
-		//Iterator it = cart.entrySet().iterator();
    	 	for(Item item: einkaufswagen.getItems()) {
-   	 	//while (it.hasNext()) {
-   	 		//@SuppressWarnings("rawtypes")
-			//Map.Entry pair = (Map.Entry)it.next();
-   	    	//String mapKey = (String) pair.getKey();
-   	        //int mapVal = (int) pair.getValue();
    	    	String mapKey = item.getProdukt().getName();
    	    	int mapVal = item.getAnzahl();
    	    	int formValue = Integer.parseInt(request.getParameter(mapKey));
@@ -123,16 +101,13 @@ public class KassaController extends HttpServlet {
    	    	if (formValue != mapVal) {
    	    		if (formValue == 0) {
    	    			einkaufswagen.getItems().remove(item);
-   	    			//it.remove();
    	    		} else {
-   	    			//pair.setValue(formValue);
    	    			item.setAnzahl(formValue);
    	    		}
    	    	}   
    	 	}
    	 	
    	 	session.setAttribute("Einkaufswagen", einkaufswagen);
-   	 	session.setAttribute("cart", cart);
    	 	request.setAttribute("page", "checkCart");
 	    doGet(request, response);
    	 	
