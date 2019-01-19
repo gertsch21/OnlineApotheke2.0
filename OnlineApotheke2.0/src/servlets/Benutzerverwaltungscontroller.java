@@ -44,7 +44,7 @@ public class Benutzerverwaltungscontroller extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		Benutzermanagement benver = Benutzermanagement.getInstance();
-
+ 
 		if(request.getParameter("zuLoeschen") != null){
 			benver.loescheKunden(request.getParameter("zuLoeschen"));
 		}
