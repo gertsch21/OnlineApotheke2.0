@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import B2B.B2BBestellung;
 import management.B2Bmanagement;
 
 /**
@@ -41,24 +42,8 @@ public class Bestellen extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String xml = B2Bmanagement.getInstance().readB2BRequest(request);
-		String schema = "<?xml version='1.0'?>\r\n" + 
-				"<xs:schema xmlns:xs='http://www.w3.org/2001/XMLSchema'>\r\n" + 
-				"	<xs:element name='Request'>\r\n" + 
-				"		<xs:complexType>\r\n" + 
-				"			<xs:sequence>\r\n" + 
-				"				<xs:element name='Login'>\r\n" + 
-				"					<xs:complexType>\r\n" + 
-				"						<xs:sequence>\r\n" + 
-				"							<xs:element name='Username' type='xs:string'/>\r\n" + 
-				"							<xs:element name='Passwort' type='xs:string'/>\r\n" + 
-				"						</xs:sequence>\r\n" + 
-				"					</xs:complexType>\r\n" + 
-				"				</xs:element>\r\n" + 
-				"			</xs:sequence>\r\n" + 
-				"		</xs:complexType>\r\n" + 
-				"	</xs:element>\r\n" + 
-				"</xs:schema>";
-		
+		B2BBestellung b2b = B2Bmanagement.getInstance().getBestellungen();
+		String schema = b2b.getSchemaString();
 		System.out.println(schema);
 		B2Bmanagement.getInstance().validate(xml, schema);
 		HttpSession session = request.getSession(true);

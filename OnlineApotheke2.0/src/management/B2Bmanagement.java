@@ -26,6 +26,8 @@ import org.w3c.dom.Document;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
+import B2B.B2BBestellung;
+
 public class B2Bmanagement {
 	private Document dokument;
 	private static B2Bmanagement B2BmanagementInstance = null;
@@ -34,6 +36,10 @@ public class B2Bmanagement {
 		if (B2BmanagementInstance == null)
 			B2BmanagementInstance = new B2Bmanagement();
 		return B2BmanagementInstance;
+	}
+	
+	public B2BBestellung getBestellungen() {
+		return new B2BBestellung();
 	}
 	
 
