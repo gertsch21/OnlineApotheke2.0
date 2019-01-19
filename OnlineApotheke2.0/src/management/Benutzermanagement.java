@@ -9,6 +9,7 @@ import java.util.List;
 import model.Benutzer;
 import model.Kunde;
 import model.Mitarbeiter;
+import model.Reklamation;
 import dao.BenutzerDAO;
 import dao.DBBenutzerDAO;
 
