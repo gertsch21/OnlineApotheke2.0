@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import management.Benutzermanagement;
 import model.Benutzer;
+import model.Kunde;
 
 /**
  * Servlet implementation class Benutzerverwaltungscontroller
@@ -49,7 +50,7 @@ public class Benutzerverwaltungscontroller extends HttpServlet {
 		}
 		
 		
-		List<Benutzer> alleKunden = benver.getAlleKunden();
+		List<Kunde> alleKunden = benver.getAlleKunden();
 		
 		request.getSession().setAttribute("alleKunden", alleKunden); //Benutzer an JSP übergeben
 		
