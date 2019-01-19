@@ -5,6 +5,9 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.StringReader;
+import java.util.Date;
+import java.util.List;
+import java.util.Set;
 
 import javax.servlet.ServletException;
 import javax.servlet.ServletInputStream;
@@ -23,10 +26,17 @@ import javax.xml.xpath.XPathExpressionException;
 import javax.xml.xpath.XPathFactory;
 
 import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
 import B2B.B2BBestellung;
+import model.Einkaufswagen;
+import model.Item;
+import model.Kunde;
+import model.Produkt;
 
 public class B2Bmanagement {
 	private Document dokument;
@@ -93,6 +103,11 @@ public class B2Bmanagement {
             e.printStackTrace();
             return false;
         }
-    }
-
+	}
+	public Document parseXML(String xml) throws SAXException, IOException, ParserConfigurationException {
+		DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
+        DocumentBuilder db = dbf.newDocumentBuilder();
+        dokument = db.parse(new InputSource(new StringReader(xml)));
+        return dokument;
+	}
 }

@@ -1,6 +1,7 @@
 package model;
 
 import java.util.Date;
+import java.util.HashSet;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -31,6 +32,7 @@ public class Einkaufswagen {
 
 	public Einkaufswagen(Kunde kunde) {
 		this.kunde = kunde;
+		setItems(new HashSet<Item>());
 	}
 	public Einkaufswagen() {
 	}
