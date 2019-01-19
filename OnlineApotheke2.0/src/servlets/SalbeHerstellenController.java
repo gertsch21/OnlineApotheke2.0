@@ -6,6 +6,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -59,7 +60,7 @@ public class SalbeHerstellenController extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
 		HttpSession session = request.getSession();
-		/*
+		
 		String inhaltsStoff1 = request.getParameter("InhaltsStoff1");
 		String inhaltsStoff2 = request.getParameter("InhaltsStoff2");
 		String inhaltsStoff3 = request.getParameter("InhaltsStoff3");
@@ -73,7 +74,7 @@ public class SalbeHerstellenController extends HttpServlet {
 		String zusatzinformation = request.getParameter("Zusatzinformation");
 		java.sql.Date erstelldatum = new java.sql.Date(Calendar.getInstance().getTime().getTime());
 	
-		Set<Inhaltsstoff> enthaltene_inhaltsstoffe = null;
+		Set<Inhaltsstoff> enthaltene_inhaltsstoffe = new HashSet<Inhaltsstoff>();
 		Produktmanagement proman = Produktmanagement.getInstance();
 		
 		List<String> liste = new ArrayList<String>();
@@ -91,8 +92,8 @@ public class SalbeHerstellenController extends HttpServlet {
 		}
 		
 		proman.SalbeAnlegen(salbenName, preis, anmerkung, volumen, zusatzinformation, erstelldatum, enthaltene_inhaltsstoffe);
-*/
-		session.setAttribute("HinweisText", "Auftrag wurde akzeptiert, Sie hoeren in den nächsten Tagen von uns");
+
+		session.setAttribute("HinweisText", "Auftrag wurde akzeptiert, Sie hören in den nächsten Tagen von uns");
 	
 		request.getRequestDispatcher("SalbeInVorbereitung.jsp").include(request, response);
 		response.setContentType("text/html");

@@ -59,7 +59,8 @@
 					%>
 					<tr>
 						<td>
-							 <select name="InhaltsStoff<%=i%>"> </br>
+							 <select name="InhaltsStoff<%=i%>"> 
+							 <option value="Waehle Inhaltsstoff">Waehle Inhaltsstoff</option>
 							<%
 								ArrayList<Inhaltsstoff> prodlist= (ArrayList<Inhaltsstoff>) session.getAttribute("liste");
 								
@@ -79,7 +80,7 @@
 				</br>
 				Zusatzinformation: </br> <textarea rows="4" cols="50" name="Zusatzinformation">Enter text here...</textarea></br></br>
 				Anmerkung: <input type="text" name="Anmerkung" /></br>
-				<input class="btn btn-primary" type="submit" value="inhaltsstoffe" />
+				<input class="btn btn-primary" type="submit" value="Salbe in Auftrag geben" />
 			</form>
 			<br />
 

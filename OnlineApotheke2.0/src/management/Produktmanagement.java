@@ -84,7 +84,7 @@ public class Produktmanagement {
 			if(stoff.getStoff_name().toLowerCase().contains(inhaltsstoffName.toLowerCase())) {
 				return stoff;
 			}
-			return produkt_dao.getInhaltsstoffListe().get(0);
+			return null;
 	}
 	
 	
