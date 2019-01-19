@@ -76,6 +76,11 @@
 								value="Logout" />
 						</form>
 					</div>
+					
+					<form action="SalbeHerstellenController" method="GET">
+				<input class="btn btn-primary" type="submit"
+					value="SalbeHerstellen" />
+			</form>
 				</div> <!-- End jumbotron -->
 			</div> 
 		</div><!-- End HEADER -->
