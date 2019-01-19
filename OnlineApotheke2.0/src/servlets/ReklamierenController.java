@@ -4,7 +4,7 @@ import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
+import java.sql.Date;
 import java.util.List;
 import java.util.Set;
 
@@ -46,9 +46,10 @@ public class ReklamierenController extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		//response.getWriter().append("Served at: ").append(request.getContextPath());
-		String username = request.getParameter("uname");
-		Kunde user = Benutzermanagement.getInstance().getKundeByUname(username);
-		Benutzer user1 = Benutzermanagement.getInstance().getBenutzerByUname(username);
+				HttpSession session = request.getSession(true);
+		
+		String uname=String.valueOf(session.getAttribute("username"));
+		Kunde user = Benutzermanagement.getInstance().getKundeByUname(uname);
 		
 		int prodid = Integer.parseInt(request.getParameter("prodid"));
 		Produkt produkt = Produktmanagement.getInstance().getProduktByProduktID(prodid);
@@ -57,14 +58,17 @@ public class ReklamierenController extends HttpServlet {
 		
 		String description = request.getParameter("descr");
 		
-		Date date = new Date();		
+		Date date = new Date(System.currentTimeMillis());		
 		
-		System.out.println(username);
+		System.out.println(uname);
 		System.out.println(produkt);
 		System.out.println(description);
 		System.out.println(date);
 		System.out.println(userid);
-		System.out.println(user1);
+		System.out.println(user);
+		
+		Reklamation rekm = new Reklamation((int) userid, (String)description, (Date) date, (Kunde) user, (Produkt) produkt);
+		System.out.println(rekm);
 	}
 
 	/**
@@ -72,8 +76,10 @@ public class ReklamierenController extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		String username = request.getParameter("uname");
-		Kunde user = Benutzermanagement.getInstance().getKundeByUname(username);
+		HttpSession session = request.getSession(true);
+		
+		String uname=String.valueOf(session.getAttribute("username"));
+		Kunde user = Benutzermanagement.getInstance().getKundeByUname(uname);
 		
 		int prodid = Integer.parseInt(request.getParameter("prodid"));
 		Produkt produkt = Produktmanagement.getInstance().getProduktByProduktID(prodid);
@@ -82,16 +88,17 @@ public class ReklamierenController extends HttpServlet {
 		
 		String description = request.getParameter("descr");
 		
-		Date date = new Date();		
+		Date date = new Date(System.currentTimeMillis());		
 		
-		System.out.println(user);
+		System.out.println(uname);
 		System.out.println(produkt);
 		System.out.println(description);
 		System.out.println(date);
 		System.out.println(userid);
+		System.out.println(user);
 		
-		//Reklamation.Reklamation(userid, description, date, user, produkt);
-		doGet(request, response);
+		Reklamation rekm = new Reklamation((int) userid, (String)description, (Date) date, (Kunde) user, (Produkt) produkt);
+		System.out.println(rekm);
 	}
 
 }
