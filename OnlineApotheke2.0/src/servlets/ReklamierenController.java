@@ -99,6 +99,10 @@ public class ReklamierenController extends HttpServlet {
 		
 		Reklamation rekm = new Reklamation((int) userid, (String)description, (Date) date, (Kunde) user, (Produkt) produkt);
 		System.out.println(rekm);
+		Benutzermanagement.getInstance().reklamationErstellen((Reklamation) rekm);
+		
+		request.getRequestDispatcher("ReklamMessage.jsp").include(request, response);
+		response.setContentType("text/html");
 	}
 
 }
