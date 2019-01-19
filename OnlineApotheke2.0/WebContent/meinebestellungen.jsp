@@ -127,7 +127,7 @@ else {
 													<form class="form-inline my-2 my-lg-0" action="reklam.jsp" method="GET">
 														<input type="hidden" name="uname" value="<%=user.getBenutzername() %>"/>
 														<input type="hidden" name="prodname" value="<%=item.getProdukt().getName() %>"/>
-														<input type="hidden" name="prodid" value="<%=item.getItem_id() %>"/>
+														<input type="hidden" name="prodid" value="<%=item.getProdukt().getProdukt_id()%>"/>
 														<input type="hidden" name="userid" value="<%=user.getBenutzer_id() %>"/>
 														<button class="btn btn-outline-warning" type="submit">Reklamieren</button>
 													</form>
