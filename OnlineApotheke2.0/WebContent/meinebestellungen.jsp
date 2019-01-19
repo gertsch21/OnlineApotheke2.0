@@ -9,7 +9,7 @@
 	<meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 	
-	<link rel="shortcut icon" href="images/favicon.png" type="image/vnd.microsoft.icon" />
+	<link rel="shortcut icon" href="Bilder/favicon.png" type="image/vnd.microsoft.icon" />
 	<title>Apotheke zur heilenden Pille</title>
 	<link type="text/css" rel="stylesheet" href="css/bootstrap.css" media="all" />
 
@@ -21,7 +21,7 @@
 		<div class="bs-component">
 		<nav class="navbar navbar-expand-lg navbar-light bg-light">
 			<a class="navbar-brand" href="#">Apotheke zur heilenden Pille</a>
-			<img src="images/favicon.png" alt="Home" style="max-width: 40px; height: 40px; margin-right:10px;"/>
+			<img src="Bilder/favicon.png" alt="Home" style="max-width: 40px; height: 40px; margin-right:10px;"/>
 			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor03" aria-controls="navbarColor03" aria-expanded="false" aria-label="Toggle navigation">
 				<span class="navbar-toggler-icon"></span>
 			</button>
