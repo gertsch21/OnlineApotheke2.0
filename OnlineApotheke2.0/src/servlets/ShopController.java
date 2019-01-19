@@ -2,10 +2,12 @@ package servlets;
 
 import java.io.IOException;
 import java.text.DecimalFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -14,7 +16,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import management.Bestellungsmanagement;
 import management.Produktmanagement;
+import model.Einkaufswagen;
+import model.Item;
+import model.Kunde;
 import model.Produkt;
 
 /**
@@ -82,8 +88,18 @@ public class ShopController extends HttpServlet {
 								+ "</div>"
 			);
 		}
+		Kunde kunde = (Kunde) session.getAttribute("Kunde");
 		
-	
+		Einkaufswagen einkaufswagen = Bestellungsmanagement.getInstance().getEinkaufswagen(kunde.getBenutzer_id());
+		//Bestellungsmanagement.getInstance().deleteBestellung(2);
+		if(einkaufswagen == null) {
+			einkaufswagen = new Einkaufswagen((Kunde) session.getAttribute("Kunde"));	
+			Date datum = new Date();
+			einkaufswagen.setBestelldatum(datum);
+			Bestellungsmanagement.getInstance().speichereEinkaufswagen(einkaufswagen);
+		}
+		System.out.println("MEin Einkaufswagen: " + einkaufswagen);
+		session.setAttribute("Einkaufswagen", einkaufswagen);
 		session.setAttribute("prodOut", prodOut);
 		request.getRequestDispatcher("HauptseiteKunde.jsp").include(request, response);
 		response.setContentType("text/html");
@@ -101,24 +117,48 @@ public class ShopController extends HttpServlet {
 		// ---------------- logic of shopping cart ------------------
 		String productID = request.getParameter("product_id"); 
 		
-		Map<String, Integer> cart = new HashMap<String, Integer>();
-
-		// if session variable "cart" is already set, store content in local cart
+		Map<Long, Integer> cart = new HashMap<Long, Integer>();
 		if ( session.getAttribute("cart") != null ){
-			cart = (Map<String, Integer>) session.getAttribute("cart");
+			cart = (Map<Long, Integer>) session.getAttribute("cart");
 		}
+		Einkaufswagen einkaufswagen = (Einkaufswagen) session.getAttribute("Einkaufswagen");
+		Set<Item> itemList = einkaufswagen.getItems();
+		boolean contained = false;
+		System.out.println("EINKAUFSWAGEN: ALT: " + einkaufswagen);
+		for(Item item: itemList) {
+			if(item.getProdukt().getProdukt_id()==Long.parseLong(productID)) {
+				item.setAnzahl(item.getAnzahl()+1);
+				contained = true;
+				if(!cart.containsKey(item.getProdukt().getProdukt_id())) {
+					cart.put(item.getProdukt().getProdukt_id(), item.getAnzahl());
+				}
+			}
+		}
+		if(!contained) {
+			Produkt produkt = Produktmanagement.getInstance().getProduktByProduktID(Integer.parseInt(productID));
+			Item item = new Item(1, einkaufswagen, produkt);
+			itemList.add(item);
+			cart.put(item.getProdukt().getProdukt_id(),1);
+		}
+		System.out.println("Einkaufswagen NEU: " + einkaufswagen);
+		// if session variable "cart" is already set, store content in local cart
+		/*if ( session.getAttribute("cart") != null ){
+			cart = (Map<String, Integer>) session.getAttribute("cart");
+		}*/
 
 		// if product is already in cart increment quantity by 1
-		if ( cart.containsKey(productID) ) {
+		/*if ( cart.containsKey(productID) ) {
 			int quantity = cart.get(productID) + 1;
 			cart.put(productID, quantity);
+			
+			
 			for (String key : cart.keySet()) {
 			    System.out.println("already set: " + key + " " + cart.get(key));
 			}
 		} else {
 			cart.put(productID, 1);
-		}
-		
+		}*/
+		session.setAttribute("Einkaufswagen", einkaufswagen);
 		session.setAttribute("cart", cart);
 
 		
@@ -131,16 +171,16 @@ public class ShopController extends HttpServlet {
     	        		);
 	        	
 	        	 // Iterate over all Key-Value-Pairs
-	        	 Iterator it = cart.entrySet().iterator();
-	        	 
-	        	 while (it.hasNext()) {
-	        	    	Map.Entry pair = (Map.Entry)it.next();
-	        	    	String keyValue = (String) pair.getKey();
+	        	 //Iterator it = cart.entrySet().iterator();
+	        	 for(Item item:einkaufswagen.getItems()) {
+	        	 //while (it.hasNext()) {
+	        	    	//Map.Entry pair = (Map.Entry)it.next();
+	        	    	//String keyValue = (String) pair.getKey();
 	        	        cartOut.append(""
 	        	        		+ "<tr>"
-	        	        		+ "<td>" + prodman.getProduktByProduktID(Integer.parseInt(keyValue)).getName() + "</td>"
+	        	        		+ "<td>" + /*prodman.getProduktByProduktID(Integer.parseInt(keyValue)).getName()*/ item.getProdukt().getName() + "</td>"
 	        	        		+ "<td>&nbsp; x &nbsp;</td>"
-	        	        		+ "<td>" + pair.getValue().toString() + "</td>"
+	        	        		+ "<td>" + /*pair.getValue().toString()*/item.getAnzahl() + "</td>"
 	        	        		+ "</tr>");
 	        	    
 	        	        

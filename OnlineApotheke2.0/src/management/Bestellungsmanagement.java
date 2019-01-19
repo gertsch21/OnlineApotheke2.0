@@ -54,10 +54,8 @@ public class Bestellungsmanagement {
 	 * @param p: zu speichernde Position
 	 * @return true/false
 	 */
-	public boolean speichereItem(int anzahl, int einkaufswagen_id, int produkt_id) {
-		Einkaufswagen e = dao.getEinkaufswagenByID(einkaufswagen_id);
-		Produkt p = produkt_dao.getProduktByProduktID(produkt_id);
-		return dao.speichereItem(new Item(anzahl, e, p));
+	public boolean speichereItem(Item item) {
+		return dao.speichereItem(item);
 	}
 
 	/**
@@ -69,6 +67,9 @@ public class Bestellungsmanagement {
 	 */
 	public boolean speichereEinkaufswagen(Einkaufswagen e) {
 		return dao.speichereEinkaufswagen(e);
+	}
+	public boolean aktualisiereEinkaufswagen(Einkaufswagen e) {
+		return dao.aktualisiereEinkaufswagen(e);
 	}
 
 	/**
@@ -89,7 +90,13 @@ public class Bestellungsmanagement {
 	public List<Einkaufswagen> getAllEinkaufswagen() {
 		return dao.getEinkaufswagenList();
 	}
+	
+	
+	public Einkaufswagen getEinkaufswagen(int benutzer_id) {
+		return (Einkaufswagen) dao.getEinkaufswagenByBenutzerID(benutzer_id);
+	}
 
+	
 	public List<Einkaufswagen> getAllEinkaufswagenFromKunde(String benutzername) {
 		return new ArrayList<>(benman.getKundeByUname(benutzername).getEinkaufswagen());
 	}

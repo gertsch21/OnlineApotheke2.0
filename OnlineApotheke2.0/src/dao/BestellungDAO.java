@@ -24,9 +24,12 @@ public interface BestellungDAO {
 	public Set<Item> getAllItems();
 	public Set<Item> getItemListbyEinkaufswagen(int einkaufswagen_id);
 	public List<Einkaufswagen> getEinkaufswagenList();
+	public Einkaufswagen getEinkaufswagenByBenutzerID(int benutzer_id);
 	public Item getItemByID(int item_id, int einkaufswagen_id);
 	public Einkaufswagen getEinkaufswagenByID(int einkaufswagen_id);
 	
 	public void loescheItem(int item_id, int einkaufswagen_id);
 	public void loescheEinkaufswagen(int einkaufswagen_id);
+
+	public boolean aktualisiereEinkaufswagen(Einkaufswagen e);
 }

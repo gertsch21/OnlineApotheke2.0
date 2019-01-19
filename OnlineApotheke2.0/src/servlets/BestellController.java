@@ -44,14 +44,14 @@ public class BestellController extends HttpServlet {
 		Produktmanagement prodman = Produktmanagement.getInstance();
 		Bestellungsmanagement bestman = Bestellungsmanagement.getInstance();
 		Benutzermanagement benver = Benutzermanagement.getInstance();
-		
+		Einkaufswagen einkaufswagen = (Einkaufswagen) session.getAttribute("Einkaufswagen");
 		Map<String, Integer> cart = new HashMap<String, Integer>();
 
 		//create order-parameters
 		long timestamp = System.currentTimeMillis() / 1000;
 		String username = (String) session.getAttribute("username");
 		Benutzer user = benver.getBenutzerByUname(username);
-		int userid = user.getUsrID();
+		//int userid = user.getUsrID();
 		String orderid = timestamp+username;
 		System.out.println(timestamp);
 		
@@ -61,13 +61,21 @@ public class BestellController extends HttpServlet {
 		System.out.println(date);
 		double price = 12.5;
 		
-		Bestellung order = new Bestellung(orderid, date, price, userid);
+		
+		bestman.aktualisiereEinkaufswagen(einkaufswagen);
+		
+		einkaufswagen = new Einkaufswagen((Kunde) session.getAttribute("Kunde"));	
+		Date datum = new Date();
+		einkaufswagen.setBestelldatum(datum);
+		Bestellungsmanagement.getInstance().speichereEinkaufswagen(einkaufswagen);
+		/*
+		//Bestellung order = new Bestellung(orderid, date, price, userid);
 		System.out.println("Orderid: " + orderid);
 		System.out.println("date: " + date);
 		System.out.println("price: " + price);
-		System.out.println("userid: " + userid);
+		//System.out.println("userid: " + userid);
 		
-		bestman.speichereBestellung(order);
+		//bestman.speichereBestellung(order);
 		// if session variable "cart" is  set, store content in local cart
 		if ( session.getAttribute("cart") != null ){
 			cart = (Map<String, Integer>) session.getAttribute("cart");
@@ -87,7 +95,7 @@ public class BestellController extends HttpServlet {
    	    	
    	 	}
    	 	
-   	 	
+   	 	*/
    	 	request.getRequestDispatcher("BestellungErfolgt.jsp").include(request, response);
 		response.setContentType("text/html");
 		

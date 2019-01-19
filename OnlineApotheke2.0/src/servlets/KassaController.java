@@ -5,6 +5,7 @@ import java.text.DecimalFormat;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
+import java.util.Set;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -14,7 +15,10 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import management.Produktmanagement;
-import model.Produkt_mit_annotation;
+import model.Einkaufswagen;
+import model.Item;
+import model.Produkt;
+
 
 /**
  * Servlet implementation class KassaController
@@ -50,22 +54,27 @@ public class KassaController extends HttpServlet {
 	
     	
     	 // Iterate over all Key-Value-Pairs
-    	 Iterator it = cart.entrySet().iterator();
+    	 //Iterator it = cart.entrySet().iterator();
+		Einkaufswagen einkaufswagen = (Einkaufswagen) session.getAttribute("Einkaufswagen");
+		System.out.println(einkaufswagen);
+		Set<Item> itemSet = einkaufswagen.getItems();
     	 Double sum = 0.0;
-    	 while (it.hasNext()) {
-    	    	Map.Entry pair = (Map.Entry)it.next();
-    	    	String keyValue = (String) pair.getKey();
-    	    	Produkt_mit_annotation product = prodman.getProduktByProduktID(keyValue);
-    	        double price = product.getprice() * Integer.parseInt(pair.getValue().toString());
+    	 //while (it.hasNext()) {
+    	    	//Map.Entry pair = (Map.Entry)it.next();
+    	    	//int keyValue = pair.getKey();
+    	    	//Produkt_mit_annotation product = prodman.getProduktByProduktID();
+    	 for(Item item:itemSet) {
+    		 	Produkt produkt = item.getProdukt();
+    	        double price = produkt.getPreis() * item.getAnzahl();
     	    	sum += price;
     	        checkCart.append(""
     	        		+ "<tr>"
-    	        		+ "<td>" + pair.getKey() + "</td> "
-    	        		+ "<td>" + product.getprodName() + "</td>"
+    	        		+ "<td>" + produkt.getProdukt_id()+ "</td> "
+    	        		+ "<td>" + produkt.getName() + "</td>"
     	        		+ "<td> "
-    	        		+ 		"<input name=\"" + pair.getKey() + "\" type=\"text\" value=\"" + pair.getValue().toString() + "\">"
+    	        		+ 		"<input name=\"" + produkt.getName() + "\" type=\"text\" value=\"" + item.getAnzahl() + "\">"
     	        		+ "</td>"
-    	        		+ "<td>" + df.format(product.getprice()) + " &euro;</td>"
+    	        		+ "<td>" + df.format(produkt.getPreis()) + " &euro;</td>"
     	        		+ "<td>" + df.format(price) + " &euro;</td>"
     	        		+ "</tr>");
     	            	        
@@ -93,32 +102,36 @@ public class KassaController extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
 		HttpSession session = request.getSession();
-		Map<String, Integer> cart = new HashMap<String, Integer>();
-
+		Map<Long, Integer> cart = new HashMap<Long, Integer>();
+		Einkaufswagen einkaufswagen = (Einkaufswagen) session.getAttribute("Einkaufswagen");
 		// if session variable "cart" is  set, store content in local cart
 		if ( session.getAttribute("cart") != null ){
-			cart = (Map<String, Integer>) session.getAttribute("cart");
+			cart = (Map<Long, Integer>) session.getAttribute("cart");
 		}
 		
-		Iterator it = cart.entrySet().iterator();
-   	 	
-   	 	while (it.hasNext()) {
-   	 		@SuppressWarnings("rawtypes")
-			Map.Entry pair = (Map.Entry)it.next();
-   	    	String mapKey = (String) pair.getKey();
-   	        int mapVal = (int) pair.getValue();
-   	    	
+		//Iterator it = cart.entrySet().iterator();
+   	 	for(Item item: einkaufswagen.getItems()) {
+   	 	//while (it.hasNext()) {
+   	 		//@SuppressWarnings("rawtypes")
+			//Map.Entry pair = (Map.Entry)it.next();
+   	    	//String mapKey = (String) pair.getKey();
+   	        //int mapVal = (int) pair.getValue();
+   	    	String mapKey = item.getProdukt().getName();
+   	    	int mapVal = item.getAnzahl();
    	    	int formValue = Integer.parseInt(request.getParameter(mapKey));
    	    
    	    	if (formValue != mapVal) {
    	    		if (formValue == 0) {
-   	    			it.remove();
+   	    			einkaufswagen.getItems().remove(item);
+   	    			//it.remove();
    	    		} else {
-   	    			pair.setValue(formValue);
+   	    			//pair.setValue(formValue);
+   	    			item.setAnzahl(formValue);
    	    		}
    	    	}   
    	 	}
    	 	
+   	 	session.setAttribute("Einkaufswagen", einkaufswagen);
    	 	session.setAttribute("cart", cart);
    	 	request.setAttribute("page", "checkCart");
 	    doGet(request, response);

@@ -68,6 +68,7 @@ public class Logincontroller extends HttpServlet {
 					"LoginController: Erfolgreiche Pruefung(istKunde): Weiterleiten zur Hauptseite des Kunden!");
 			HttpSession session = request.getSession(true);
 			session.setAttribute("username", username);
+			session.setAttribute("Kunde", k);
 			session.setAttribute("fehler", null);
 			response.sendRedirect(request.getContextPath() + "/ShopController");
 			response.setContentType("text/html");

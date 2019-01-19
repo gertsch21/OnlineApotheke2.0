@@ -15,7 +15,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "einkaufswagen")
+@Table(name = "Einkaufswagen")
 public class Einkaufswagen {
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
@@ -29,6 +29,11 @@ public class Einkaufswagen {
 	@OneToMany(mappedBy="einkaufswagen", fetch = FetchType.EAGER, cascade = { CascadeType.ALL })
 	private Set<Item> items;
 
+	public Einkaufswagen(Kunde kunde) {
+		this.kunde = kunde;
+	}
+	public Einkaufswagen() {
+	}
 	@Override
 	public String toString() {
 		return "Einkaufswagen [einkaufswagen_id=" + einkaufswagen_id + ", bestelldatum=" + bestelldatum + ", items=" + items + "]";

@@ -76,7 +76,32 @@
 		<div class="container"> 
 			<div class="row">
 				 <div class="col-md-8"> <!-- Hauptspalte -->
-				 	<jsp:include page="CheckCart.jsp" />
+				 	<!--<jsp:include page="CheckCart.jsp" />-->
+				 		<div class="product">
+	<form name="checkCart" method="POST" action="KassaController">
+		<table class="checkCart">
+			<tr>
+				<th>Produkt-ID</th>
+				<th>Bezeichnung</th>
+				<th>Menge</th>
+				<th>Einzelpreis</th>
+				<th>Preis</th>
+			</tr>
+		 <% 
+			 session = request.getSession();
+			 if(session.getAttribute("checkCart") != null) {
+				 out.print(session.getAttribute("checkCart"));
+			 } else {
+				 out.print("Ihr Warenkorb ist leer!");
+			 }
+	 	%>
+	 	</table>
+	 	<br><br>
+	 	<input class="btnGreen" type="submit" value="Warenkorb aktualisieren" />
+	 </form>
+	 <form name="order" method="GET" action="BestellController">	
+	 	<input class="btnGreen" type="submit" value="Bestellung abschicken" />
+	 </div>
 				 	
 				 </div> <!-- Ende Hauptspalte -->
 				 

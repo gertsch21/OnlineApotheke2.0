@@ -47,11 +47,11 @@ public class DBBestellungDAO implements BestellungDAO {
 	public boolean speichereItem(Item i) {
 		Session session = factory.openSession();
 		Transaction tx = null;
-		Long itemID = null;
+		int itemID = 1;
 
 		try {
 			tx = session.beginTransaction();
-			itemID = (Long) session.save(i);
+			System.out.println(session.save(i));
 			tx.commit();
 
 		} catch (HibernateException e) {
@@ -61,7 +61,7 @@ public class DBBestellungDAO implements BestellungDAO {
 		} finally {
 			session.close();
 		}
-		if (itemID != null)
+		if (itemID != 0)
 			return true;
 		return false;
 	}
@@ -70,11 +70,11 @@ public class DBBestellungDAO implements BestellungDAO {
 	public boolean speichereEinkaufswagen(Einkaufswagen e) {
 		Session session = factory.openSession();
 		Transaction tx = null;
-		Long einkaufswagenID = null;
+		int einkaufswagenID = 0;
 
 		try {
 			tx = session.beginTransaction();
-			einkaufswagenID = (Long) session.save(e);
+			einkaufswagenID = (int) session.save(e);
 			tx.commit();
 
 		} catch (HibernateException ex) {
@@ -84,7 +84,34 @@ public class DBBestellungDAO implements BestellungDAO {
 		} finally {
 			session.close();
 		}
-		if (einkaufswagenID != null)
+		System.out.println(einkaufswagenID);
+		for(Item item:e.getItems()) {
+			speichereItem(item);
+		}
+		if (einkaufswagenID != 0)
+			return true;
+		return false;
+	}
+	
+	@Override
+	public boolean aktualisiereEinkaufswagen(Einkaufswagen e) {
+		Session session = factory.openSession();
+		Transaction tx = null;
+		Einkaufswagen einkaufswagen =null;
+		try {
+			tx = session.beginTransaction();
+			einkaufswagen = (Einkaufswagen) session.merge(e);
+			session.saveOrUpdate(einkaufswagen);
+			tx.commit();
+
+		} catch (HibernateException ex) {
+			if (tx != null)
+				tx.rollback();
+			ex.printStackTrace();
+		} finally {
+			session.close();
+		}
+		if (einkaufswagen != null)
 			return true;
 		return false;
 	}
@@ -215,6 +242,25 @@ public class DBBestellungDAO implements BestellungDAO {
 			session.close();
 		}
 		return new HashSet<Item>(liste);
+	}
+
+	@Override
+	public Einkaufswagen getEinkaufswagenByBenutzerID(int benutzer_id) {
+		Session session = factory.openSession();
+		Transaction tx = null;
+		Einkaufswagen einkaufswagen = null;
+		try {
+			tx = session.beginTransaction();
+			einkaufswagen = (Einkaufswagen) session.createQuery("from Einkaufswagen ORDER BY bestelldatum DESC").setMaxResults(1).uniqueResult();
+			tx.commit();
+		} catch (HibernateException e) {
+			if (tx != null)
+				tx.rollback();
+			e.printStackTrace();
+		} finally {
+			session.close();
+		}
+		return einkaufswagen;
 	}
 
 }
