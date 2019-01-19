@@ -97,14 +97,14 @@ public class Produktmanagement {
 				if(zp.getWirkstoff() != null && zp.getWirkstoff().toLowerCase().contains(kriterium)) zwischen = true;
 				if(zp.getWirkungsweise() != null && zp.getWirkungsweise().toLowerCase().contains(kriterium)) zwischen = true;
 				if(zwischen) ausgewaehlte.add(x);
-			}else {
-				ss = (Spezielle_salbe) x;
-				if(ss.getAnmerkung()!=null && ss.getAnmerkung().toLowerCase().contains(kriterium)) zwischen = true;
-				if(ss.getName()!=null && ss.getName().toLowerCase().contains(kriterium)) zwischen = true;
-				if(ss.getZusatzinformationen()!=null && ss.getZusatzinformationen().toLowerCase().contains(kriterium)) zwischen = true;
-				for(Inhaltsstoff i : ss.getEnthaltene_inhaltsstoffe())
-					if(i.getStoff_name()!=null && i.getStoff_name().toLowerCase().contains(kriterium)) zwischen = true;
-				if(zwischen) ausgewaehlte.add(x);
+			}else {//Salben sind spezialanfertigungen und werden nur bei bedarf produziert und sollen nicht gefunden werden
+//				ss = (Spezielle_salbe) x;
+//				if(ss.getAnmerkung()!=null && ss.getAnmerkung().toLowerCase().contains(kriterium)) zwischen = true;
+//				if(ss.getName()!=null && ss.getName().toLowerCase().contains(kriterium)) zwischen = true;
+//				if(ss.getZusatzinformationen()!=null && ss.getZusatzinformationen().toLowerCase().contains(kriterium)) zwischen = true;
+//				for(Inhaltsstoff i : ss.getEnthaltene_inhaltsstoffe())
+//					if(i.getStoff_name()!=null && i.getStoff_name().toLowerCase().contains(kriterium)) zwischen = true;
+//				if(zwischen) ausgewaehlte.add(x);
 			}
 		}
 		
