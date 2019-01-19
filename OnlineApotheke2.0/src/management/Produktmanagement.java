@@ -77,5 +77,39 @@ public class Produktmanagement {
 		produkt_dao.loescheProduktByProduktID(produkt_id);
 	}
 	
+	public List<Produkt> getProdukteByKriterium(String krit){
+		String kriterium = krit.trim().toLowerCase();
+		List<Produkt> alleProdukte = this.getAlleProdukt();
+		List<Produkt> ausgewaehlte = new ArrayList<Produkt>();
+		ZugekauftesProdukt zp;
+		Spezielle_salbe ss;
+		boolean zwischen = false;
+		
+		//durchgehen ob das kriterium in einem wort vorkommt der attribute
+		for(Produkt x : alleProdukte) {
+			zwischen = false;
+			if(x instanceof ZugekauftesProdukt) {
+				zp = (ZugekauftesProdukt) x;
+				if(zp.getAnmerkung()!=null && zp.getAnmerkung().toLowerCase().contains(kriterium)) zwischen = true;
+				if(zp.getAnwendungsweise() != null && zp.getAnwendungsweise().toLowerCase().contains(kriterium)) zwischen = true;
+				if(zp.getHersteller() != null && zp.getHersteller().toLowerCase().contains(kriterium)) zwischen = true;
+				if(zp.getName() != null && zp.getName().toLowerCase().contains(kriterium)) zwischen = true;
+				if(zp.getWirkstoff() != null && zp.getWirkstoff().toLowerCase().contains(kriterium)) zwischen = true;
+				if(zp.getWirkungsweise() != null && zp.getWirkungsweise().toLowerCase().contains(kriterium)) zwischen = true;
+				if(zwischen) ausgewaehlte.add(x);
+			}else {
+				ss = (Spezielle_salbe) x;
+				if(ss.getAnmerkung()!=null && ss.getAnmerkung().toLowerCase().contains(kriterium)) zwischen = true;
+				if(ss.getName()!=null && ss.getName().toLowerCase().contains(kriterium)) zwischen = true;
+				if(ss.getZusatzinformationen()!=null && ss.getZusatzinformationen().toLowerCase().contains(kriterium)) zwischen = true;
+				for(Inhaltsstoff i : ss.getEnthaltene_inhaltsstoffe())
+					if(i.getStoff_name()!=null && i.getStoff_name().toLowerCase().contains(kriterium)) zwischen = true;
+				if(zwischen) ausgewaehlte.add(x);
+			}
+		}
+		
+		return ausgewaehlte;
+	}
+
 
 	}
