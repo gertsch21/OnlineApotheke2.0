@@ -47,8 +47,10 @@ public class Produktmanagement {
 			String anwendungsweise) {
 		try {
 			produkt_dao.speichereProdukt(new ZugekauftesProdukt(name, preis, anmerkung, menge_enthalten, hersteller, wirkstoff, wirkungsweise, anwendungsweise));
+			System.out.println("Salbe wurde erstellt");
 			return true;
 		} catch (Exception e) {
+			System.out.println("Salbe wurde nicht erstellt, es trat ein Fehler auf");
 			return false;
 		}
 
@@ -59,6 +61,9 @@ public class Produktmanagement {
 		return produkt_dao.getProduktListe();
 	}
 
+	public List<Inhaltsstoff> getAlleInhaltsstoffe() {
+		return produkt_dao.getInhaltsstoffListe();
+	}
 	
 	public Produkt getProduktByProduktID(int produkt_id) {
 		return produkt_dao.getProduktByProduktID(produkt_id);
@@ -73,6 +78,16 @@ public class Produktmanagement {
 		return returnListe;
 	}
 
+	public Inhaltsstoff getInhaltsstoffByName(String inhaltsstoffName) {
+		
+		for(Inhaltsstoff stoff : produkt_dao.getInhaltsstoffListe())
+			if(stoff.getStoff_name().toLowerCase().contains(inhaltsstoffName.toLowerCase())) {
+				return stoff;
+			}
+			return produkt_dao.getInhaltsstoffListe().get(0);
+	}
+	
+	
 	public void loescheProduktByID(int produkt_id) {
 		produkt_dao.loescheProduktByProduktID(produkt_id);
 	}

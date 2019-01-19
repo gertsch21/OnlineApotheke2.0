@@ -167,4 +167,27 @@ public class DBProduktDAO implements ProduktDAO {
 		}
 	}
 
+	@Override
+	public List<Inhaltsstoff> getInhaltsstoffListe() {
+		Session session = factory.openSession();
+		Transaction tx = null;
+		List<Inhaltsstoff> liste = new ArrayList<Inhaltsstoff>();
+		try {
+			tx = session.beginTransaction();
+			List produktliste = session.createQuery("FROM Inhaltsstoff").list();
+			for (Iterator iterator = produktliste.iterator(); iterator.hasNext();) {
+				liste.add((Inhaltsstoff) iterator.next());
+			}
+
+			tx.commit();
+		} catch (HibernateException e) {
+			if (tx != null)
+				tx.rollback();
+			e.printStackTrace();
+		} finally {
+
+		}
+		return liste;
+	}
+
 }

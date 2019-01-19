@@ -68,7 +68,6 @@ public class ShopController extends HttpServlet {
 								+ "<div class=\"row\">"
 								+ "<div class=\"col-md-8\">"
 								+ "		<h2>" + product.getName() + "</h2>" 
-								+ "		<p class=\"description\">" + product.getAnmerkung() + "</p>"
 								+ "</div>"
 								+ "<div class=\"col-md-4\" style=\"display: table; overflow: hidden;\">"
 								+ "		<div class=\"pricebox\">"
