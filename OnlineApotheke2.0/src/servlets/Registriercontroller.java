@@ -1,6 +1,8 @@
 package servlets;
 
 import java.io.IOException;
+import java.sql.Date;
+import java.text.SimpleDateFormat;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -62,14 +64,14 @@ public class Registriercontroller extends HttpServlet {
 			
 			String land=request.getParameter("land");
 			String plzString=request.getParameter("plz");
-			String wohnort=request.getParameter("wohnort");
+			String ort=request.getParameter("wohnort");
 			String strasse=request.getParameter("strasse");
 			String hausNrString=request.getParameter("nummer");
 			
 			String geschlecht = request.getParameter("gender");
 			
-			String username=request.getParameter("username");
-			String password=request.getParameter("password");
+			String benutzername=request.getParameter("username");
+			String passwort=request.getParameter("password");
 			String passwordW=request.getParameter("passwordW");
 			
 			
@@ -89,7 +91,7 @@ public class Registriercontroller extends HttpServlet {
 				return;
 			}
 			
-			if(username.length()<5  || password.length()<5 ){
+			if(benutzername.length()<5  || passwort.length()<5 ){
 				request.getSession(true).setAttribute("fehler", "Username od. Passwort zu kurz(mindestens 5 Zeichen benötigt)!");
 				System.out.println("RegistrierungsController: Pwd od. Username  <  5 Zeichen!");
 				request.getRequestDispatcher("Registrieren.jsp").include(request, response);
@@ -98,7 +100,7 @@ public class Registriercontroller extends HttpServlet {
 			}
 			
 			//Wiederholtes Passwort nicht korrekt
-			if(!password.equals(passwordW) ){
+			if(!passwort.equals(passwordW) ){
 				request.getSession(true).setAttribute("fehler", "Passwortwiederholung nicht korrekt!");
 				System.out.println("RegistrierungsController: Passwortwiederholung nicht korrekt!!");
 				request.getRequestDispatcher("Registrieren.jsp").include(request, response);
@@ -107,7 +109,7 @@ public class Registriercontroller extends HttpServlet {
 			}
 			
 			//Username enthält Abstände
-			if(username.length()!=username.replaceAll(" ","").length()){
+			if(benutzername.length()!=benutzername.replaceAll(" ","").length()){
 				request.getSession(true).setAttribute("fehler", "Fehler: Username darf keine Leerzeichen enthalten!");
 				System.out.println("RegistrierungsController: Leerzeichen im Username!");
 				response.sendRedirect("Registrieren.jsp");
@@ -115,12 +117,22 @@ public class Registriercontroller extends HttpServlet {
 			}
 			
 			
+			java.sql.Date geburtsdatum = new java.sql.Date(System.currentTimeMillis());
+			try {
+				SimpleDateFormat sdf1 = new SimpleDateFormat("yyyy-MM-dd");
+				java.util.Date date = sdf1.parse(birthday);
+				geburtsdatum = new java.sql.Date(date.getTime()); 
+			}catch (Exception e) {
+				geburtsdatum = new java.sql.Date(System.currentTimeMillis());
+			}
+			System.out.println("benver.kundeAnlegen("+benutzername+","+passwort+","+vorname+","+nachname+","+geburtsdatum+","+email+","+""+","+land+","+plz+","+ort+","+strasse+","+hausNr+","+""+","+new Date(System.currentTimeMillis())+","+geschlecht.substring(0, 1));
 			//Nachdem Benutzer angelegt wurde, wird er automatisch(nicht über Login) zur Hauptseite.jsp weitergeleitet.
-			if(benver.kundeAnlegen(vorname, nachname, email, land, plz, wohnort, strasse, hausNr, username, password,birthday,geschlecht)){
+			if(benver.kundeAnlegen(benutzername, passwort, vorname, nachname, geburtsdatum, email, "", land, plz, ort, strasse, hausNr, "", new Date(System.currentTimeMillis()), geschlecht.substring(0, 1))){
 				HttpSession session = request.getSession(true);
-				session.setAttribute("username", username);
-				session.setAttribute("message", "Wilkommen "+username+" bei uns!");
-				System.out.println("RegistrierungsController: Kunde angelegt: "+vorname+" "+nachname+" "+email+" "+strasse+" "+wohnort+" "+username+" "+password);
+				session.setAttribute("username", benutzername);
+				session.setAttribute("message", "Wilkommen "+benutzername+" bei uns!");
+				session.setAttribute("Kunde", Benutzermanagement.getInstance().getBenutzerByUname(benutzername));
+				System.out.println("RegistrierungsController: Kunde angelegt: "+vorname+" "+nachname+" "+email+" "+strasse+" "+ort+" "+benutzername+" "+passwort);
 				session.setAttribute("fehler", null);
 				response.sendRedirect(request.getContextPath() + "/ShopController");//Damit Produktliste in session gleich aktualisiert wird
 				response.setContentType("text/html");
@@ -128,7 +140,8 @@ public class Registriercontroller extends HttpServlet {
 			}
 			//eingabe nicht erfolgreich:
 			else{
-				System.out.println("RegistrierungsController: Person konnte nicht angelegt werden: "+vorname+" "+nachname+" "+email+" "+strasse+" "+wohnort+" "+username+" "+password);
+				System.out.println("RegistrierungsController: Person konnte nicht angelegt werden: "+vorname+" "+nachname+" "+email+" "+strasse+" "+ort+" "+benutzername+" "+passwort);
+				System.out.println(geburtsdatum);
 				request.getSession(true).setAttribute("fehler", "Fehler: Der Username ist leider schon vergeben!");
 				response.sendRedirect("Registrieren.jsp");
 			}
