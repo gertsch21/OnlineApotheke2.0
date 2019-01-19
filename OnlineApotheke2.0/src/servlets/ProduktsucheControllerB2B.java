@@ -101,6 +101,7 @@ public class ProduktsucheControllerB2B extends HttpServlet {
 		response.getWriter().close();
 	}
 	
+	
 	public Document loadXMLFromString(String xml) throws Exception
 	{
 	    DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
