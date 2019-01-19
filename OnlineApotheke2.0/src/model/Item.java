@@ -13,16 +13,17 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "item")
 public class Item implements Serializable{
-	@Id
-	private int einkaufswagen_id;
+
+	@ManyToOne
+	@JoinColumn(name="einkaufswagen_id", nullable=false)
+	private Einkaufswagen einkaufswagen;
+	
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	private int item_id;
 	private int anzahl;
 	
-	@ManyToOne
-	@JoinColumn(name="einkaufswagen_id", nullable=false)
-	private Einkaufswagen einkaufswagen;
+
 
 	@ManyToOne
 	@JoinColumn(name="produkt_id", nullable=false)
@@ -30,7 +31,7 @@ public class Item implements Serializable{
 
 	@Override
 	public String toString() {
-		return "Item [einkaufswagen_id=" + einkaufswagen_id + ", item_id=" + item_id + ", anzahl=" + anzahl
+		return "Item [einkaufswagen_id=" + this.einkaufswagen.getEinkaufswagen_id() + ", item_id=" + item_id + ", anzahl=" + anzahl
 				+ ", produkt: " + produkt + "]";
 	}
 
@@ -40,18 +41,14 @@ public class Item implements Serializable{
 		super();
 		this.anzahl = anzahl;
 		this.einkaufswagen = einkaufswagen;
-		this.einkaufswagen_id=einkaufswagen.getEinkaufswagen_id();
 		this.produkt = produkt;
 	}
 
 
 	public int getEinkaufswagen_id() {
-		return einkaufswagen_id;
+		return this.einkaufswagen.getEinkaufswagen_id();
 	}
 
-	public void setEinkaufswagen_id(int einkaufswagen_id) {
-		this.einkaufswagen_id = einkaufswagen_id;
-	}
 
 	public int getItem_id() {
 		return item_id;

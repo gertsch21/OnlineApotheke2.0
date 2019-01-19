@@ -95,8 +95,13 @@ public class ShopController extends HttpServlet {
 		if(einkaufswagen == null) {
 			einkaufswagen = new Einkaufswagen((Kunde) session.getAttribute("Kunde"));	
 			Date datum = new Date();
+			System.out.println("DATE: " + datum);
 			einkaufswagen.setBestelldatum(datum);
 			Bestellungsmanagement.getInstance().speichereEinkaufswagen(einkaufswagen);
+		}
+		List<Einkaufswagen> liste = Bestellungsmanagement.getInstance().getAllEinkaufswagen();
+		for(Einkaufswagen eink:liste) {
+			System.out.println(eink);
 		}
 		System.out.println("MEin Einkaufswagen: " + einkaufswagen);
 		session.setAttribute("Einkaufswagen", einkaufswagen);
@@ -118,9 +123,6 @@ public class ShopController extends HttpServlet {
 		String productID = request.getParameter("product_id"); 
 		
 		Map<Long, Integer> cart = new HashMap<Long, Integer>();
-		if ( session.getAttribute("cart") != null ){
-			cart = (Map<Long, Integer>) session.getAttribute("cart");
-		}
 		Einkaufswagen einkaufswagen = (Einkaufswagen) session.getAttribute("Einkaufswagen");
 		Set<Item> itemList = einkaufswagen.getItems();
 		boolean contained = false;
@@ -129,35 +131,13 @@ public class ShopController extends HttpServlet {
 			if(item.getProdukt().getProdukt_id()==Long.parseLong(productID)) {
 				item.setAnzahl(item.getAnzahl()+1);
 				contained = true;
-				if(!cart.containsKey(item.getProdukt().getProdukt_id())) {
-					cart.put(item.getProdukt().getProdukt_id(), item.getAnzahl());
-				}
 			}
 		}
 		if(!contained) {
 			Produkt produkt = Produktmanagement.getInstance().getProduktByProduktID(Integer.parseInt(productID));
 			Item item = new Item(1, einkaufswagen, produkt);
 			itemList.add(item);
-			cart.put(item.getProdukt().getProdukt_id(),1);
 		}
-		System.out.println("Einkaufswagen NEU: " + einkaufswagen);
-		// if session variable "cart" is already set, store content in local cart
-		/*if ( session.getAttribute("cart") != null ){
-			cart = (Map<String, Integer>) session.getAttribute("cart");
-		}*/
-
-		// if product is already in cart increment quantity by 1
-		/*if ( cart.containsKey(productID) ) {
-			int quantity = cart.get(productID) + 1;
-			cart.put(productID, quantity);
-			
-			
-			for (String key : cart.keySet()) {
-			    System.out.println("already set: " + key + " " + cart.get(key));
-			}
-		} else {
-			cart.put(productID, 1);
-		}*/
 		session.setAttribute("Einkaufswagen", einkaufswagen);
 		session.setAttribute("cart", cart);
 
@@ -169,13 +149,7 @@ public class ShopController extends HttpServlet {
 	        	cartOut.append(
 	        			"<table class=\"cart\">"
     	        		);
-	        	
-	        	 // Iterate over all Key-Value-Pairs
-	        	 //Iterator it = cart.entrySet().iterator();
 	        	 for(Item item:einkaufswagen.getItems()) {
-	        	 //while (it.hasNext()) {
-	        	    	//Map.Entry pair = (Map.Entry)it.next();
-	        	    	//String keyValue = (String) pair.getKey();
 	        	        cartOut.append(""
 	        	        		+ "<tr>"
 	        	        		+ "<td>" + /*prodman.getProduktByProduktID(Integer.parseInt(keyValue)).getName()*/ item.getProdukt().getName() + "</td>"

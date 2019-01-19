@@ -91,9 +91,9 @@
 				 <div class="col-md-8"> <!-- Hauptspalte -->
 				
 				 
-<% 		
-	out.println(session.getAttribute("prodOut"));
-%>	
+				<% 		
+					out.println(session.getAttribute("prodOut"));
+				%>	
 				 </div> <!-- Ende Hauptspalte -->
 				 
 				 <!-------- Sidebar für Warenkorb -------->				 
@@ -116,10 +116,10 @@
 		</div> <!-- Ende Container Hauptbereich -->
 
 		
-	<%
+		<%
 				Benutzermanagement a = Benutzermanagement.getInstance();
 				if(a.getEmployeeByUname((String)session.getAttribute("username"))!=null){
-			%>
+		%>
 	
     	</div>
     		<form action="Produktverwaltungscontroller" method="POST">

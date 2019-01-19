@@ -45,6 +45,8 @@ public class DBBestellungDAO implements BestellungDAO {
 	
 	@Override
 	public boolean speichereItem(Item i) {
+		System.out.println(i);
+		
 		Session session = factory.openSession();
 		Transaction tx = null;
 		int itemID = 1;
@@ -68,6 +70,7 @@ public class DBBestellungDAO implements BestellungDAO {
 
 	@Override
 	public boolean speichereEinkaufswagen(Einkaufswagen e) {
+		System.out.println(e);
 		Session session = factory.openSession();
 		Transaction tx = null;
 		int einkaufswagenID = 0;
@@ -85,9 +88,6 @@ public class DBBestellungDAO implements BestellungDAO {
 			session.close();
 		}
 		System.out.println(einkaufswagenID);
-		for(Item item:e.getItems()) {
-			speichereItem(item);
-		}
 		if (einkaufswagenID != 0)
 			return true;
 		return false;
@@ -95,6 +95,9 @@ public class DBBestellungDAO implements BestellungDAO {
 	
 	@Override
 	public boolean aktualisiereEinkaufswagen(Einkaufswagen e) {
+		for(Item item:e.getItems()) {
+			speichereItem(item);
+		}
 		Session session = factory.openSession();
 		Transaction tx = null;
 		Einkaufswagen einkaufswagen =null;
@@ -251,7 +254,7 @@ public class DBBestellungDAO implements BestellungDAO {
 		Einkaufswagen einkaufswagen = null;
 		try {
 			tx = session.beginTransaction();
-			einkaufswagen = (Einkaufswagen) session.createQuery("from Einkaufswagen ORDER BY bestelldatum DESC").setMaxResults(1).uniqueResult();
+			einkaufswagen = (Einkaufswagen) session.createQuery("from Einkaufswagen where benutzer_id = '" + benutzer_id + "'  ORDER BY einkaufswagen_id DESC").setMaxResults(1).uniqueResult();
 			tx.commit();
 		} catch (HibernateException e) {
 			if (tx != null)
