@@ -18,7 +18,7 @@
 </head>
 
 <body>
-	<div class="bs-component">
+		<div class="bs-component">
 		<nav class="navbar navbar-expand-lg navbar-light bg-light">
 			<a class="navbar-brand" href="#">Apotheke zur heilenden Pille</a>
 			<img src="images/favicon.png" alt="Home" style="max-width: 40px; height: 40px; margin-right:10px;"/>
@@ -29,26 +29,20 @@
 			<div class="collapse navbar-collapse" id="navbarColor03">
 				<ul class="navbar-nav mr-auto">
 					<li class="nav-item">
-						<a class="nav-link" href="index.html">Home <span class="sr-only">(current)</span></a>
+						<a class="nav-link" href="ShopController">Home <span class="sr-only">(current)</span></a>
 					</li>
 					<li class="nav-item">
-						<a class="nav-link" href="herstellung.html">Herstellung beauftragen</a>
-					</li>
-					<li class="nav-item">
-						<a class="nav-link" href="cart.html">Warenkorb</a>
+						<a class="nav-link" href="SalbeHerstellenController">Herstellung beauftragen</a>
 					</li>
 					<li class="nav-item active">
-						<a class="nav-link" href="bestellungen.html">Meine Bestellungen</a>
+						<a class="nav-link" href="/OnlineApotheke2.0/meinebestellungen.jsp">Meine Bestellungen</a>
 					</li>
 				</ul>
-				<form class="form-inline my-2 my-lg-0" action="login.html">
-					<button class="btn btn-danger btn-sm my-2 my-sm-0 login" type="submit">Sign In</button>
+				<form class="form-inline my-2 my-lg-0" action="Logincontroller">
+					<button class="btn btn-danger btn-sm my-2 my-sm-0 login" type="submit" value="Logout" name="logout">Logout</button>
 				</form>
-				<form class="form-inline my-2 my-lg-0">
-					<button class="btn btn-danger btn-sm my-2 my-sm-0 login" type="submit">Sign Out</button>
-				</form>
-				<form class="form-inline my-2 my-lg-0">
-					<input class="form-control mr-sm-2" type="text" placeholder="Search"/>
+				<form class="form-inline my-2 my-lg-0" action="ProduktsucheController" method="POST">
+					<input class="form-control mr-sm-2" type="text" placeholder="Search" name="suchwert"/>
 					<button class="btn btn-danger my-2 my-sm-0" type="submit">Search</button>
 				</form>
 			</div>
