@@ -22,13 +22,13 @@ public class Kunde extends Benutzer {
 	private Date anmeldedatum;
 	private String geschlecht;
 
-	@OneToMany(mappedBy="kaeufer", fetch = FetchType.LAZY, cascade = { CascadeType.ALL })
+	@OneToMany(mappedBy="kaeufer", fetch = FetchType.EAGER, cascade = { CascadeType.ALL })
 	private Set<Spezielle_salbe> beauftragteSalben;
 
-	@OneToMany(mappedBy="kunde", fetch = FetchType.LAZY, cascade = { CascadeType.ALL })
+	@OneToMany(mappedBy="kunde", fetch = FetchType.EAGER, cascade = { CascadeType.ALL })
 	private Set<Einkaufswagen> einkaufswagen;
 
-	@OneToMany(mappedBy="kritiker", fetch = FetchType.LAZY, cascade = { CascadeType.ALL })
+	@OneToMany(mappedBy="kritiker", fetch = FetchType.EAGER, cascade = { CascadeType.ALL })
 	private Set<Reklamation> reklamationen;
 
 	public Kunde(String benutzername, String passwort, String vorname, String nachname, Date geburtsdatum, String email,
