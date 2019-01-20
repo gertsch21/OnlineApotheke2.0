@@ -53,6 +53,10 @@ public class Benutzermanagement {
 			return false;
 		}
 	}
+	
+	public void updateKunde(Benutzer k) {
+		dao.updateKunde(k);
+	}
 
 	public boolean mitarbeiterAnlegen(String benutzername, String passwort, String vorname, String nachname, Date geburtsdatum, 
 	String email, String telnr, String land, int plz, String ort, String strasse, int hausnummer, String hausnummer_zus, String svnr, double gehalt, Date eintrittsdatum){

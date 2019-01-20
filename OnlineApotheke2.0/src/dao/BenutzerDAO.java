@@ -29,6 +29,7 @@ public interface BenutzerDAO {
 	 */
 	public boolean speichereKunde(Kunde k);
 	
+	public boolean updateKunde(Benutzer p);
 	
 	/**
 	 * Mit dieser Methode kann ein Mitarbeiter im System gespeichert werden.

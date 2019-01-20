@@ -83,7 +83,8 @@ public class DBProduktDAO implements ProduktDAO {
 
 		try {
 			tx = session.beginTransaction();
-			session.update(p);
+			Object x = session.merge(p);
+			session.saveOrUpdate(x);
 			tx.commit();
 
 		} catch (HibernateException e) {

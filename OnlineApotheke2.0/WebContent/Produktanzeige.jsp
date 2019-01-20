@@ -65,7 +65,7 @@
 					<tr>
 						<td><%=p.getName()%></td>
 						<td><%=p.getPreis()%></td>
-						<td><input type="text" name="anmerkung" value="<%=p.getAnmerkung()%>"/></td>
+						<td><input type="text" name="anmerkung" size="80" value="<%=p.getAnmerkung()%>"/></td>
 						<td><input type="submit" name="anmerkung_aendern" value="<%=p.getProdukt_id()%>"/></td></tr>
 <%
 	}

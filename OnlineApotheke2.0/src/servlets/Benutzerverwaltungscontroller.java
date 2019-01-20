@@ -48,6 +48,22 @@ public class Benutzerverwaltungscontroller extends HttpServlet {
 		if(request.getParameter("zuLoeschen") != null){
 			benver.loescheKunden(request.getParameter("zuLoeschen"));
 		}
+		if(request.getParameter("zuUpdaten") != null){
+			String username = request.getParameter("zuUpdaten");
+			Benutzer k = Benutzermanagement.getInstance().getKundeByUname(username);
+			k.setPasswort(request.getParameter("kundePasswort"+username));
+			k.setVorname(request.getParameter("kundeVorname"+username));
+			k.setNachname(request.getParameter("kundeNachname"+username));
+			k.setLand(request.getParameter("kundeLand"+username));
+			k.setPlz(Integer.parseInt(request.getParameter("kundePLZ"+username)));
+			k.setOrt(request.getParameter("kundeOrt"+username));
+			k.setStrasse(request.getParameter("kundeStrasse"+username));
+			k.setHausnummer(Integer.parseInt(request.getParameter("kundeHausnummer"+username)));
+			
+			System.err.println(k);
+			Benutzermanagement.getInstance().updateKunde(k);
+			
+		}
 		
 		
 		List<Kunde> alleKunden = benver.getAlleKunden();

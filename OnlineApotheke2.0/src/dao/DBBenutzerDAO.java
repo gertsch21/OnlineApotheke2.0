@@ -95,6 +95,31 @@ public class DBBenutzerDAO implements BenutzerDAO {
 			return true;
 		return false;
 	}
+	
+	@Override
+	public boolean updateKunde(Benutzer k) {
+		Session session = factory.openSession();
+		Transaction tx = null;
+		Integer kundeID = null;
+
+		try {
+			tx = session.beginTransaction();
+			Object x = session.merge(k);
+			session.saveOrUpdate(x);
+			tx.commit();
+
+		} catch (HibernateException e) {
+			if (tx != null)
+				tx.rollback();
+			e.printStackTrace();
+		} finally {
+			session.close();
+
+		}
+		if (kundeID != null)
+			return true;
+		return false;
+	}
 
 	@Override
 	public boolean speichereMitarbeiter(Mitarbeiter m) {

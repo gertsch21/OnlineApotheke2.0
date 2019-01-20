@@ -1,3 +1,4 @@
+<%@page import="model.Kunde"%>
 <%@page import="management.Benutzermanagement"%>
 <%@page import="model.Benutzer"%>
 <%@page import="java.util.List"%>
@@ -56,11 +57,38 @@
 
 
 <!-- Eingaben zum Registrieren -->
-			<form action="Benutzerverwaltungscontroller" method="POST">
 				<table class="table">
-					<tr><th>username</th><th>password</th><th>löschen</th></tr>
-<%for(Benutzer b : Benutzermanagement.getInstance().getAlleKunden()){ %>
-					<tr><td><%=b.getBenutzername()%></td><td><%=b.getPasswort()%></td><td><input type="submit" name="zuLoeschen" value="<%=b.getBenutzername()%>"/></td></tr>
+					<tr>
+						<th>username</th>
+						<th>password</th>
+						<th>Vorname</th>
+						<th>Nachname</th>
+						<th>Land</th>
+						<th>PLZ</th>
+						<th>Ort</th>
+						<th>Strasse</th>
+						<th>Hnr</th>
+						<th>Update</th>
+						<th>Entfernen</th>
+					</tr>
+<%for(Kunde b : (List<Kunde>) Benutzermanagement.getInstance().getAlleKunden()){ %>
+			<form action="Benutzerverwaltungscontroller" method="POST">
+					<tr>
+						<td><%=b.getBenutzername()%></td>
+						<input type="hidden" id="username" name="username" value="<%=b.getBenutzername()%>">
+						<td><input type="text" name="kundePasswort<%=b.getBenutzername()%>" size="10" value="<%=b.getPasswort()%>"/></td>
+						<td><input type="text" name="kundeVorname<%=b.getBenutzername()%>" size="10" value="<%=b.getVorname()%>"/></td>
+						<td><input type="text" name="kundeNachname<%=b.getBenutzername()%>" size="10" value="<%=b.getNachname()%>"/></td>
+						<td><input type="text" name="kundeLand<%=b.getBenutzername()%>" size="10" value="<%=b.getLand()%>"/></td>
+						<td><input type="text" name="kundePLZ<%=b.getBenutzername()%>" size="10" value="<%=b.getPlz()%>"/></td>
+						<td><input type="text" name="kundeOrt<%=b.getBenutzername()%>" size="10" value="<%=b.getOrt()%>"/></td>
+						<td><input type="text" name="kundeStrasse<%=b.getBenutzername()%>" size="10" value="<%=b.getStrasse()%>"/></td>
+						<td><input type="text" name="kundeHausnummer<%=b.getBenutzername()%>" size="5" value="<%=b.getHausnummer()%>"/></td>
+						
+						
+						<td><input type="submit" name="zuUpdaten" value="<%=b.getBenutzername()%>"/></td>
+						<td><input type="submit" name="zuLoeschen" value="<%=b.getBenutzername()%>"/></td>
+					</tr>
 <%} %>
 </table>	
 Anzahl an Kunden: <%=Benutzermanagement.getInstance().getAlleKunden().size()%>			
