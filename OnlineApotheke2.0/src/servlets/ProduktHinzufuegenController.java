@@ -49,15 +49,11 @@ public class ProduktHinzufuegenController extends HttpServlet {
 			
 			//Hier wird geprüft, ob einfach nur auf das JSP zugegriffen wird und dies Authorisiert erfolgt
 			if(request.getParameter("produktReg")!=null){
-				
-				request.getSession().setAttribute("KategorieListe", prover.getAlleCategory());
 				System.out.println("ProduktHinzufuegencontroller: Authorisiert zum hinzufuegen --> KategorieAnlegen.jsp");
 				request.getRequestDispatcher("ProduktAnlegen.jsp").include(request, response);
 				response.setContentType("text/html");
 				return;
 			}
-			
-			
 			
 		
 			String name=request.getParameter("name");

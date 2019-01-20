@@ -67,24 +67,43 @@
 						<td><input type="text" name="name" value="" /></td>
 					</tr>
 					<tr>
-						<td>Description:</td>
-						<td><input type="text" name="description" value="" /></td>
+						<td>Anmerkung:</td>
+						<td><input type="text" name="anmerkung" value="" /></td>
 					</tr>
 					<tr>
-						<td>Price:</td>
-						<td><input type="text" name="price" value="" />(Zahl mit . als Komma)</td>
+						<td>Preis:</td>
+						<td><input type="text" name="preis" value="" />(Zahl mit . als Komma)</td>
 					</tr>
 					<tr>
-						<td>Kategorie:</td>
+						<td>Wirkungsweise:</td>
 						<td>
-							<select name = "kategorie">
-							<% for(Category c : ((List<Category>)session.getAttribute("KategorieListe"))){ %>
-								<option value=<%=c.getcategoryID() %>> <%=c.getcategoryName() %></option>
-							<%} %>
-							</select>
+							<td><input type="text" name="anmerkung" value="" /></td>
 						</td>
 					</tr>
-					
+					<tr>
+						<td>Vorhandene Menge:</td>
+						<td>
+							<td><input type="text" name="vorhandene_menge" value="" /></td>
+						</td>
+					</tr>
+					<tr>
+						<td>Wirkstoff:</td>
+						<td>
+							<td><input type="text" name="wirkstoff" value="" /></td>
+						</td>
+					</tr>
+					<tr>
+						<td>Hersteller:</td>
+						<td>
+							<td><input type="text" name="hersteller" value="" /></td>
+						</td>
+					</tr>
+					<tr>
+						<td>Enthaltene_menge:</td>
+						<td>
+							<td><input type="text" name="enthaltene_menge" value="" /></td>
+						</td>
+					</tr>
 				
 					<tr>
 						<td><input type="submit" value="Send" /></td>

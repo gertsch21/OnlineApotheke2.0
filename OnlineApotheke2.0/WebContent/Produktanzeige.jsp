@@ -56,23 +56,26 @@
 
 
 <!-- Eingaben zum Registrieren -->
-			<form action="Produktverwaltungscontroller" method="POST">
+			
 				<table class="table">
 					<tr><th>Name</th><th>Preis</th><th>Anmerkung</th><th>Aktualisieren</th></tr>
 <%
 	for(Produkt p : Produktmanagement.getInstance().getAlleProdukt() ){
 %>
+<form action="Produktverwaltungscontroller" method="POST">
 					<tr>
 						<td><%=p.getName()%></td>
 						<td><%=p.getPreis()%></td>
-						<td><input type="text" name="anmerkung" size="80" value="<%=p.getAnmerkung()%>"/></td>
-						<td><input type="submit" name="anmerkung_aendern" value="<%=p.getProdukt_id()%>"/></td></tr>
+						<td><input type="text" name="anmerkung<%=p.getName()%>" size="80" value="<%=p.getAnmerkung()%>"/></td>
+						<td><input type="submit" name="anmerkung_aendern" value="<%=p.getProdukt_id()%>"/></td>
+					</tr>
 <%
 	}
 %>
+</form>
 </table>	
 Anzahl an Produkte: <%=Produktmanagement.getInstance().getAlleProdukt().size()%>			
-			</form>
+			
 
 <!-- Einfaches Retour zur Hauptseite -->
 			<form method="post" action="MitarbeiterController">

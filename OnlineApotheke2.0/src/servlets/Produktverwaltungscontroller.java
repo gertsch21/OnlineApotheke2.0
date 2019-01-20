@@ -61,7 +61,7 @@ public class Produktverwaltungscontroller extends HttpServlet {
 		
 		if(request.getParameter("anmerkung_aendern") != null){
 			Produkt p = Produktmanagement.getInstance().getProduktByProduktID(Integer.parseInt(request.getParameter("anmerkung_aendern")));
-			p.setAnmerkung(request.getParameter("anmerkung"));
+			p.setAnmerkung(request.getParameter("anmerkung"+p.getName()));
 			Produktmanagement.getInstance().updateProdukt(p);
 		}
 		
