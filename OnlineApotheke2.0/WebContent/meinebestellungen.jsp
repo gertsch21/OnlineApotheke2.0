@@ -43,7 +43,9 @@ else {
 	String benutzer = user.getBenutzername();
 	Set<Einkaufswagen> bestellungen = user.getEinkaufswagen(); %>
 	
-<% for(Einkaufswagen order : bestellungen) {%>
+<% 	DecimalFormat df = new DecimalFormat("#.00");
+	for(Einkaufswagen order : bestellungen) {
+	if(order.getItems() != null && !order.getItems().isEmpty()){%>
 		<div class="row">
 			<div class="col-lg-10">
 				<ul class="list-group list-group-flush">
@@ -72,17 +74,18 @@ else {
 											<div class="row">
 												<div class="col-sm-6" id="price">
 													<p class="pr"> <%double price = item.getProdukt().getPreis();%>
-													<b>Price:</b> <%=item.getProdukt().getPreis() %> EUR
+													<b>Price:</b> <%=df.format(price) %> EUR
 													</p>
 												</div>
 												<div class="col-sm-4">
 													<p class="pr"> <%int amount = item.getAnzahl();%>
-													<b>Amount:</b> <%=item.getAnzahl() %> 
+													<b>Amount:</b> <%=amount %> 
 													<p>
 												</div>
 												<div class="col-sm-2" id="total_item">
 													<p class="pr" id="total">
-													<%= price*amount %> 
+													<% double total = price*amount; %> 
+													<%= df.format(total) %>
 													<p>
 												</div>
 											</div>
@@ -101,7 +104,7 @@ else {
 										</div>
 									</div>
 								</li>
-								<% }%>
+								<%} %>
 								
 							</ul>
 						</div>
@@ -110,7 +113,7 @@ else {
 				
 			</div>
 		</div>
-		<%} } %>
+		<%} } } %>
 	</div>
 	
 </body>
