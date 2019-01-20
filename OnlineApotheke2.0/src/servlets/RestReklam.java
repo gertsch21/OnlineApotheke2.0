@@ -105,7 +105,7 @@ public class RestReklam extends HttpServlet {
         	
 			Reklamation rekm = new Reklamation( (String)description, (Date) date, (Kunde) user, (Produkt) produkt);
 			System.out.println(rekm);
-			//Benutzermanagement.getInstance().reklamationErstellen((Reklamation) rekm);
+			Benutzermanagement.getInstance().reklamationErstellen((Reklamation) rekm);
 			
         }
 	}
