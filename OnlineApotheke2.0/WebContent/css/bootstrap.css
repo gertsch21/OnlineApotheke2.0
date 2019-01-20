@@ -10700,24 +10700,8 @@ p.pr {
 	padding-top: 30px;
 }
 
-@media (max-width: 767.98px) {
-	.product_display { 
-		display: none;
-	}
-	
-	#product_label {
- 
-	}
+.panel-body {
+	font-size: 14px;
+}
 
-	#product_description {
-
-	}
-
-	#price {
-		
-	}
-
-	#amount {
-
-	}
 }
