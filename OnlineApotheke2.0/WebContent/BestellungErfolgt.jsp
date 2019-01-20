@@ -30,18 +30,16 @@
 	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css"
 	rel="stylesheet"/>
 
+	<link rel="shortcut icon" href="Bilder/favicon_old.png" type="image/vnd.microsoft.icon" />
+	<link type="text/css" rel="stylesheet" href="css/bootstrap.css" media="all" />
+
 </head>
 <body>
 
 <!-------- HEADER -------->
-	<div class="container wrap sidebar-right">
-		<div class="row"> 
-			<div class="col-md-12"> 
-				<div class="jumbotron">
 
-					<h1>Apotheke Online</h1>
-					<h3>Herzlich Willkommen <%=session.getAttribute("username")%>!</h3> <!-- wenn null, dann darf man sowieso nicht auf die Hauptseite zugreifen -->
-
+<jsp:include page="/Navigation.jsp"/>
+	
 <%
 	if(session.getAttribute("message")!=null){ %>
 		<h2>Neue Meldung: <%=session.getAttribute("message") %></h2>
@@ -52,25 +50,7 @@
 <% 		request.getSession().setAttribute("fehler", null);
 	} 
 %>
-					<!-- Suchfeld -->
-					<div class="col-md-10">
-						<form class="navbar-form navbar-left"
-							action="SucheProduktController" method="post">
-								<input class="form-control" name="suchwert" type="text" size="80" />
-								<input class="btnGreen" type="submit" value="Produkt suchen" />
-						</form>
-					</div>
-					
-					<!-- Logout-Button -->
-					<div class="col-md-2">
-						<form action="Logincontroller" method="GET">
-							<input class="btnGreen" name="logout" type="submit"
-								value="Logout" />
-						</form>
-					</div>
-				</div> <!-- End jumbotron -->
-			</div> 
-		</div><!-- End HEADER -->
+<!-- End HEADER -->
 		
 <!-- Container für Hauptbereich: große Spalte für Produkte + kleine für Warenkorb -->		
 		<div class="container"> 

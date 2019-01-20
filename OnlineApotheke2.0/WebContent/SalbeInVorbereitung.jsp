@@ -16,16 +16,20 @@
 	<link
 		href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css"
 		rel="stylesheet" />
+		
+	<link rel="shortcut icon" href="Bilder/favicon_old.png" type="image/vnd.microsoft.icon" />
+	<link type="text/css" rel="stylesheet" href="css/bootstrap.css" media="all" />
+	
 	
 	<title>SalbeInVorbereitung</title>
 </head>
-<body>
-	<h1>Hallo Welt!</h1>
-	
-	
+<body>	
+	<jsp:include page="/Navigation.jsp"/>
+	<!-- End Header -->
+		
 	<div class="container theme-showcase">
 		<div class="jumbotron">
-			<img src="Bilder/aon_logo.png" alt="" height="123" width="600"/>
+			
 
 			
 			<%

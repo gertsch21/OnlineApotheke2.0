@@ -1,10 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
 
-
-	<link rel="shortcut icon" href="Bilder/favicon.png" type="image/vnd.microsoft.icon" />
-	<link type="text/css" rel="stylesheet" href="css/bootstrap.css" media="all" />
-</head>
 <body>
 	<div class="bs-component">
 		<nav class="navbar navbar-expand-lg navbar-light bg-light">
