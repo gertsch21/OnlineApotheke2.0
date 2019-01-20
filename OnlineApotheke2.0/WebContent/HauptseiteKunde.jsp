@@ -44,7 +44,11 @@
 
 <jsp:include page="/Navigation.jsp"/>
 
-	
+				<!-- End HEADER -->
+		
+<!-- Container für Hauptbereich: große Spalte für Produkte + kleine für Warenkorb -->		
+		<div class="container"> 
+			
 <%
 	if(session.getAttribute("message")!=null){
 %>
@@ -59,10 +63,7 @@
 	request.getSession().setAttribute("fehler", null);
 	}
 %>
-					<!-- End HEADER -->
-		
-<!-- Container für Hauptbereich: große Spalte für Produkte + kleine für Warenkorb -->		
-		<div class="container"> 
+	
 			<div class="row">
 				 <div class="col-md-8"> <!-- Hauptspalte -->
 				

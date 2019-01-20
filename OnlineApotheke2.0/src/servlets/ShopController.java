@@ -80,6 +80,21 @@ public class ShopController extends HttpServlet {
 				Bestellungsmanagement.getInstance().speichereEinkaufswagen(einkaufswagen);
 			}
 		}
+		
+		
+		
+		
+		
+		if(produkte.isEmpty()) {
+			session.setAttribute("MengenMap", mengenMap);
+			session.setAttribute("Einkaufswagen", einkaufswagen);
+			session.setAttribute("prodOut", "Es konnten keine passenden Produkte gefunden werden!");
+			request.getRequestDispatcher("HauptseiteKunde.jsp").include(request, response);
+			response.setContentType("text/html");
+			return;
+		}
+		
+		
 		for(Produkt product : produkte) {
 			System.out.println(product.getProdukt_id());
 			if(mengenMap.containsKey(product.getProdukt_id())){
