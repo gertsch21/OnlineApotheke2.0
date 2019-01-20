@@ -3,6 +3,7 @@ package servlets;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.PrintWriter;
 import java.io.StringReader;
 import java.util.Date;
 import java.util.List;
@@ -67,20 +68,26 @@ public class Bestellen extends HttpServlet {
 		String schema = b2b.getSchemaString();
 		B2Bmanagement.getInstance().validate(xml, schema);
 		System.out.println("Hier");
+		PrintWriter writer=response.getWriter();
 		try {
 			System.out.println("VOR DOKUMENT");
 			Document dokument = B2Bmanagement.getInstance().parseXML(xml);
 			System.out.println("VERARBEITE");
 			verarbeiteBestellung(dokument);
 			System.out.println("fertig");
+			response.setStatus(400);
+			writer.append("Success");
 		} catch (SAXException | ParserConfigurationException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+			response.setStatus(400);
+			 writer.append("Error");
 		}
-		System.out.println("LoginController: Weiterleiten zum Login!");
-		response.setContentType("text/html");
+		finally {
+		response.setContentType("texthtml");
+		 writer.flush();
 		//doGet(request, response);
-		
+		}
 	}
 	public void verarbeiteBestellung(Document dokument) {
         NodeList nodelist = dokument.getElementsByTagName("Login");
