@@ -71,19 +71,15 @@ public class SalbeHerstellenControllerB2B extends HttpServlet {
 			System.out.println("VOR DOKUMENT");
 			Document dokument = B2BManagementSalbeHerstellen.getInstance().parseXML(xml);
 			System.out.println("VERARBEITE");
-			verarbeiteBestellung(dokument);
+			String HinweisText = "";
+			HinweisText = verarbeiteBestellung(dokument);
 			
-		    String fehler = "<Fehler> Es passt alles</Fehler>";
-		    response.setContentType("text/xml");
+			response.setContentType("text/xml");
 			response.setStatus(HttpServletResponse.SC_OK);
-			response.getWriter().write(fehler);
+			response.getWriter().write(HinweisText);
 			response.getWriter().flush();
 			response.getWriter().close();
-		    
-			
-			System.out.println("fertig");
-			
-			
+	
 		} catch (SAXException | ParserConfigurationException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -91,7 +87,7 @@ public class SalbeHerstellenControllerB2B extends HttpServlet {
 		response.setContentType("text/html");
 	}
 	
-	public void verarbeiteBestellung(Document dokument) {
+	public String verarbeiteBestellung(Document dokument) {
         NodeList nodelist = dokument.getElementsByTagName("Login");
         Element login = (Element) nodelist.item(0).getChildNodes();
         String username = login.getElementsByTagName("username").item(0).getTextContent();
@@ -118,7 +114,8 @@ public class SalbeHerstellenControllerB2B extends HttpServlet {
 		Produktmanagement proman = Produktmanagement.getInstance();
 		
 		//Kunde kunde = (Kunde) Benutzermanagement.getInstance().getBenutzerByUname(username);
-
+		String HinweisText = "";
+		boolean allesOk = true;
 	    //if(kunde!=null && kunde.getPasswort().equals(passwort)) {
 	        for (int i = 0; i < nodelistStoff.getLength(); i++) {   
 	        	Element stoff = (Element) nodelistStoff.item(i).getChildNodes();
@@ -126,17 +123,20 @@ public class SalbeHerstellenControllerB2B extends HttpServlet {
 	        	int menge = Integer.parseInt(stoff.getElementsByTagName("menge").item(0).getTextContent());
 	        	Inhaltsstoff inhaltsstoff = proman.getInhaltsstoffByName(stoff_name);
 	        	preis += (menge * 0.4);
-				if(inhaltsstoff != null) {
-					//Muss noch überprüfen ob der Inhaltstoff in der DB ist
-					enthaltene_inhaltsstoffe.add(inhaltsstoff);
+	        	if(inhaltsstoff != null) {
+					enthaltene_inhaltsstoffe.add(inhaltsstoff);	
 				}else {
-					//sende Fehler zurück
+					HinweisText += ("Der Inhaltsstoff: " + stoff_name + " existiert nicht!\n");
+					allesOk = false;
 				}
 	        	
-	        }
-	        System.out.println("Preis: " + preis);
+	        }       
+	        //System.out.println("Preis: " + preis);
        // }
-	
+	      if(allesOk) {
+	    	  return "<SalbenherstellungResponse>Auftrag wird vorraussichtlich akzeptiert, sie hoeren in den naechsten Tagen von usn!</SalbenherstellungResponse>";
+	      }
+	      return HinweisText;
 	}
 	
 	

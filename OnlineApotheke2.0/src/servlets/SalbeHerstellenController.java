@@ -84,17 +84,25 @@ public class SalbeHerstellenController extends HttpServlet {
 		liste.add(inhaltsStoff4);
 		liste.add(inhaltsStoff5);
 		
+		String HinweisText = "";
+		boolean allesOk = true; 
 		for(int i = 0; i < 5; i++) {
 			Inhaltsstoff inhaltsstoff = proman.getInhaltsstoffByName(liste.get(i));
 			if(inhaltsstoff != null) {
-				//Muss noch überprüfen ob der Inhaltstoff in der DB ist
-				enthaltene_inhaltsstoffe.add(inhaltsstoff);
+				enthaltene_inhaltsstoffe.add(inhaltsstoff);	
+			}else {
+				HinweisText += ("Der Inhaltsstoff: " + liste.get(i) + " existiert nicht!\n");
+				allesOk = false;
 			}
+				
+		}
+		if(allesOk) {
+			HinweisText = "Auftrag wurde akzeptiert, Sie hören in den nächsten Tagen von uns"; 
 		}
 		
 		proman.SalbeAnlegen(salbenName, preis, anmerkung, volumen, zusatzinformation, erstelldatum, enthaltene_inhaltsstoffe);
 
-		session.setAttribute("HinweisText", "Auftrag wurde akzeptiert, Sie hören in den nächsten Tagen von uns");
+		session.setAttribute("HinweisText", HinweisText);
 	
 		request.getRequestDispatcher("SalbeInVorbereitung.jsp").include(request, response);
 		response.setContentType("text/html");
