@@ -76,7 +76,7 @@ public class SalbeHerstellenControllerB2B extends HttpServlet {
 			
 			response.setContentType("text/xml");
 			response.setStatus(HttpServletResponse.SC_OK);
-			response.getWriter().write(HinweisText);
+			response.getWriter().write("<SalbenherstellungResponse>" + HinweisText + "</SalbenherstellungResponse>");
 			response.getWriter().flush();
 			response.getWriter().close();
 	
@@ -126,7 +126,7 @@ public class SalbeHerstellenControllerB2B extends HttpServlet {
 	        	if(inhaltsstoff != null) {
 					enthaltene_inhaltsstoffe.add(inhaltsstoff);	
 				}else {
-					HinweisText += ("Der Inhaltsstoff: " + stoff_name + " existiert nicht!\n");
+					HinweisText += ("<Fehler>Der Inhaltsstoff: " + stoff_name + " existiert nicht!</Fehler>");
 					allesOk = false;
 				}
 	        	
@@ -137,7 +137,7 @@ public class SalbeHerstellenControllerB2B extends HttpServlet {
 	      //proman.SalbeAnlegen(salbenName, preis, anmerkung, volumen, zusatzinformation, erstelldatum, enthaltene_inhaltsstoffe);
 
 	      if(allesOk) {
-	    	  return "<SalbenherstellungResponse>Auftrag wird vorraussichtlich akzeptiert, sie hoeren in den naechsten Tagen von usn!</SalbenherstellungResponse>";
+	    	  return "Auftrag wird vorraussichtlich akzeptiert, sie hoeren in den naechsten Tagen von usn!";
 	      }
 	      return HinweisText;
 	}
