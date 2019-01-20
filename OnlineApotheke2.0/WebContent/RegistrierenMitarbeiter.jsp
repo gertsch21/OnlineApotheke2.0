@@ -124,6 +124,7 @@
 					</tr>
 				</table>
 			</form>
+			
 
 <!-- Einfaches Retour zur Hauptseite -->
 			<form method="get" action="HauptseiteMitarbeiter.jsp">
