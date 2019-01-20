@@ -77,14 +77,14 @@
 					<tr>
 						<td><%=b.getBenutzername()%></td>
 						<input type="hidden" id="username" name="username" value="<%=b.getBenutzername()%>">
-						<td><input type="text" name="kundePasswort<%=b.getBenutzername()%>" size="10" value="<%=b.getPasswort()%>"/></td>
-						<td><input type="text" name="kundeVorname<%=b.getBenutzername()%>" size="10" value="<%=b.getVorname()%>"/></td>
-						<td><input type="text" name="kundeNachname<%=b.getBenutzername()%>" size="10" value="<%=b.getNachname()%>"/></td>
-						<td><input type="text" name="kundeLand<%=b.getBenutzername()%>" size="10" value="<%=b.getLand()%>"/></td>
-						<td><input type="text" name="kundePLZ<%=b.getBenutzername()%>" size="10" value="<%=b.getPlz()%>"/></td>
-						<td><input type="text" name="kundeOrt<%=b.getBenutzername()%>" size="10" value="<%=b.getOrt()%>"/></td>
+						<td><input type="text" name="kundePasswort<%=b.getBenutzername()%>" size="5" value="<%=b.getPasswort()%>"/></td>
+						<td><input type="text" name="kundeVorname<%=b.getBenutzername()%>" size="5" value="<%=b.getVorname()%>"/></td>
+						<td><input type="text" name="kundeNachname<%=b.getBenutzername()%>" size="5" value="<%=b.getNachname()%>"/></td>
+						<td><input type="text" name="kundeLand<%=b.getBenutzername()%>" size="5" value="<%=b.getLand()%>"/></td>
+						<td><input type="text" name="kundePLZ<%=b.getBenutzername()%>" size="3" value="<%=b.getPlz()%>"/></td>
+						<td><input type="text" name="kundeOrt<%=b.getBenutzername()%>" size="5" value="<%=b.getOrt()%>"/></td>
 						<td><input type="text" name="kundeStrasse<%=b.getBenutzername()%>" size="10" value="<%=b.getStrasse()%>"/></td>
-						<td><input type="text" name="kundeHausnummer<%=b.getBenutzername()%>" size="5" value="<%=b.getHausnummer()%>"/></td>
+						<td><input type="text" name="kundeHausnummer<%=b.getBenutzername()%>" size="2" value="<%=b.getHausnummer()%>"/></td>
 						
 						
 						<td><input type="submit" name="zuUpdaten" value="<%=b.getBenutzername()%>"/></td>

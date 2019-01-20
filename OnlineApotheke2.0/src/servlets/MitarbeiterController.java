@@ -54,10 +54,14 @@ public class MitarbeiterController extends HttpServlet {
 			return;
 		}
 		if (request.getParameter("produktReg") != null) {
-
+			request.getRequestDispatcher("ProduktAnlegen.jsp").include(request, response);
+			response.setContentType("text/html");
+			return;
 		}
 		if (request.getParameter("mitarbeiterReg") != null) {
-
+			request.getRequestDispatcher("RegistrierenMitarbeiter.jsp").include(request, response);
+			response.setContentType("text/html");
+			return;
 		}
 		if (request.getParameter("benver") != null) {
 			request.getRequestDispatcher("Kundenanzeige.jsp").include(request, response);

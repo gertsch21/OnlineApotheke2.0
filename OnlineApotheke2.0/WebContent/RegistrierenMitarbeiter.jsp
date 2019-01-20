@@ -62,61 +62,61 @@
 
 					<tr>
 						<td>Vorname:</td>
-						<td><input type="text" name="vorname" value="" /></td>
+						<td><input type="text" name="vorname" value="Max" /></td>
 					</tr>
 					<tr>
 						<td>Nachname:</td>
-						<td><input type="text" name="nachname" value="" /></td>
+						<td><input type="text" name="nachname" value="Mustermann" /></td>
 					</tr>
 
 					<tr>
 						<td>Email:</td>
-						<td><input type="text" name="email" value="" /></td>
+						<td><input type="text" name="email" value="MaxMustermann@gmx.at" /></td>
+					</tr>
+										<tr>
+					<td>SVNR:</td>
+						<td><input type="text" name="svnr" value="2125231200" /></td>
 					</tr>
 					<tr>
-						<td>Salary:</td>
-						<td><input type="text" name="salary" /></td>
+						<td>Gehalt:</td>
+						<td><input type="text" name="gehalt" value="4000" /></td>
 					</tr>
 				</table>
 				<table class="table">
 					<tr>
 						<td>Land:</td>
-						<td><input type="text" name="land" value="" /></td>
+						<td><input type="text" name="land" value="Austria" /></td>
 					</tr>
 					<tr>
 						<td>PLZ:</td>
-						<td><input type="number" name="plz" value="" /></td>
+						<td><input type="number" name="plz" value="2020" /></td>
 					</tr>
 					<tr>
 						<td>Wohnort:</td>
-						<td><input type="text" name="wohnort" value="" /></td>
+						<td><input type="text" name="wohnort" value="Hollabrunn" /></td>
 					</tr>
 					<tr>
 						<td>Strasse:</td>
-						<td><input type="text" name="strasse" value="" /></td>
+						<td><input type="text" name="strasse" value="Wiener Strasse" /></td>
 					</tr>
 					<tr>
 						<td>HausNr:</td>
-						<td><input type="number" name="nummer" value="" /></td>
+						<td><input type="number" name="nummer" value="11" /></td>
 					</tr>
 				</table>
 
 				<table class="table">
 					<tr>
-						<td>staffNo:</td>
-						<td><input type="number" name="staffNo" value="" /></td>
-					</tr>
-					<tr>
 						<td>Username:</td>
-						<td><input type="text" name="username" value="" /></td>
+						<td><input type="text" name="username" value="maxxxxi" /></td>
 					</tr>
 					<tr>
 						<td>Password:</td>
-						<td><input type="password" name="password" /></td>
+						<td><input type="password" name="password" value="maxxxxi" /></td>
 					</tr>
 					<tr>
 						<td>Password wiederholen:</td>
-						<td><input type="password" name="passwordW" /></td>
+						<td><input type="password" name="passwordW" value="maxxxxi" /></td>
 					</tr>
 					<tr>
 						<td><input type="submit" value="Send" /></td>
@@ -126,7 +126,7 @@
 			</form>
 
 <!-- Einfaches Retour zur Hauptseite -->
-			<form method="get" action="HauptseiteKunde.jsp">
+			<form method="get" action="HauptseiteMitarbeiter.jsp">
 			    <button type="submit">Back</button>
 			</form>
 

@@ -1,4 +1,3 @@
-<%@page import="model.Category"%>
 <%@page import="java.util.List"%>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
@@ -77,7 +76,7 @@
 					<tr>
 						<td>Wirkungsweise:</td>
 						<td>
-							<td><input type="text" name="anmerkung" value="" /></td>
+							<td><input type="text" name="wirkungsweise" value="" /></td>
 						</td>
 					</tr>
 					<tr>
@@ -104,6 +103,12 @@
 							<td><input type="text" name="enthaltene_menge" value="" /></td>
 						</td>
 					</tr>
+					<tr>
+						<td>Anwendungsweise:</td>
+						<td>
+							<td><input type="text" name="anwendungsweise" value="" /></td>
+						</td>
+					</tr>
 				
 					<tr>
 						<td><input type="submit" value="Send" /></td>
@@ -113,7 +118,7 @@
 			</form>
 
 <!-- Einfaches Retour zur Hauptseite -->
-			<form method="get" action="HauptseiteKunde.jsp">
+			<form method="get" action="HauptseiteMitarbeiter.jsp">
 			    <button type="submit">Back</button>
 			</form>
 

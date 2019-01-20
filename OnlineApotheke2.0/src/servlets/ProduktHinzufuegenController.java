@@ -31,9 +31,15 @@ public class ProduktHinzufuegenController extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 			System.out.println("Im get vom ProduktHinzufuegenController");
-			request.getSession().invalidate();
-			System.out.println("Weiterleiten zum Login!");
-			request.getRequestDispatcher("Login.jsp").include(request, response);
+			HttpSession session = request.getSession(true);
+
+	    	if (session.getAttribute("username") == null) {
+				response.sendRedirect(request.getContextPath() + "/Logincontroller");
+				response.setContentType("text/html");
+				return;
+			}
+
+			request.getRequestDispatcher("HauptseiteMitarbeiter.jsp").include(request, response);
 			response.setContentType("text/html");
 		}
 
@@ -46,21 +52,17 @@ public class ProduktHinzufuegenController extends HttpServlet {
 			
 			Produktmanagement prover = Produktmanagement.getInstance(); 
 			
-			
-			//Hier wird geprüft, ob einfach nur auf das JSP zugegriffen wird und dies Authorisiert erfolgt
-			if(request.getParameter("produktReg")!=null){
-				System.out.println("ProduktHinzufuegencontroller: Authorisiert zum hinzufuegen --> KategorieAnlegen.jsp");
-				request.getRequestDispatcher("ProduktAnlegen.jsp").include(request, response);
-				response.setContentType("text/html");
-				return;
-			}
-			
 		
 			String name=request.getParameter("name");
-			String description=request.getParameter("description");
-			String priceAsString=request.getParameter("price");
-			String kategorie=request.getParameter("kategorie");
-
+			String anmerkung=request.getParameter("anmerkung");
+			String priceAsString=request.getParameter("preis");
+			String wirkungsweise=request.getParameter("wirkungsweise");
+			String vorhandene_menge=request.getParameter("vorhandene_menge");
+			String wirkstoff=request.getParameter("wirkstoff");
+			String hersteller=request.getParameter("hersteller");
+			String enthaltene_menge=request.getParameter("enthaltene_menge");
+			String anwendungsweise=request.getParameter("anwendungsweise");
+			
 			
 			if(name.isEmpty()){
 				System.out.println("ProduktHinzufuegencontroller: Es wurde kein Name für das Produkt eingegeben!");
@@ -77,34 +79,21 @@ public class ProduktHinzufuegenController extends HttpServlet {
 				return;
 			}
 			
-			int kategorieID = 0;
-			double price= 0;
-			try{
-				kategorieID = Integer.parseInt(kategorie);
-				price = Double.parseDouble(priceAsString);
-			}catch(Exception e){
-				request.getSession(true).setAttribute("fehler", "Der Preis muss eine Zahl sein, das Komma muss ein Punkt(.) sein!!");
-				System.out.println("ProdukthinzufuegeController: Preis oder Kateogrieid ist keine Zahl!");
-				request.getRequestDispatcher("ProduktAnlegen.jsp").include(request, response);
-				response.setContentType("text/html");
-				return;
-			}
-			
 			
 			
 			//Nachdem Benutzer angelegt wurde, wird er automatisch(nicht über Login) zur Hauptseite.jsp weitergeleitet.
-			if(prover.produktAnlegen(name, price, description, kategorieID)){
+			if(prover.ZugekauftesProduktAnlegen(name, Double.parseDouble(priceAsString), anmerkung, Integer.parseInt(enthaltene_menge), hersteller, wirkstoff, wirkungsweise, anwendungsweise)) {
 				HttpSession session = request.getSession(true);
 				session.setAttribute("message", "Produkt '"+name+"' wurde soeben angelegt!");
-				System.out.println("ProdukthinzufuegeController: Produkt angelegt: "+name+", KategorieID: "+kategorie);
+				System.out.println("ProdukthinzufuegeController: Produkt angelegt: "+name);
 				session.setAttribute("fehler", null);
-				response.sendRedirect(request.getContextPath() + "/ShopController");//Damit Produktliste in session gleich aktualisiert wird
+				response.sendRedirect(request.getContextPath() + "/MitarbeiterController");//Damit Produktliste in session gleich aktualisiert wird
 				response.setContentType("text/html");
 				return;
 			}
 			//eingabe nicht erfolgreich:
 			else{
-				System.out.println("ProdukthinzufuegeController: Produkt konnte nicht angelegt werden: "+name+", Price: "+price+", Description: "+description);
+				System.out.println("ProdukthinzufuegeController: Produkt konnte nicht angelegt werden: "+name+", Price: "+priceAsString+", Anmerkung: "+anmerkung);
 				request.getSession(true).setAttribute("fehler", "Grober Fehler beim Anlegen des Produktes aufgetreten!");
 				response.sendRedirect("ProduktAnlegen.jsp");
 			}
