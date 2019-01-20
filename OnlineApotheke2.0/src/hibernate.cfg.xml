@@ -39,7 +39,9 @@
 
         <!-- Drop and re-create the database schema on startup -->
         <property name="hbm2ddl.auto">update</property>
-		
+        
+        <!-- damit schneller geht -->
+		<property name="hibernate.temp.use_jdbc_metadata_defaults">false</property>
    
         <!-- Names the annotated entity class -->
         
