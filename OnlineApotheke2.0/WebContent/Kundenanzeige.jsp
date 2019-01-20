@@ -73,6 +73,7 @@
 					</tr>
 <%for(Kunde b : (List<Kunde>) Benutzermanagement.getInstance().getAlleKunden()){ %>
 			<form action="Benutzerverwaltungscontroller" method="POST">
+			
 					<tr>
 						<td><%=b.getBenutzername()%></td>
 						<input type="hidden" id="username" name="username" value="<%=b.getBenutzername()%>">
