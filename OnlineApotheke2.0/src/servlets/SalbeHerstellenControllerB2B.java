@@ -93,7 +93,7 @@ public class SalbeHerstellenControllerB2B extends HttpServlet {
         String username = login.getElementsByTagName("username").item(0).getTextContent();
         String passwort = login.getElementsByTagName("passwort").item(0).getTextContent();
         String salbenName = dokument.getElementsByTagName("Name").item(0).getTextContent();
-        String volumen = dokument.getElementsByTagName("Volumen").item(0).getTextContent();
+        double volumen = Integer.parseInt(dokument.getElementsByTagName("Volumen").item(0).getTextContent());
         String zusatzinformation = dokument.getElementsByTagName("zusatzinformation").item(0).getTextContent();  
         double preis = 0;
         String anmerkung = "";
@@ -133,6 +133,9 @@ public class SalbeHerstellenControllerB2B extends HttpServlet {
 	        }       
 	        //System.out.println("Preis: " + preis);
        // }
+	        
+	      //proman.SalbeAnlegen(salbenName, preis, anmerkung, volumen, zusatzinformation, erstelldatum, enthaltene_inhaltsstoffe);
+
 	      if(allesOk) {
 	    	  return "<SalbenherstellungResponse>Auftrag wird vorraussichtlich akzeptiert, sie hoeren in den naechsten Tagen von usn!</SalbenherstellungResponse>";
 	      }
