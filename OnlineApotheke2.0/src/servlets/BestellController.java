@@ -6,6 +6,7 @@ import java.text.SimpleDateFormat;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
+import java.util.Set;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -42,7 +43,15 @@ public class BestellController extends HttpServlet {
 		Bestellungsmanagement bestman = Bestellungsmanagement.getInstance();
 		Einkaufswagen einkaufswagen = (Einkaufswagen) session.getAttribute("Einkaufswagen");
 		bestman.aktualisiereEinkaufswagen(einkaufswagen);
-		
+		Map<Long, Integer> mengenMap = (Map<Long, Integer>) session.getAttribute("MengenMap");
+		Set<Item> itemSet  = einkaufswagen.getItems();
+		for(Item item:itemSet){
+			int produkt_id = (int) item.getProdukt().getProdukt_id();
+			if(mengenMap.containsKey((long)produkt_id)) {
+				//Produktmanagement.getInstance().updateMenge(produkt_id, mengenMap.get((long)produkt_id));
+				System.out.println("UPDATED");
+			}
+		}
 		einkaufswagen = new Einkaufswagen((Kunde) session.getAttribute("Kunde"));	
 		Date datum = new Date();
 		einkaufswagen.setBestelldatum(datum);
@@ -53,6 +62,9 @@ public class BestellController extends HttpServlet {
 		System.out.println(einkaufswagen);
 		session.setAttribute("Einkaufswagen", einkaufswagen);
 		session.setAttribute("cartOut", null);
+		
+
+		
    	 	request.getRequestDispatcher("BestellungErfolgt.jsp").include(request, response);
 		response.setContentType("text/html");
 		

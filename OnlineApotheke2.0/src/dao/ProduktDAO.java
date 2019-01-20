@@ -1,6 +1,7 @@
 package dao;
 
 import java.util.List;
+import java.util.Map;
 
 import model.Inhaltsstoff;
 import model.Produkt;
@@ -22,7 +23,8 @@ public interface ProduktDAO {
 	public List<Inhaltsstoff> getInhaltsstoffListe();
 	public List<Spezielle_salbe> getSpezielleSalbenListe();
 	public List<ZugekauftesProdukt> getZugekauftesProduktListe();
-	
+	public Map<Long, Integer> getMenge();
+	public int updateMenge(int produkt_id, int menge);
 	public Produkt getProduktByProduktID(int produkt_id);
 	
     

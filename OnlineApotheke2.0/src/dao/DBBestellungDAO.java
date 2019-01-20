@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import org.hibernate.HibernateException;
@@ -14,6 +15,7 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.cfg.Configuration;
+import org.hibernate.query.Query;
 
 import model.Benutzer;
 import model.Einkaufswagen;
@@ -265,5 +267,6 @@ public class DBBestellungDAO implements BestellungDAO {
 		}
 		return einkaufswagen;
 	}
+
 
 }

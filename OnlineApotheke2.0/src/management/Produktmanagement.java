@@ -3,6 +3,7 @@ package management;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import model.Spezielle_salbe;
@@ -125,6 +126,11 @@ public class Produktmanagement {
 		
 		return ausgewaehlte;
 	}
-
-
+	
+	public Map<Long,Integer> getMenge(){
+		return produkt_dao.getMenge();
 	}
+	public int updateMenge(int produkt_id, int menge){
+		return produkt_dao.updateMenge(produkt_id, menge);
+	}
+}

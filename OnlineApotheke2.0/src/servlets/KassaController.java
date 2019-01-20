@@ -90,6 +90,7 @@ public class KassaController extends HttpServlet {
 		HttpSession session = request.getSession();
 		Map<Long, Integer> cart = new HashMap<Long, Integer>();
 		Einkaufswagen einkaufswagen = (Einkaufswagen) session.getAttribute("Einkaufswagen");
+		Map<Long,Integer> mengenMap = (Map<Long, Integer>) session.getAttribute("MengenMap");
 		if ( session.getAttribute("cart") != null ){
 			cart = (Map<Long, Integer>) session.getAttribute("cart");
 		}
@@ -102,7 +103,12 @@ public class KassaController extends HttpServlet {
    	    		if (formValue == 0) {
    	    			einkaufswagen.getItems().remove(item);
    	    		} else {
-   	    			item.setAnzahl(formValue);
+   	    			if(mengenMap!=null && mengenMap.containsKey(item.getProdukt().getProdukt_id())) {
+   	    				int diff = formValue-mapVal;
+   	    				if(mengenMap.get(item.getProdukt().getProdukt_id())>=formValue) {
+   	    					item.setAnzahl(formValue);
+   	    				}
+   	    			}
    	    		}
    	    	}   
    	 	}

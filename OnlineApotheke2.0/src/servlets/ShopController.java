@@ -63,11 +63,50 @@ public class ShopController extends HttpServlet {
 		else
 			produkte = (List<Produkt>) session.getAttribute("ausgewaehlteProdukte");
 		
+		Map<Long,Integer> mengenMap = (Map<Long, Integer>) session.getAttribute("MengenMap");
+		if(mengenMap==null) {
+			mengenMap = Produktmanagement.getInstance().getMenge();
+		}
+		Kunde kunde = (Kunde) session.getAttribute("Kunde");
+		Einkaufswagen einkaufswagen = (Einkaufswagen) session.getAttribute("Einkaufswagen");
+		if(einkaufswagen ==null) {
+			einkaufswagen = Bestellungsmanagement.getInstance().getEinkaufswagen(kunde.getBenutzer_id());
+			//Bestellungsmanagement.getInstance().deleteBestellung(2);
+			if(einkaufswagen == null) {
+				einkaufswagen = new Einkaufswagen((Kunde) session.getAttribute("Kunde"));	
+				Date datum = new Date();
+				System.out.println("DATE: " + datum);
+				einkaufswagen.setBestelldatum(datum);
+				Bestellungsmanagement.getInstance().speichereEinkaufswagen(einkaufswagen);
+			}
+		}
 		for(Produkt product : produkte) {
+			System.out.println(product.getProdukt_id());
+			if(mengenMap.containsKey(product.getProdukt_id())){
+				System.out.println("ProduktMenge: " +mengenMap.get(product.getProdukt_id()));
+			}
+			Set<Item> itemSet = einkaufswagen.getItems();
+			Item item = null;
+			for(Item entry:itemSet) {
+				if(entry.getProdukt().getProdukt_id()==(product.getProdukt_id())) {
+					item = entry;
+				}
+				
+			}
+			boolean onStock = false;
+			if(item!=null) {
+				if(mengenMap.get(product.getProdukt_id())<=item.getAnzahl()) {
+					onStock = true;
+				}
+			}
+			if(mengenMap.containsKey(product.getProdukt_id()) && (mengenMap.get(product.getProdukt_id())<=0 ||onStock)) {
+				System.out.println("ProdktID: " +product.getProdukt_id());
+				continue;
+			}
 			prodOut.append("<div class=\"product\">"
 								+ "<div class=\"row\">"
 								+ "<div class=\"col-md-8\">"
-								+ "		<h2>" + product.getName() + "</h2>" 
+								+ "		<h2>" + product.getProdukt_id() + ", " + product.getName() + "</h2>" 
 								+ "</div>"
 								+ "<div class=\"col-md-4\" style=\"display: table; overflow: hidden;\">"
 								+ "		<div class=\"pricebox\">"
@@ -87,22 +126,18 @@ public class ShopController extends HttpServlet {
 								+ "</div>"
 			);
 		}
-		Kunde kunde = (Kunde) session.getAttribute("Kunde");
-		
-		Einkaufswagen einkaufswagen = Bestellungsmanagement.getInstance().getEinkaufswagen(kunde.getBenutzer_id());
-		//Bestellungsmanagement.getInstance().deleteBestellung(2);
-		if(einkaufswagen == null) {
-			einkaufswagen = new Einkaufswagen((Kunde) session.getAttribute("Kunde"));	
-			Date datum = new Date();
-			System.out.println("DATE: " + datum);
-			einkaufswagen.setBestelldatum(datum);
-			Bestellungsmanagement.getInstance().speichereEinkaufswagen(einkaufswagen);
-		}
+
+			
 		List<Einkaufswagen> liste = Bestellungsmanagement.getInstance().getAllEinkaufswagen();
 		for(Einkaufswagen eink:liste) {
 			System.out.println(eink);
 		}
 		System.out.println("MEin Einkaufswagen: " + einkaufswagen);
+		
+		for(Long key:mengenMap.keySet()) {
+			System.out.println("KEY: " + key + ", Value: " + mengenMap.get(key));
+		}
+		session.setAttribute("MengenMap", mengenMap);
 		session.setAttribute("Einkaufswagen", einkaufswagen);
 		session.setAttribute("prodOut", prodOut);
 		request.getRequestDispatcher("HauptseiteKunde.jsp").include(request, response);
@@ -126,17 +161,29 @@ public class ShopController extends HttpServlet {
 		Set<Item> itemList = einkaufswagen.getItems();
 		boolean contained = false;
 		System.out.println("EINKAUFSWAGEN: ALT: " + einkaufswagen);
-		for(Item item: itemList) {
-			if(item.getProdukt().getProdukt_id()==Long.parseLong(productID)) {
-				item.setAnzahl(item.getAnzahl()+1);
+		Item item = null;
+		for(Item entry: itemList) {
+			if(entry.getProdukt().getProdukt_id()==Long.parseLong(productID)) {
+				entry.setAnzahl(entry.getAnzahl()+1);
 				contained = true;
+				item = entry;
 			}
 		}
 		if(!contained) {
 			Produkt produkt = Produktmanagement.getInstance().getProduktByProduktID(Integer.parseInt(productID));
-			Item item = new Item(1, einkaufswagen, produkt);
+			item = new Item(1, einkaufswagen, produkt);
 			itemList.add(item);
 		}
+		Map<Long,Integer> mengenMap = (Map<Long, Integer>) session.getAttribute("MengenMap");
+		boolean reload = false;
+		if(mengenMap.containsKey(Long.parseLong(productID))) {
+			int menge = mengenMap.get(Long.parseLong(productID));
+			System.out.println("MAP Menge Neu: " +mengenMap.get(Long.parseLong(productID)));
+			if(menge<=item.getAnzahl()) {
+				reload = true;
+			}
+		}
+		session.setAttribute("MengenMap", mengenMap);
 		session.setAttribute("Einkaufswagen", einkaufswagen);
 		session.setAttribute("cart", cart);
 
@@ -148,12 +195,12 @@ public class ShopController extends HttpServlet {
 	        	cartOut.append(
 	        			"<table class=\"cart\">"
     	        		);
-	        	 for(Item item:einkaufswagen.getItems()) {
+	        	 for(Item entry:einkaufswagen.getItems()) {
 	        	        cartOut.append(""
 	        	        		+ "<tr>"
-	        	        		+ "<td>" + /*prodman.getProduktByProduktID(Integer.parseInt(keyValue)).getName()*/ item.getProdukt().getName() + "</td>"
+	        	        		+ "<td>" + /*prodman.getProduktByProduktID(Integer.parseInt(keyValue)).getName()*/ entry.getProdukt().getName() + "</td>"
 	        	        		+ "<td>&nbsp; x &nbsp;</td>"
-	        	        		+ "<td>" + /*pair.getValue().toString()*/item.getAnzahl() + "</td>"
+	        	        		+ "<td>" + /*pair.getValue().toString()*/entry.getAnzahl() + "</td>"
 	        	        		+ "</tr>");
 	        	    
 	        	        
@@ -170,9 +217,15 @@ public class ShopController extends HttpServlet {
 		
 		
 		
-		request.getRequestDispatcher("HauptseiteKunde.jsp").include(request, response);
-		response.setContentType("text/html");
-		
+		System.out.println("Reload: " + reload);
+		if(reload) {
+			System.out.println("reload done");
+			doGet(request, response);
+		}
+		else {
+			request.getRequestDispatcher("HauptseiteKunde.jsp").include(request, response);
+			response.setContentType("text/html");
+		}
 		return;
 		
 	

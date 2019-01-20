@@ -6,6 +6,7 @@ import java.io.InputStreamReader;
 import java.io.StringReader;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import javax.servlet.ServletException;
@@ -109,11 +110,17 @@ public class Bestellen extends HttpServlet {
 			einkaufswagen.setBestelldatum(datum);
 			Set<Item> itemSet = einkaufswagen.getItems();
 	        NodeList itemList = dokument.getElementsByTagName("Item");
-
+	        Map<Long,Integer>mengenMap = Produktmanagement.getInstance().getMenge();
 	        for (int i = 0; i < itemList.getLength(); i++) {                
 	        	item= (Element) itemList.item(i).getChildNodes();  
 	        	  String produkt_id = item.getElementsByTagName("produkt_id").item(0).getTextContent();
 	        	  int anzahl = Integer.parseInt(item.getElementsByTagName("anzahl").item(0).getTextContent()); 
+	        	  if(mengenMap.containsKey(Long.parseLong(produkt_id)) && mengenMap.get(Long.parseLong(produkt_id))<=anzahl) {
+	        		  anzahl = mengenMap.get(Long.parseLong(produkt_id));
+	        	  }
+	        	  if(anzahl==0) {
+	        		  continue;
+	        	  }
 	        	  produkt = Produktmanagement.getInstance().getProduktByProduktID(Integer.parseInt(produkt_id));
 	  			  einkaufswagenItem = new Item(anzahl, einkaufswagen, produkt);
 	  			  //itemSet.add(einkaufswagenItem);

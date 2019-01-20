@@ -4,14 +4,17 @@
 package dao;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.cfg.Configuration;
+import org.hibernate.query.Query;
 
 import model.*;
 
@@ -189,5 +192,45 @@ public class DBProduktDAO implements ProduktDAO {
 		}
 		return liste;
 	}
+	public Map<Long, Integer> getMenge(){
+		Session session = factory.openSession();
+		try {
+			Map<Long,Integer> map = new HashMap<Long,Integer>();
+			long produkt_id;
+			int menge;
+			Query query = session.createSQLQuery(
+					"select produkt_id, menge_enthalten from zugekauftes_produkt");
+					List<Object[]> result = query.list();
+					for(Object[] entry:result) {
+						produkt_id = Long.parseLong(entry[0].toString());
+						menge = Integer.parseInt(entry[1].toString());
+						//System.out.println(produkt_id + ", " +menge);
+						map.put(produkt_id, menge);
+						System.out.println(produkt_id + ", " +menge);
+					};
+					return  map;
+		} finally {
+			session.close();
+		}	
+		
+	}	
+	
+	
+	@Override
+	public int updateMenge(int produkt_id, int menge){
+		Session session = factory.openSession();
+		try {
+			Query query = session.createSQLQuery(
+					"Update zugekauftes_produkt set menge_enthalten = :menge where produkt_id = :produkt_id");
+			query.setParameter("menge", menge);
+			query.setParameter("produkt_id", produkt_id);
+			int result = query.executeUpdate();
+			return result;
+		} finally {
+			session.close();
+		}	
+		
+	}
+
 
 }
