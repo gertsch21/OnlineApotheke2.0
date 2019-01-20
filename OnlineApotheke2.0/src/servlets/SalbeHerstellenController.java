@@ -87,6 +87,7 @@ public class SalbeHerstellenController extends HttpServlet {
 		for(int i = 0; i < 5; i++) {
 			Inhaltsstoff inhaltsstoff = proman.getInhaltsstoffByName(liste.get(i));
 			if(inhaltsstoff != null) {
+				//Muss noch überprüfen ob der Inhaltstoff in der DB ist
 				enthaltene_inhaltsstoffe.add(inhaltsstoff);
 			}
 		}

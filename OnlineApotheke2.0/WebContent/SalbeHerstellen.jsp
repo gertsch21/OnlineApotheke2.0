@@ -50,13 +50,24 @@
 			
 			<br />
 			<form action="SalbeHerstellenController" method="POST">
-				Salbenname: <input type="text" name="Salbenname" /></br>
-				<table>
+				
+				<table class="table">
 					<tr>
-						<th>Inhaltsstoff</th>
-						<th>Menge (g)</th>
-					</tr>	
-					
+						<td>
+							<b>Salbenname</b> 
+						</td>
+						<td>
+							<input type="text" name="Salbenname" />
+						</td>
+					</tr>
+					<tr>
+						<td>	
+			 				<b>Inhaltsstoff</b>
+						</td>
+						<td>
+							<b>Menge (g/ml)</b>
+						</td>
+					</tr>
 					<%
 						for(int i = 1; i < 6; i++) {		
 					%>
@@ -78,14 +89,26 @@
 						}
 							
 					%>
-				</table>
-				<td>
-				</br>
-				Zusatzinformation: </br> <textarea rows="4" cols="50" name="Zusatzinformation">Enter text here...</textarea></br></br>
-				Anmerkung: <input type="text" name="Anmerkung" /></br>
-				<input class="btn btn-primary" type="submit" value="Salbe in Auftrag geben" />
+					<tr>
+						<td>
+							<b>Zusatzinformation</b>
+						</td>
+						<td>
+							<textarea rows="4" cols="50" name="Zusatzinformation">Enter text here...</textarea>
+						</td>
+					</tr>
+					<tr>
+						<td>
+							<b>Anmerkung</b> 
+						</td>
+						<td>
+							<input type="text" name="Anmerkung" />
+						</td>
+					</tr>
+					
+				</table>		
+				<input class="btn btn-success" type="submit" value="Salbe in Auftrag geben" />
 			</form>
-			<br />
 
 		</div>
 	</div>	

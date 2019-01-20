@@ -27,7 +27,7 @@ public interface ProduktDAO {
 	public Map<Long, Integer> getMenge();
 	public int updateMenge(int produkt_id, int menge);
 	public Produkt getProduktByProduktID(int produkt_id);
-	
+	public void speichereSalbe(Spezielle_salbe salbe);
     
 	public void loescheProduktByProduktID(int produkt_id);	
 }

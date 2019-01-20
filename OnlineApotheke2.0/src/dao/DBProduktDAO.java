@@ -125,6 +125,28 @@ public class DBProduktDAO implements ProduktDAO {
 	}
 
 	@Override
+	public void speichereSalbe(Spezielle_salbe salbe) {
+		Session session = factory.openSession();
+		Transaction tx = null;
+		Long produktID = null;
+
+		try {
+			tx = session.beginTransaction();
+			session.save(salbe);
+			tx.commit();
+
+		} catch (HibernateException e) {
+			if (tx != null)
+				tx.rollback();
+			e.printStackTrace();
+		} finally {
+
+		}
+		
+	}
+	
+	
+	@Override
 	public List<Spezielle_salbe> getSpezielleSalbenListe() {
 		Session session = factory.openSession();
 		Transaction tx = null;

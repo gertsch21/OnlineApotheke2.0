@@ -8,7 +8,7 @@ import javax.persistence.*;
 import javax.xml.bind.annotation.XmlTransient;
 
 @Entity
-@Table(name = "spezielle_salbe")
+@Table(name = "Spezielle_salbe")
 @PrimaryKeyJoinColumn(name = "produkt_id")
 public class Spezielle_salbe extends Produkt {
 	private double volumen;
