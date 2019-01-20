@@ -47,41 +47,41 @@
 
 					<tr>
 						<td>Vorname:</td>
-						<td><input type="text" name="vorname" value="" /></td>
+						<td><input type="text" name="vorname" value="Max" /></td>
 					</tr>
 					<tr>
 						<td>Nachname:</td>
-						<td><input type="text" name="nachname" value="" /></td>
+						<td><input type="text" name="nachname" value="Mustermann" /></td>
 					</tr>
 					<tr>
 						<td>GebDatum:</td>
-						<td><input type="date" name="bday" /></td>
+						<td><input type="date" name="bday" value="21.11.1992"/></td>
 					</tr>
 					<tr>
 						<td>Email:</td>
-						<td><input type="text" name="email" value="" /></td>
+						<td><input type="text" name="email" value="max.mustermann@gmail.at" /></td>
 					</tr>
 				</table>
 				<table class="table">
 					<tr>
 						<td>Land:</td>
-						<td><input type="text" name="land" value="" /></td>
+						<td><input type="text" name="land" value="Austria" /></td>
 					</tr>
 					<tr>
 						<td>PLZ:</td>
-						<td><input type="text" name="plz" value="" /></td>
+						<td><input type="text" name="plz" value="1090" /></td>
 					</tr>
 					<tr>
 						<td>Wohnort:</td>
-						<td><input type="text" name="wohnort" value="" /></td>
+						<td><input type="text" name="wohnort" value="Wien" /></td>
 					</tr>
 					<tr>
 						<td>Strasse:</td>
-						<td><input type="text" name="strasse" value="" /></td>
+						<td><input type="text" name="strasse" value="Währinger Strasse" /></td>
 					</tr>
 					<tr>
 						<td>HausNr:</td>
-						<td><input type="text" name="nummer" value="" /></td>
+						<td><input type="text" name="nummer" value="29" /></td>
 					</tr>
 				</table>
 
@@ -94,15 +94,15 @@
 				<table class="table">
 					<tr>
 						<td>Username:</td>
-						<td><input type="text" name="username" value="" /></td>
+						<td><input type="text" name="username" value="maxUsername" /></td>
 					</tr>
 					<tr>
 						<td>Password:</td>
-						<td><input type="password" name="password" /></td>
+						<td><input type="password" name="password" value="maxUsername"/></td>
 					</tr>
 					<tr>
 						<td>Password wiederholen:</td>
-						<td><input type="password" name="passwordW" /></td>
+						<td><input type="password" name="passwordW" value="maxUsername" /></td>
 					</tr>
 
 
