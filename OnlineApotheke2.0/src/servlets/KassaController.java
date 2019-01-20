@@ -100,7 +100,7 @@ public class KassaController extends HttpServlet {
    	    	int formValue = Integer.parseInt(request.getParameter(mapKey));
    	    
    	    	if (formValue != mapVal) {
-   	    		if (formValue == 0) {
+   	    		if (formValue == 0 || formValue < 0) {
    	    			einkaufswagen.getItems().remove(item);
    	    		} else {
    	    			if(mengenMap!=null && mengenMap.containsKey(item.getProdukt().getProdukt_id())) {

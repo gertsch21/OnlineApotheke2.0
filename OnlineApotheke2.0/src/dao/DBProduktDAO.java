@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.hibernate.HibernateException;
+
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
@@ -246,12 +247,19 @@ public class DBProduktDAO implements ProduktDAO {
 	public int updateMenge(int produkt_id, int menge){
 		Session session = factory.openSession();
 		try {
+			session.getTransaction().begin();
 			Query query = session.createSQLQuery(
 					"Update zugekauftes_produkt set menge_enthalten = :menge where produkt_id = :produkt_id");
 			query.setParameter("menge", menge);
 			query.setParameter("produkt_id", produkt_id);
+			System.out.println(query);
 			int result = query.executeUpdate();
+			
+			session.getTransaction().commit();
 			return result;
+		}catch(HibernateException err) {
+			session.getTransaction().rollback();
+			return 0;
 		} finally {
 			session.close();
 		}	

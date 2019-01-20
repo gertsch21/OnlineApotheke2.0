@@ -190,7 +190,7 @@ public class ShopController extends HttpServlet {
 		
 		// ---------------- generate output for shopping cart ------------------
 		Produktmanagement prodman = Produktmanagement.getInstance();
-		StringBuffer cartOut = new StringBuffer();
+		/*StringBuffer cartOut = new StringBuffer();
 		
 	        	cartOut.append(
 	        			"<table class=\"cart\">"
@@ -198,9 +198,9 @@ public class ShopController extends HttpServlet {
 	        	 for(Item entry:einkaufswagen.getItems()) {
 	        	        cartOut.append(""
 	        	        		+ "<tr>"
-	        	        		+ "<td>" + /*prodman.getProduktByProduktID(Integer.parseInt(keyValue)).getName()*/ entry.getProdukt().getName() + "</td>"
+	        	        		+ "<td>" + entry.getProdukt().getName() + "</td>"
 	        	        		+ "<td>&nbsp; x &nbsp;</td>"
-	        	        		+ "<td>" + /*pair.getValue().toString()*/entry.getAnzahl() + "</td>"
+	        	        		+ "<td>" + entry.getAnzahl() + "</td>"
 	        	        		+ "</tr>");
 	        	    
 	        	        
@@ -214,7 +214,7 @@ public class ShopController extends HttpServlet {
 						 + "  </form>");
 		
 		session.setAttribute("cartOut", cartOut);
-		
+		*/
 		
 		
 		System.out.println("Reload: " + reload);

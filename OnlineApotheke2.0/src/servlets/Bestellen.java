@@ -128,6 +128,14 @@ public class Bestellen extends HttpServlet {
 	        }
 	        System.out.println(einkaufswagen);
 	        Bestellungsmanagement.getInstance().aktualisiereEinkaufswagen(einkaufswagen);
+			itemSet  = einkaufswagen.getItems();
+			for(Item entry:itemSet){
+				int produkt_id = (int) entry.getProdukt().getProdukt_id();
+				if(mengenMap.containsKey((long)produkt_id)) {
+					Produktmanagement.getInstance().updateMenge(produkt_id, mengenMap.get((long)produkt_id));
+					System.out.println("UPDATED");
+				}
+			}
 	        einkaufswagen = new Einkaufswagen(kunde);
 	        Bestellungsmanagement.getInstance().speichereEinkaufswagen(einkaufswagen);
 	        List<Einkaufswagen> eklist = Bestellungsmanagement.getInstance().getAllEinkaufswagen();
