@@ -8,11 +8,12 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import management.Benutzermanagement;
 import management.Produktmanagement;
 import model.Benutzer;
-import model.Produkt_mit_annotation;
+import model.Produkt;
 
 /**
  * Servlet implementation class Produktverwaltungscontroller
@@ -33,8 +34,15 @@ public class Produktverwaltungscontroller extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		System.out.println("Produktverwaltungscontroller:get: Weiterleiten zu Login.jsp");
-		request.getRequestDispatcher("Login.jsp").include(request, response);
+		HttpSession session = request.getSession(true);
+
+    	if (session.getAttribute("username") == null) {
+			response.sendRedirect(request.getContextPath() + "/Logincontroller");
+			response.setContentType("text/html");
+			return;
+		}
+
+		request.getRequestDispatcher("HauptseiteMitarbeiter.jsp").include(request, response);
 		response.setContentType("text/html");
 	}
 
@@ -46,21 +54,17 @@ public class Produktverwaltungscontroller extends HttpServlet {
 		
 		Produktmanagement prover = Produktmanagement.getInstance();
 		
-		if(request.getParameter("beendeProduktverw")!=null){
-			System.out.println("usernameSession: "+request.getSession().getAttribute("username"));
-			response.sendRedirect(request.getContextPath() + "/ShopController");//Damit Produktliste in session gleich aktualisiert wird
-			response.setContentType("text/html");
-			return;
+		if(request.getParameter("istEinzufuegen")!=null) {
+			
+		}
+			
+		
+		if(request.getParameter("anmerkung_aendern") != null){
+			Produkt p = Produktmanagement.getInstance().getProduktByProduktID(Integer.parseInt(request.getParameter("anmerkung_aendern")));
+			p.setAnmerkung(request.getParameter("anmerkung"));
+			Produktmanagement.getInstance().updateProdukt(p);
 		}
 		
-		if(request.getParameter("zuLoeschen") != null){
-			prover.loescheProdukt(request.getParameter("zuLoeschen"));
-		}
-		
-		
-		List<Produkt_mit_annotation> alleProdukte = prover.getAlleProdukt();
-		
-		request.getSession().setAttribute("alleProdukte", alleProdukte); //Benutzer an JSP übergeben
 		
 		request.getRequestDispatcher("Produktanzeige.jsp").include(request, response);
 

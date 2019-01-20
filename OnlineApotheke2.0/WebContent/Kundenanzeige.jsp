@@ -1,3 +1,4 @@
+<%@page import="management.Benutzermanagement"%>
 <%@page import="model.Benutzer"%>
 <%@page import="java.util.List"%>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
@@ -58,15 +59,15 @@
 			<form action="Benutzerverwaltungscontroller" method="POST">
 				<table class="table">
 					<tr><th>username</th><th>password</th><th>löschen</th></tr>
-<%for(Benutzer b : (List<Benutzer>)(session.getAttribute("alleKunden")) ){ %>
-					<tr><td><%=b.getuName()%></td><td><%=b.getPassword()%></td><td><input type="submit" name="zuLoeschen" value="<%=b.getuName()%>"/></td></tr>
+<%for(Benutzer b : Benutzermanagement.getInstance().getAlleKunden()){ %>
+					<tr><td><%=b.getBenutzername()%></td><td><%=b.getPasswort()%></td><td><input type="submit" name="zuLoeschen" value="<%=b.getBenutzername()%>"/></td></tr>
 <%} %>
 </table>	
-Anzahl an Kunden: <%=( (List<Benutzer>)(session.getAttribute("alleKunden")) ).size()%>			
+Anzahl an Kunden: <%=Benutzermanagement.getInstance().getAlleKunden().size()%>			
 			</form>
 
 <!-- Einfaches Retour zur Hauptseite -->
-			<form method="get" action="HauptseiteKunde.jsp">
+			<form method="get" action="MitarbeiterController">
 			    <button type="submit">Back</button>
 			</form>
 

@@ -1,4 +1,5 @@
-<%@page import="model.Produkt_mit_annotation"%>
+<%@page import="management.Produktmanagement"%>
+<%@page import="model.Produkt"%>
 <%@page import="java.util.List"%>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
@@ -57,20 +58,24 @@
 <!-- Eingaben zum Registrieren -->
 			<form action="Produktverwaltungscontroller" method="POST">
 				<table class="table">
-					<tr><th>Name</th><th>Preis</th><th>löschen</th></tr>
+					<tr><th>Name</th><th>Preis</th><th>Anmerkung</th><th>Aktualisieren</th></tr>
 <%
-	for(Produkt_mit_annotation p : (List<Produkt_mit_annotation>)(session.getAttribute("alleProdukte")) ){
+	for(Produkt p : Produktmanagement.getInstance().getAlleProdukt() ){
 %>
-					<tr><td><%=p.getprodName()%></td><td><%=p.getprice()%></td><td><input type="submit" name="zuLoeschen" value="<%=p.getprodID()%>"/></td></tr>
+					<tr>
+						<td><%=p.getName()%></td>
+						<td><%=p.getPreis()%></td>
+						<td><input type="text" name="anmerkung" value="<%=p.getAnmerkung()%>"/></td>
+						<td><input type="submit" name="anmerkung_aendern" value="<%=p.getProdukt_id()%>"/></td></tr>
 <%
 	}
 %>
 </table>	
-Anzahl an Produkte: <%=( (List<Produkt_mit_annotation>)(session.getAttribute("alleProdukte")) ).size()%>			
+Anzahl an Produkte: <%=Produktmanagement.getInstance().getAlleProdukt().size()%>			
 			</form>
 
 <!-- Einfaches Retour zur Hauptseite -->
-			<form method="post" action="Produktverwaltungscontroller">
+			<form method="post" action="MitarbeiterController">
 			    <button name="beendeProduktverw" type="submit">Back</button>
 			</form>
 

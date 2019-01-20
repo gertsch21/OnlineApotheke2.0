@@ -57,9 +57,19 @@ public class Produktmanagement {
 
 	}
 
-	
+	public void updateProdukt(Produkt p) {
+		produkt_dao.updateProdukt(p);
+	}
 	public List<Produkt> getAlleProdukt() {
 		return produkt_dao.getProduktListe();
+	}
+	
+	public List<Produkt> getAlleZugekauftenProdukt() {
+		List<Produkt> zugekauft = new ArrayList<Produkt>();
+		for(Produkt p : produkt_dao.getProduktListe())
+			if(p instanceof ZugekauftesProdukt)
+				zugekauft.add(p);
+		return zugekauft;
 	}
 
 	public List<Inhaltsstoff> getAlleInhaltsstoffe() {

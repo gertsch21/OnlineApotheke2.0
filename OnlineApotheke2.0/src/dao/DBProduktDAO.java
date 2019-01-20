@@ -74,6 +74,31 @@ public class DBProduktDAO implements ProduktDAO {
 		return false;
 	}
 
+	
+	@Override
+	public boolean updateProdukt(Produkt p) {
+		Session session = factory.openSession();
+		Transaction tx = null;
+		Long produktID = null;
+
+		try {
+			tx = session.beginTransaction();
+			session.update(p);
+			tx.commit();
+
+		} catch (HibernateException e) {
+			if (tx != null)
+				tx.rollback();
+			e.printStackTrace();
+		} finally {
+
+		}
+		if (produktID != null)
+			return true;
+		return false;
+	}
+
+	
 	@Override
 	public List<Produkt> getProduktListe() {
 		Session session = factory.openSession();

@@ -17,6 +17,7 @@ public interface ProduktDAO {
 	public void closeConnection();
 	
 	public boolean speichereProdukt(Produkt p);
+	public boolean updateProdukt(Produkt p);
 	
 	
 	public List<Produkt> getProduktListe();

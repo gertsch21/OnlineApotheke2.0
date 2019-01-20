@@ -60,7 +60,20 @@ public class Logincontroller extends HttpServlet {
 		request.getSession(true).setAttribute("fehler", "Kein Benutzer mit solch einem Usernamen registriert!");
 
 		Benutzer k = benver.getBenutzerByUname(username);
-
+		
+		if(k instanceof Mitarbeiter) {
+			request.getSession().invalidate();
+			System.out.println(
+					"LoginController: Erfolgreiche Pruefung(istMitarbeiter): Weiterleiten zur Hauptseite des Mitarbeiters!");
+			HttpSession session = request.getSession(true);
+			session.setAttribute("username", username);
+			session.setAttribute("Kunde", k);
+			session.setAttribute("fehler", null);
+			response.sendRedirect(request.getContextPath() + "/MitarbeiterController");
+			response.setContentType("text/html");
+			return;
+		}
+		
 		if (k!=null && k.getPasswort().equals(password)) {
 			request.getSession().invalidate();
 			System.out.println(
