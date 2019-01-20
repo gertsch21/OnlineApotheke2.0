@@ -102,10 +102,6 @@
 				<input class="btn btn-primary" name="prover" type="submit" value="Produkte verwalten"/>
 				<input type="hidden" name="prover" value="true"/>
 			</form>
-    		<form action="KategorieHinzufuegenController" method="POST">
-				<input class="btn btn-primary" name="kategorieReg" type="submit" value="Kategorie hinzufügen"/>
-				<input type="hidden" name="kategorieReg" value="true"/>
-			</form>
 			<form action="ProduktHinzufuegenController" method="POST">
 				<input class="btn btn-primary" name="produktReg" type="submit" value="Produkt hinzufügen"/>
 				<input type="hidden" name="produktReg" value="true"/>
