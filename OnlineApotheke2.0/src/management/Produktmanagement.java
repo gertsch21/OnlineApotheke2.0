@@ -36,8 +36,9 @@ public class Produktmanagement {
 	public boolean SalbeAnlegen(String name, double preis, String anmerkung, double volumen, String zusatzinformationen,
 			Date erstelldatum, Set<Inhaltsstoff> enthaltene_inhaltsstoffe) {
 		try {
-			produkt_dao.speichereSalbe(new Spezielle_salbe(name, preis, anmerkung, volumen, zusatzinformationen,
-					erstelldatum, enthaltene_inhaltsstoffe));
+			Spezielle_salbe salbe = new Spezielle_salbe(name, preis, anmerkung, volumen, zusatzinformationen,
+					erstelldatum, enthaltene_inhaltsstoffe);
+			produkt_dao.speichereSalbe(salbe);
 			return true;
 		} catch (Exception e) {
 			return false;
