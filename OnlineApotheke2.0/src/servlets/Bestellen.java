@@ -139,7 +139,7 @@ public class Bestellen extends HttpServlet {
 			for(Item entry:itemSet){
 				int produkt_id = (int) entry.getProdukt().getProdukt_id();
 				if(mengenMap.containsKey((long)produkt_id)) {
-					Produktmanagement.getInstance().updateMenge(produkt_id, mengenMap.get((long)produkt_id));
+					Produktmanagement.getInstance().updateMenge(produkt_id, (mengenMap.get((long)produkt_id)-entry.getAnzahl()));
 					System.out.println("UPDATED");
 				}
 			}

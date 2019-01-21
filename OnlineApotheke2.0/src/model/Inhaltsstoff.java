@@ -12,14 +12,14 @@ import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlTransient;
 
 @Entity
-@Table(name="inhaltsstoff")
+@Table(name="Inhaltsstoff")
 public class Inhaltsstoff {
 	@Id
 	private int inhaltsstoff_id;
 	private Date erstelldatum;
 	private String stoff_name;
 	
-	@ManyToMany(fetch = FetchType.EAGER, mappedBy = "enthaltene_inhaltsstoffe", cascade = CascadeType.ALL)
+	@ManyToMany(mappedBy = "enthaltene_inhaltsstoffe")
 	private Set<Spezielle_salbe> in_salben_enthalten_liste;
 
 	@Override

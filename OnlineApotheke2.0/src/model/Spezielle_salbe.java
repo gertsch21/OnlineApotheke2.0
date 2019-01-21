@@ -19,7 +19,7 @@ public class Spezielle_salbe extends Produkt {
 	@JoinColumn(name="kaeufer_id", nullable=true)
 	private Kunde kaeufer;
 
-	@ManyToMany(fetch = FetchType.EAGER, cascade = { CascadeType.ALL })
+	@ManyToMany(fetch = FetchType.EAGER)
 	@JoinTable(name = "salbe_hat_inhaltsstoff", joinColumns = {
 			@JoinColumn(name = "salben_id") }, inverseJoinColumns = { @JoinColumn(name = "inhaltsstoff_id") })
 	private Set<Inhaltsstoff> enthaltene_inhaltsstoffe;
